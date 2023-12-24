@@ -10,6 +10,7 @@ import React, {
 } from "react";
 import EsriMap from "@arcgis/core/Map";
 import EsriMapView from "@arcgis/core/views/MapView";
+import "@arcgis/core/assets/esri/themes/dark/main.css";
 
 interface MapReference {
   /**
@@ -71,11 +72,11 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   /**
    * Properties passed to the [Map](https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html)
    */
-  MapProperties: __esri.MapProperties;
+  MapProperties?: __esri.MapProperties;
   /**
    * Properties passed to the [MapView](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html)
    */
-  ViewProperties: __esri.MapViewProperties;
+  ViewProperties?: __esri.MapViewProperties;
 }
 
 /**
@@ -87,7 +88,16 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  * - [MapView](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html)
  */
 export const MapViewCore = React.forwardRef<MapReference, Props>(
-  ({ MapProperties, ViewProperties, ...props }, ref) => {
+  (
+    {
+      MapProperties = {
+        basemap: "topo-vector",
+      },
+      ViewProperties,
+      ...props
+    },
+    ref,
+  ) => {
     const [containerRef, setContainerRef] = useState<HTMLDivElement>();
 
     const { map, setMap, view, setView } = useContext(MapContext);
@@ -107,11 +117,12 @@ export const MapViewCore = React.forwardRef<MapReference, Props>(
         setMap(map);
         setView(view);
       }
-    }, [ref]);
+    }, [containerRef]);
 
     return (
       <div
         ref={(element) => {
+          console.log(element);
           if (element) setContainerRef(element);
         }}
         {...props}

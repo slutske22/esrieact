@@ -1,3 +1,15 @@
+<p align="center">
+  <h1 align="center">ESRIEACT</h1>
+</p>
+<p align="center">
+  A react component library for the ArcGIS Javascript API.
+</p>
+
+## File Organization
+
+`/lib` contains actual map component files that are the source code and main feature of this repository
+`/src` is simply an example application to showcase the code written in `/lib`
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -17,12 +29,12 @@ If you are developing a production application, we recommend updating the config
 export default {
   // other rules...
   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
+    ecmaVersion: "latest",
+    sourceType: "module",
+    project: ["./tsconfig.json", "./tsconfig.node.json"],
     tsconfigRootDir: __dirname,
   },
-}
+};
 ```
 
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
