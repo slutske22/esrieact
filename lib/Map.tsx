@@ -1,17 +1,17 @@
 import React, {
   useState,
   useEffect,
-  useImperativeHandle,
   useContext,
   HTMLAttributes,
   ReactNode,
   Dispatch,
   SetStateAction,
+  useImperativeHandle,
 } from "react";
 import EsriMap from "@arcgis/core/Map";
 import EsriMapView from "@arcgis/core/views/MapView";
 
-interface MapContextProps {
+interface MapReference {
   /**
    * The esri [Map](https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html) instance
    */
@@ -20,6 +20,9 @@ interface MapContextProps {
    * The esri [MapView](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html) instance
    */
   view: EsriMapView;
+}
+
+interface MapContextProps extends MapReference {
   /**
    * Callback to set map
    */
@@ -83,9 +86,13 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  * - [Map](https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html)
  * - [MapView](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html)
  */
-export const MapView = React.forwardRef<{}, Props>(
+export const MapViewCore = React.forwardRef<MapReference, Props>(
   ({ MapProperties, ViewProperties, ...props }, ref) => {
     const [containerRef, setContainerRef] = useState<HTMLDivElement>();
+
+    const { map, setMap, view, setView } = useContext(MapContext);
+
+    useImperativeHandle(ref, () => ({ map, view, element: containerRef }));
 
     useEffect(() => {
       if (containerRef) {
@@ -96,6 +103,9 @@ export const MapView = React.forwardRef<{}, Props>(
           container: containerRef,
           ...ViewProperties,
         });
+
+        setMap(map);
+        setView(view);
       }
     }, [ref]);
 
@@ -109,3 +119,19 @@ export const MapView = React.forwardRef<{}, Props>(
     );
   },
 );
+
+/**
+ * MapView Component for 2D map. Accepts properties for both the Map and the MapView.  Renders the container
+ * div, and once mounted, renders the map to it.
+ *
+ * ArcGIS JS API Source Components:
+ * - [Map](https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html)
+ * - [MapView](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html)
+ */
+export const MapView = React.forwardRef<MapReference, Props>((props, ref) => {
+  return (
+    <MapContextProvider>
+      <MapViewCore {...props} ref={ref} />
+    </MapContextProvider>
+  );
+});
