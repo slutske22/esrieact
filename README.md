@@ -7,8 +7,8 @@
 
 ## File Organization
 
-`/lib` contains actual map component files that are the source code and main feature of this repository
-`/src` is simply an example application to showcase the code written in `/lib`
+- `/lib` contains actual map component files that are the source code and main feature of this repository
+- `/src` is simply an example application to showcase the code written in `/lib`
 
 # React + TypeScript + Vite
 
