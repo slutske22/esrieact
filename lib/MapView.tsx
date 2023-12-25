@@ -11,6 +11,7 @@ import React, {
 import EsriMap from "@arcgis/core/Map";
 import EsriMapView from "@arcgis/core/views/MapView";
 import "@arcgis/core/assets/esri/themes/dark/main.css";
+import { useUpdateEffect } from "usehooks-ts";
 
 interface MapReference {
   /**
@@ -104,6 +105,9 @@ export const MapViewCore = React.forwardRef<MapReference, Props>(
 
     useImperativeHandle(ref, () => ({ map, view, element: containerRef }));
 
+    /**
+     * On mount, once the container reference is ready, create the map and the view
+     */
     useEffect(() => {
       if (containerRef) {
         const map = new EsriMap(MapProperties);
@@ -119,10 +123,15 @@ export const MapViewCore = React.forwardRef<MapReference, Props>(
       }
     }, [containerRef]);
 
+    useUpdateEffect(() => {
+      if (view) {
+        view.zoom = ViewProperties?.zoom ?? view.zoom;
+      }
+    }, [ViewProperties?.zoom]);
+
     return (
       <div
         ref={(element) => {
-          console.log(element);
           if (element) setContainerRef(element);
         }}
         {...props}
