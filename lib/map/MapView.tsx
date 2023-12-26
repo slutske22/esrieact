@@ -38,7 +38,9 @@ interface MapContextProps extends MapReference {
 /**
  * The map context that holds references to the underlying Map and MapView objects
  */
-const MapContext = React.createContext<MapContextProps>({} as MapContextProps);
+export const MapContext = React.createContext<MapContextProps>(
+  {} as MapContextProps,
+);
 
 interface MapContextProviderProps {
   children?: ReactNode | ReactNode[];
@@ -78,6 +80,10 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
    * Properties passed to the [MapView](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html)
    */
   ViewProperties?: __esri.MapViewProperties;
+  /**
+   * Any layers or controls to be rendered as part of the map
+   */
+  children?: ReactNode | ReactNode[];
 }
 
 /**
@@ -121,6 +127,7 @@ export const MapViewCore = React.forwardRef<MapReference, Props>(
         basemap: "topo-vector",
       },
       ViewProperties,
+      children,
       ...rest
     } = props;
 
@@ -155,12 +162,15 @@ export const MapViewCore = React.forwardRef<MapReference, Props>(
     useEsriPropertyUpdates(view, ViewProperties);
 
     return (
-      <div
-        ref={(element) => {
-          if (element) setContainerRef(element);
-        }}
-        {...rest}
-      />
+      <>
+        <div
+          ref={(element) => {
+            if (element) setContainerRef(element);
+          }}
+          {...rest}
+        />
+        {map && view && children}
+      </>
     );
   },
 );
