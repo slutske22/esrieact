@@ -13,6 +13,9 @@ import EsriMapView from "@arcgis/core/views/MapView";
 import "@arcgis/core/assets/esri/themes/dark/main.css";
 import { useEsriPropertyUpdates } from "../utils";
 
+/**
+ * Properties that the MapContext provides to all consumers
+ */
 interface MapReference {
   /**
    * The esri [Map](https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html) instance
@@ -22,6 +25,16 @@ interface MapReference {
    * The esri [MapView](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html) instance
    */
   view: EsriMapView;
+}
+
+/**
+ * The react ref object describing the MapView component's ref
+ */
+export interface MapRef extends MapReference {
+  /**
+   * The HTML element that the map is rendered in
+   */
+  element?: HTMLDivElement;
 }
 
 interface MapContextProps extends MapReference {
@@ -119,61 +132,62 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  * - [Map](https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html)
  * - [MapView](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html)
  */
-export const MapViewCore = React.forwardRef<MapReference, Props>(
-  (props, ref) => {
-    //
-    const {
-      MapProperties = {
-        basemap: "topo-vector",
-      },
-      ViewProperties,
-      children,
-      ...rest
-    } = props;
+export const MapViewCore = React.forwardRef<
+  MapReference & { element?: HTMLElement },
+  Props
+>((props, ref) => {
+  //
+  const {
+    MapProperties = {
+      basemap: "topo-vector",
+    },
+    ViewProperties,
+    children,
+    ...rest
+  } = props;
 
-    const [containerRef, setContainerRef] = useState<HTMLDivElement>();
+  const [containerRef, setContainerRef] = useState<HTMLDivElement>();
 
-    const { map, setMap, view, setView } = useContext(MapContext);
+  const { map, setMap, view, setView } = useContext(MapContext);
 
-    useImperativeHandle(ref, () => ({ map, view, element: containerRef }));
+  useImperativeHandle(ref, () => ({ map, view, element: containerRef }));
 
-    /**
-     * On mount, once the container reference is ready, create the map and the view
-     */
-    useEffect(() => {
-      if (containerRef) {
-        const map = new EsriMap(MapProperties);
+  /**
+   * On mount, once the container reference is ready, create the map and the view
+   */
+  useEffect(() => {
+    if (containerRef) {
+      const map = new EsriMap(MapProperties);
 
-        const view = new EsriMapView({
-          map,
-          container: containerRef,
-          ...ViewProperties,
-        });
+      const view = new EsriMapView({
+        map,
+        container: containerRef,
+        ...ViewProperties,
+      });
 
-        setMap(map);
-        setView(view);
-      }
-    }, [containerRef]);
+      setMap(map);
+      setView(view);
+    }
+  }, [containerRef]);
 
-    /**
-     * Imperatively set properties on esri view instance if properties change
-     */
-    useEsriPropertyUpdates(map, MapProperties);
-    useEsriPropertyUpdates(view, ViewProperties);
+  /**
+   * Imperatively set properties on esri view instance if properties change
+   */
+  useEsriPropertyUpdates(map, MapProperties);
+  useEsriPropertyUpdates(view, ViewProperties);
 
-    return (
-      <>
-        <div
-          ref={(element) => {
-            if (element) setContainerRef(element);
-          }}
-          {...rest}
-        />
-        {map && view && children}
-      </>
-    );
-  },
-);
+  return (
+    <>
+      <div
+        ref={(element) => {
+          if (element) setContainerRef(element);
+        }}
+        {...rest}
+      />
+      {map && view && children}
+    </>
+  );
+});
 
 /**
  * MapView Component for 2D map. Accepts properties for both the Map and the MapView.  Renders the container

@@ -8,11 +8,11 @@ interface EsriClassable {
 
 /**
  * Generic hook to update an existing ESRI class object instance with new properties
- * @param item The ESRI item instance to update
+ * @param instance The ESRI item instance to update
  * @param properties The properties passed to the esri instance
  */
 export const useEsriPropertyUpdates = <T extends EsriClassable, P>(
-  item: T,
+  instance: T,
   properties: P,
 ) => {
   const prevProperties = usePrevious(properties);
@@ -27,7 +27,7 @@ export const useEsriPropertyUpdates = <T extends EsriClassable, P>(
       if (updatedProperties.length) {
         updatedProperties.forEach((property) => {
           // @ts-expect-error Need to properly type this
-          item[property] = properties[property];
+          instance[property] = properties[property];
         });
       }
     }

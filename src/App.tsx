@@ -1,16 +1,19 @@
-import React, { useState } from "react";
-import { MapView, FeatureLayer } from "../lib";
+import React, { useRef } from "react";
+import EsriFeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import { MapView, FeatureLayer, MapRef } from "../lib";
 import "./App.css";
 
 const App: React.FC = () => {
-  const [zoom, setZoom] = useState(2);
+  // Some tests to make sure refs are what we think they are
+  const mapRef = useRef<MapRef>(null);
+  const flRef = useRef<EsriFeatureLayer>(null);
 
   return (
     <div>
       <MapView
+        ref={mapRef}
         style={{ border: "1px solid red", height: "70vh", width: "70vw" }}
         ViewProperties={{
-          zoom: zoom,
           extent: {
             xmin: -9177811,
             ymin: 4247000,
@@ -21,9 +24,20 @@ const App: React.FC = () => {
           },
         }}
       >
-        <FeatureLayer url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0" />
+        <FeatureLayer
+          ref={flRef}
+          url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0"
+        />
       </MapView>
-      <button onClick={() => setZoom((z) => z + 1)}>Set zoom</button>
+      <button
+        onClick={() => {
+          // setZoom((z) => z + 1);
+          console.log("mapRef", mapRef.current);
+          console.log("flRef", flRef.current);
+        }}
+      >
+        Set zoom
+      </button>
     </div>
   );
 };
