@@ -12,7 +12,7 @@ import EsriMap from "@arcgis/core/Map";
 import EsriMapView from "@arcgis/core/views/MapView";
 import "@arcgis/core/assets/esri/themes/dark/main.css";
 import { useUpdateEffect } from "usehooks-ts";
-import { getObjectDiff, usePrevious } from "../utils";
+import { getObjectDiff, usePrevious, useEsriPropertyUpdates } from "../utils";
 
 interface MapReference {
   /**
@@ -153,35 +153,10 @@ export const MapViewCore = React.forwardRef<MapReference, Props>(
     }, [containerRef]);
 
     /**
-     * Imperatively set properties on esri map instance if properties change
-     */
-    useUpdateEffect(() => {
-      if (prevMapProperties) {
-        const updatedProperties = getObjectDiff(
-          MapProperties,
-          prevMapProperties,
-        );
-      }
-    }, [MapProperties]);
-
-    /**
      * Imperatively set properties on esri view instance if properties change
      */
-    useUpdateEffect(() => {
-      if (prevViewProperties) {
-        const updatedProperties = getObjectDiff(
-          ViewProperties!,
-          prevViewProperties,
-        );
-
-        if (updatedProperties.length) {
-          updatedProperties.forEach((property) => {
-            // @ts-expect-error Object key indexing issue, TODO: resolve with correct typing
-            view[property] = ViewProperties[property];
-          });
-        }
-      }
-    }, [ViewProperties]);
+    useEsriPropertyUpdates(map, MapProperties);
+    useEsriPropertyUpdates(view, ViewProperties);
 
     return (
       <div
