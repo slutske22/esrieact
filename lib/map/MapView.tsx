@@ -12,6 +12,7 @@ import EsriMap from "@arcgis/core/Map";
 import EsriMapView from "@arcgis/core/views/MapView";
 import "@arcgis/core/assets/esri/themes/dark/main.css";
 import { useUpdateEffect } from "usehooks-ts";
+import { getObjectDiff, usePrevious } from "../utils";
 
 interface MapReference {
   /**
@@ -84,21 +85,49 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  * MapView Component for 2D map. Accepts properties for both the Map and the MapView.  Renders the container
  * div, and once mounted, renders the map to it.
  *
+ * ***Does not provide its own Map Context, and as such, will fail if you do not manuaaly provide one***
+ *
+ * @example
+ * // App.tsx
+ * import { MapViewCore, MapContextProvider } from 'lib/map/MapView';
+ *
+ * const App = () => {
+ *    return (
+ *      <MapContextProvider>
+ *        <MapViewCore />
+ *        <OtherUI />
+ *      </MapContextProvider>
+ *    )
+ * }
+ *
+ * // OtherUI.tsx
+ * import { useContext } from 'react';
+ * import { MapContext } from 'lib/map/MapView';
+ *
+ * const OtherUI = () => {
+ *    const { view } = useContext(MapContext);
+ *
+ *    return <button onClick={() => view.zoom = view.zoom + 1}>Zoom in!</button>
+ * }
+ *
  * ArcGIS JS API Source Components:
  * - [Map](https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html)
  * - [MapView](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html)
  */
 export const MapViewCore = React.forwardRef<MapReference, Props>(
-  (
-    {
+  (props, ref) => {
+    //
+    const {
       MapProperties = {
         basemap: "topo-vector",
       },
       ViewProperties,
-      ...props
-    },
-    ref,
-  ) => {
+      ...rest
+    } = props;
+
+    const prevMapProperties = usePrevious(MapProperties);
+    const prevViewProperties = usePrevious(ViewProperties);
+
     const [containerRef, setContainerRef] = useState<HTMLDivElement>();
 
     const { map, setMap, view, setView } = useContext(MapContext);
@@ -123,18 +152,43 @@ export const MapViewCore = React.forwardRef<MapReference, Props>(
       }
     }, [containerRef]);
 
+    /**
+     * Imperatively set properties on esri map instance if properties change
+     */
     useUpdateEffect(() => {
-      if (view) {
-        view.zoom = ViewProperties?.zoom ?? view.zoom;
+      if (prevMapProperties) {
+        const updatedProperties = getObjectDiff(
+          MapProperties,
+          prevMapProperties,
+        );
       }
-    }, [ViewProperties?.zoom]);
+    }, [MapProperties]);
+
+    /**
+     * Imperatively set properties on esri view instance if properties change
+     */
+    useUpdateEffect(() => {
+      if (prevViewProperties) {
+        const updatedProperties = getObjectDiff(
+          ViewProperties!,
+          prevViewProperties,
+        );
+
+        if (updatedProperties.length) {
+          updatedProperties.forEach((property) => {
+            // @ts-expect-error Object key indexing issue, TODO: resolve with correct typing
+            view[property] = ViewProperties[property];
+          });
+        }
+      }
+    }, [ViewProperties]);
 
     return (
       <div
         ref={(element) => {
           if (element) setContainerRef(element);
         }}
-        {...props}
+        {...rest}
       />
     );
   },
