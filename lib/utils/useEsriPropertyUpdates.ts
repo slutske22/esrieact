@@ -6,6 +6,11 @@ interface EsriClassable {
   constructor: Function;
 }
 
+/**
+ * Generic hook to update an existing ESRI class object instance with new properties
+ * @param item The ESRI item instance to update
+ * @param properties The properties passed to the esri instance
+ */
 export const useEsriPropertyUpdates = <T extends EsriClassable, P>(
   item: T,
   properties: P,

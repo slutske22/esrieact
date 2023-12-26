@@ -11,8 +11,7 @@ import React, {
 import EsriMap from "@arcgis/core/Map";
 import EsriMapView from "@arcgis/core/views/MapView";
 import "@arcgis/core/assets/esri/themes/dark/main.css";
-import { useUpdateEffect } from "usehooks-ts";
-import { getObjectDiff, usePrevious, useEsriPropertyUpdates } from "../utils";
+import { useEsriPropertyUpdates } from "../utils";
 
 interface MapReference {
   /**
@@ -124,9 +123,6 @@ export const MapViewCore = React.forwardRef<MapReference, Props>(
       ViewProperties,
       ...rest
     } = props;
-
-    const prevMapProperties = usePrevious(MapProperties);
-    const prevViewProperties = usePrevious(ViewProperties);
 
     const [containerRef, setContainerRef] = useState<HTMLDivElement>();
 
