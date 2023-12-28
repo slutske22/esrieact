@@ -1,4 +1,11 @@
-import { Ref, createContext, useContext, useImperativeHandle } from "react";
+import {
+  Ref,
+  createContext,
+  useContext,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+} from "react";
 import { MapContext } from "../map/MapView";
 import { useEsriPropertyUpdates } from "../utils";
 
@@ -33,12 +40,27 @@ export const createLayerComponent = (
   { children, ...properties }: LayerComponentProps,
 ) => {
   const { map } = useContext(MapContext);
-  const instance = createLayer(properties);
 
-  map.add(instance);
+  /**
+   * Create instance only on first mount
+   */
+  const instance = useMemo(() => {
+    const layer = createLayer(properties);
+    map.add(layer);
+    return layer;
+  }, []);
 
-  useEsriPropertyUpdates(instance, properties);
   useImperativeHandle(ref, () => instance);
+  useEsriPropertyUpdates(instance, properties);
+
+  /**
+   * Remove layer on unmount
+   */
+  useEffect(() => {
+    return () => {
+      map.remove(instance);
+    };
+  }, []);
 
   // If no children, there is no need to render a context provider
   if (!children) return null;
