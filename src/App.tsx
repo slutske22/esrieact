@@ -1,15 +1,16 @@
 import React, { useRef, useState } from "react";
 import EsriFeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import EsriFeatureFilter from "@arcgis/core/layers/support/FeatureFilter";
-import { MapView, FeatureLayer, MapRef, LayerView } from "../lib";
+import { MapView, FeatureLayer, MapRef, FeatureLayerView } from "../lib";
 import "./App.css";
 
 const App: React.FC = () => {
   // Some tests to make sure refs are what we think they are
   const mapRef = useRef<MapRef>(null);
   const flRef = useRef<EsriFeatureLayer>(null);
+  const flViewRef = useRef<__esri.FeatureLayerView>(null);
 
-  const [maxStorage, setMaxStorage] = useState(10000);
+  const [maxStorage, _setMaxStorage] = useState(10000);
 
   return (
     <div>
@@ -31,7 +32,8 @@ const App: React.FC = () => {
           ref={flRef}
           url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0"
         >
-          <LayerView<__esri.FeatureLayerViewProperties>
+          <FeatureLayerView
+            ref={flViewRef}
             filter={
               new EsriFeatureFilter({
                 where: `C_Storage < ${maxStorage}`,
@@ -52,7 +54,8 @@ const App: React.FC = () => {
       <button
         onClick={() => {
           // setZoom((z) => z + 1);
-          setMaxStorage((p) => p - 1000);
+          // setMaxStorage((p) => p - 1000);
+          console.log(flViewRef.current);
         }}
       >
         Filter more

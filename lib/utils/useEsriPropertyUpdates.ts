@@ -21,7 +21,7 @@ export const useEsriPropertyUpdates = <T extends EsriClassable, P>(
    * Imperatively set properties on ESRI instance if properties change
    */
   useUpdateEffect(() => {
-    if (instance && prevProperties) {
+    if (prevProperties) {
       const updatedProperties = getObjectDiff(properties!, prevProperties);
 
       if (updatedProperties.length) {
@@ -31,5 +31,5 @@ export const useEsriPropertyUpdates = <T extends EsriClassable, P>(
         });
       }
     }
-  }, [properties, instance]);
+  }, [JSON.stringify(properties)]);
 };

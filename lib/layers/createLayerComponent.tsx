@@ -1,10 +1,4 @@
-import {
-  ReactNode,
-  Ref,
-  createContext,
-  useContext,
-  useImperativeHandle,
-} from "react";
+import { Ref, createContext, useContext, useImperativeHandle } from "react";
 import { MapContext } from "../map/MapView";
 import { useEsriPropertyUpdates } from "../utils";
 
@@ -16,12 +10,11 @@ export const LayerContext = createContext({} as __esri.Layer);
 
 export type LayerComponentProps<
   T extends __esri.LayerProperties = __esri.LayerProperties,
-> = T & {
-  children?: ReactNode | ReactNode[];
-};
+> = T & React.PropsWithChildren;
 
 /**
- * Function that takes in layer properties and returns an esri Layer instance
+ * Function that takes in layer properties and returns an esri Layer instance. Properties must be
+ * any esri properties that extend esri.LayerProperties, and optional children
  */
 export type CreateLayerFunction<T extends LayerComponentProps> = (
   properties: T,
@@ -29,33 +22,25 @@ export type CreateLayerFunction<T extends LayerComponentProps> = (
 
 /**
  * Factory function to create an esrieact layer component
- * @param createLayer Function that takes in the layer properties and returns the layer instance
+ * @param createLayer Function that takes in the layer properties (which must extend from __esri.LayerProperties)
+ *  and returns the layer instance
  * @param properties The layer properties
  * @returns null
  */
-export const createLayerComponent = <
-  P extends LayerComponentProps,
-  R extends __esri.Layer,
->(
-  createLayer: CreateLayerFunction<P>,
-  ref: Ref<R>,
-  { children, ...properties }: P,
+export const createLayerComponent = (
+  createLayer: CreateLayerFunction<LayerComponentProps>,
+  ref: Ref<__esri.Layer>,
+  { children, ...properties }: LayerComponentProps,
 ) => {
   const { map } = useContext(MapContext);
-  // @ts-expect-error Error here is legitimate, so this either needs to be more carefully typed
   const instance = createLayer(properties);
 
   map.add(instance);
 
   useEsriPropertyUpdates(instance, properties);
-  /**
-   * Error here is legitimate, so this either needs to be more carefully typed, or any use of createLayerComponent should coerce
-   * the ref type to a very specific ref (which the layer components should already be doing!)
-   * 'Layer' is assignable to the constraint of type 'R', but 'R' could be instantiated with a different subtype of constraint 'Layer'.
-   */
-  // @ts-expect-error Error here is legitimate, so this either needs to be more carefully typed
   useImperativeHandle(ref, () => instance);
 
+  // If no children, there is no need to render a context provider
   if (!children) return null;
 
   return (
