@@ -1,9 +1,12 @@
 import React from "react";
 import EsriFeatureLayer from "@arcgis/core/layers/FeatureLayer";
-import { createLayerComponent } from "./createLayerComponent";
+import {
+  LayerComponentProps,
+  createLayerComponent,
+} from "./createLayerComponent";
 
 const createLayer = (
-  properties: __esri.FeatureLayerProperties,
+  properties: LayerComponentProps<__esri.FeatureLayerProperties>,
 ): __esri.FeatureLayer => {
   return new EsriFeatureLayer(properties);
 };
@@ -16,5 +19,5 @@ const createLayer = (
  */
 export const FeatureLayer = React.forwardRef<
   __esri.FeatureLayer,
-  __esri.FeatureLayerProperties
+  LayerComponentProps<__esri.FeatureLayerProperties>
 >((properties, ref) => createLayerComponent(createLayer, ref, properties));

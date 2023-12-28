@@ -1,8 +1,29 @@
-import { Ref, useContext, useImperativeHandle } from "react";
+import {
+  ReactNode,
+  Ref,
+  createContext,
+  useContext,
+  useImperativeHandle,
+} from "react";
 import { MapContext } from "../map/MapView";
 import { useEsriPropertyUpdates } from "../utils";
 
-export type CreateLayerFunction<T extends __esri.LayerProperties> = (
+/**
+ * The react context object that any layer component creates when rendered
+ * and makes available to its descendants
+ */
+export const LayerContext = createContext({} as __esri.Layer);
+
+export type LayerComponentProps<
+  T extends __esri.LayerProperties = __esri.LayerProperties,
+> = T & {
+  children?: ReactNode | ReactNode[];
+};
+
+/**
+ * Function that takes in layer properties and returns an esri Layer instance
+ */
+export type CreateLayerFunction<T extends LayerComponentProps> = (
   properties: T,
 ) => __esri.Layer;
 
@@ -13,14 +34,15 @@ export type CreateLayerFunction<T extends __esri.LayerProperties> = (
  * @returns null
  */
 export const createLayerComponent = <
-  P extends __esri.LayerProperties,
+  P extends LayerComponentProps,
   R extends __esri.Layer,
 >(
   createLayer: CreateLayerFunction<P>,
   ref: Ref<R>,
-  properties: P,
+  { children, ...properties }: P,
 ) => {
   const { map } = useContext(MapContext);
+  // @ts-expect-error Error here is legitimate, so this either needs to be more carefully typed
   const instance = createLayer(properties);
 
   map.add(instance);
@@ -34,5 +56,9 @@ export const createLayerComponent = <
   // @ts-expect-error Error here is legitimate, so this either needs to be more carefully typed
   useImperativeHandle(ref, () => instance);
 
-  return null;
+  if (!children) return null;
+
+  return (
+    <LayerContext.Provider value={instance}>{children}</LayerContext.Provider>
+  );
 };

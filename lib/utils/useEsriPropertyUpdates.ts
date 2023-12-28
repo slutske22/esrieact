@@ -12,7 +12,7 @@ interface EsriClassable {
  * @param properties The properties passed to the esri instance
  */
 export const useEsriPropertyUpdates = <T extends EsriClassable, P>(
-  instance: T,
+  instance: T | undefined,
   properties: P,
 ) => {
   const prevProperties = usePrevious(properties);
@@ -21,7 +21,7 @@ export const useEsriPropertyUpdates = <T extends EsriClassable, P>(
    * Imperatively set properties on ESRI instance if properties change
    */
   useUpdateEffect(() => {
-    if (prevProperties) {
+    if (instance && prevProperties) {
       const updatedProperties = getObjectDiff(properties!, prevProperties);
 
       if (updatedProperties.length) {
@@ -31,5 +31,5 @@ export const useEsriPropertyUpdates = <T extends EsriClassable, P>(
         });
       }
     }
-  }, [properties]);
+  }, [properties, instance]);
 };
