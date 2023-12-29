@@ -14,7 +14,9 @@ import { useEsriPropertyUpdates } from "../utils";
  * The react context object that any layer component creates when rendered
  * and makes available to its descendants
  */
-export const LayerContext = createContext({} as __esri.Layer);
+export const LayerContext = createContext<__esri.Layer | __esri.GroupLayer>(
+  {} as __esri.Layer,
+);
 
 export type EventHandlerMap = { [key: string]: Function };
 
@@ -49,7 +51,9 @@ export const createLayerComponent = (
   ref: Ref<__esri.Layer>,
   { children, events, ...properties }: LayerComponentProps<{}, EventHandlerMap>,
 ) => {
+  const parent = useContext(LayerContext) as __esri.GroupLayer;
   const { map } = useContext(MapContext);
+
   const handlers = useRef<IHandle[]>([]);
 
   /**
@@ -57,7 +61,12 @@ export const createLayerComponent = (
    */
   const instance = useMemo(() => {
     const layer = createLayer(properties);
-    map.add(layer);
+
+    if (parent && parent.add) {
+      parent.add(layer);
+    } else {
+      map.add(layer);
+    }
     return layer;
   }, []);
 

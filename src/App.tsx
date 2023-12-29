@@ -6,6 +6,7 @@ import {
   MapRef,
   FeatureLayerView,
   VectorTileLayer,
+  GroupLayer,
 } from "../lib";
 import "./App.css";
 
@@ -34,17 +35,19 @@ const App: React.FC = () => {
         }}
       >
         <VectorTileLayer url="https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer" />
-        <FeatureLayer
-          ref={flRef}
-          url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0"
-        >
-          <FeatureLayerView
-            ref={flViewRef}
-            filter={{
-              where: `C_Storage < ${maxStorage}`,
-            }}
-          />
-        </FeatureLayer>
+        <GroupLayer>
+          <FeatureLayer
+            ref={flRef}
+            url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0"
+          >
+            <FeatureLayerView
+              ref={flViewRef}
+              filter={{
+                where: `C_Storage < ${maxStorage}`,
+              }}
+            />
+          </FeatureLayer>
+        </GroupLayer>
         {/* <FeatureLayer
           ref={flRef}
           url="https://services1.arcgis.com/4yjifSiIG17X0gW4/arcgis/rest/services/US_County_COVID19_Trends/FeatureServer/0"
