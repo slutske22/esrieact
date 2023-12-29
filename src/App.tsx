@@ -1,6 +1,12 @@
 import React, { useRef, useState } from "react";
 import EsriFeatureLayer from "@arcgis/core/layers/FeatureLayer";
-import { MapView, FeatureLayer, MapRef, FeatureLayerView } from "../lib";
+import {
+  MapView,
+  FeatureLayer,
+  MapRef,
+  FeatureLayerView,
+  VectorTileLayer,
+} from "../lib";
 import "./App.css";
 
 const App: React.FC = () => {
@@ -27,6 +33,7 @@ const App: React.FC = () => {
           },
         }}
       >
+        <VectorTileLayer url="https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer" />
         <FeatureLayer
           ref={flRef}
           url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0"

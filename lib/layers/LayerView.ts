@@ -55,9 +55,6 @@ export function createLayerViewComponent<
 
     const [layerView, setLayerView] = useState<__esri.LayerView>();
 
-    // @ts-expect-error dsalkjh
-    window.layerView = layerView;
-
     useEffect(() => {
       view.whenLayerView(layer).then((layerView) => {
         setLayerView(layerView);
@@ -65,8 +62,7 @@ export function createLayerViewComponent<
     }, []);
 
     useEsriPropertyUpdates(layerView, props);
-    // @ts-expect-error Typescript error is legitimate, but its better to constrain the ref to LayerView and risk the issue
-    useImperativeHandle(ref, () => layerView as __esri.LayerView);
+    useImperativeHandle(ref, () => layerView as R);
 
     return null;
   });

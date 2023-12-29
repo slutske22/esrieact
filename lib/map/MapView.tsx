@@ -137,14 +137,7 @@ export const MapViewCore = React.forwardRef<
   Props
 >((props, ref) => {
   //
-  const {
-    MapProperties = {
-      basemap: "topo-vector",
-    },
-    ViewProperties,
-    children,
-    ...rest
-  } = props;
+  const { MapProperties, ViewProperties, children, ...rest } = props;
 
   const [containerRef, setContainerRef] = useState<HTMLDivElement>();
 
