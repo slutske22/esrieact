@@ -81,3 +81,11 @@ export const FeatureLayerView = createLayerViewComponent<
   __esri.FeatureLayerViewProperties,
   __esri.FeatureLayerView
 >();
+
+/**
+ * KLMLayerView component, must be child of KLMLayer component
+ */
+export const KLMLayerView = createLayerViewComponent<
+  __esri.KMLLayerProperties,
+  __esri.KMLLayerView
+>();

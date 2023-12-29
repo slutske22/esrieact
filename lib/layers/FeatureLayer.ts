@@ -5,8 +5,19 @@ import {
   createLayerComponent,
 } from "./createLayerComponent";
 
+type FeatureLayerEventHandlerFnMap = Partial<{
+  refresh: __esri.FeatureLayerRefreshEventHandler;
+  edits: __esri.FeatureLayerEditsEventHandler;
+  "layerview-create": __esri.FeatureLayerLayerviewCreateEventHandler;
+  "layerview-create-error": __esri.FeatureLayerLayerviewCreateErrorEventHandler;
+  "layerview-destroy": __esri.FeatureLayerLayerviewDestroyEventHandler;
+}>;
+
 const createLayer = (
-  properties: LayerComponentProps<__esri.FeatureLayerProperties>,
+  properties: LayerComponentProps<
+    __esri.FeatureLayerProperties,
+    FeatureLayerEventHandlerFnMap
+  >,
 ): __esri.FeatureLayer => {
   return new EsriFeatureLayer(properties);
 };
@@ -19,5 +30,8 @@ const createLayer = (
  */
 export const FeatureLayer = React.forwardRef<
   __esri.FeatureLayer,
-  LayerComponentProps<__esri.FeatureLayerProperties>
+  LayerComponentProps<
+    __esri.FeatureLayerProperties,
+    FeatureLayerEventHandlerFnMap
+  >
 >((properties, ref) => createLayerComponent(createLayer, ref, properties));

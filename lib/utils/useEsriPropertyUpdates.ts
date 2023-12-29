@@ -18,7 +18,8 @@ export const useEsriPropertyUpdates = <T extends EsriClassable, P>(
   const prevProperties = usePrevious(properties);
 
   /**
-   * Imperatively set properties on ESRI instance if properties change
+   * Imperatively set properties on ESRI instance if properties change, based on the setter
+   * technique described here: https://developers.arcgis.com/javascript/latest/programming-patterns/#setters
    */
   useUpdateEffect(() => {
     if (prevProperties) {

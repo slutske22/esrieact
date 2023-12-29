@@ -5,6 +5,7 @@ import {
   useEffect,
   useImperativeHandle,
   useMemo,
+  useRef,
 } from "react";
 import { MapContext } from "../map/MapView";
 import { useEsriPropertyUpdates } from "../utils";
@@ -15,9 +16,18 @@ import { useEsriPropertyUpdates } from "../utils";
  */
 export const LayerContext = createContext({} as __esri.Layer);
 
+export type EventHandlerMap = { [key: string]: Function };
+
+export interface LayerEventHandlerFnMap {
+  "layerview-create": __esri.FeatureLayerLayerviewCreateEventHandler;
+  "layerview-create-error": __esri.FeatureLayerLayerviewCreateErrorEventHandler;
+  "layerview-destroy": __esri.FeatureLayerLayerviewDestroyEventHandler;
+}
+
 export type LayerComponentProps<
   T extends __esri.LayerProperties = __esri.LayerProperties,
-> = T & React.PropsWithChildren;
+  E extends Partial<LayerEventHandlerFnMap> = {},
+> = T & React.PropsWithChildren & { events?: E };
 
 /**
  * Function that takes in layer properties and returns an esri Layer instance. Properties must be
@@ -37,9 +47,10 @@ export type CreateLayerFunction<T extends LayerComponentProps> = (
 export const createLayerComponent = (
   createLayer: CreateLayerFunction<LayerComponentProps>,
   ref: Ref<__esri.Layer>,
-  { children, ...properties }: LayerComponentProps,
+  { children, events, ...properties }: LayerComponentProps<{}, EventHandlerMap>,
 ) => {
   const { map } = useContext(MapContext);
+  const handlers = useRef<IHandle[]>([]);
 
   /**
    * Create instance only on first mount
@@ -49,6 +60,24 @@ export const createLayerComponent = (
     map.add(layer);
     return layer;
   }, []);
+
+  /**
+   * Attach event listeners on mount, if there are any
+   */
+  useEffect(() => {
+    if (instance && events) {
+      handlers.current.forEach((handler) => handler.remove());
+      handlers.current = Object.keys(events).map((eventName) => {
+        // @ts-expect-error Need typescript mapped types here, but will work even if TS is picky
+        return instance.on(eventName, events[eventName]);
+      });
+    }
+    // Remove listeners and flush listener ref on unmount
+    return () => {
+      handlers.current.forEach((handler) => handler.remove());
+      handlers.current = [];
+    };
+  }, [instance, events]);
 
   useImperativeHandle(ref, () => instance);
   useEsriPropertyUpdates(instance, properties);
