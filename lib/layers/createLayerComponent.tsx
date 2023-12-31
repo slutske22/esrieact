@@ -5,10 +5,9 @@ import {
   useEffect,
   useImperativeHandle,
   useMemo,
-  useRef,
 } from "react";
 import { MapContext } from "../map/MapView";
-import { useEsriPropertyUpdates } from "../utils";
+import { useEsriPropertyUpdates, useEvents } from "../utils";
 
 /**
  * The react context object that any layer component creates when rendered
@@ -54,14 +53,14 @@ export const createLayerComponent = (
   const parent = useContext(LayerContext) as __esri.GroupLayer;
   const { map } = useContext(MapContext);
 
-  const handlers = useRef<IHandle[]>([]);
-
   /**
    * Create instance only on first mount
    */
   const instance = useMemo(() => {
     const layer = createLayer(properties);
 
+    // If the parent in a GroupLayer (or any EsriInstance that has the .add(layer) method), add it to that,
+    // otherwise, add directly to the map
     if (parent && parent.add) {
       parent.add(layer);
     } else {
@@ -70,26 +69,9 @@ export const createLayerComponent = (
     return layer;
   }, []);
 
-  /**
-   * Attach event listeners on mount, if there are any
-   */
-  useEffect(() => {
-    if (instance && events) {
-      handlers.current.forEach((handler) => handler.remove());
-      handlers.current = Object.keys(events).map((eventName) => {
-        // @ts-expect-error Need typescript mapped types here, but will work even if TS is picky
-        return instance.on(eventName, events[eventName]);
-      });
-    }
-    // Remove listeners and flush listener ref on unmount
-    return () => {
-      handlers.current.forEach((handler) => handler.remove());
-      handlers.current = [];
-    };
-  }, [instance, events]);
-
   useImperativeHandle(ref, () => instance);
   useEsriPropertyUpdates(instance, properties);
+  useEvents(instance, events);
 
   /**
    * Remove layer on unmount

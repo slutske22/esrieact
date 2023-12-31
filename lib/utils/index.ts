@@ -1,5 +1,6 @@
 import { isEqual } from "lodash";
 export * from "./useEsriPropertyUpdates";
+export * from "./useEvents";
 export * from "./usePrevious";
 
 /*
