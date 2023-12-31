@@ -6,7 +6,7 @@ import {
   useImperativeHandle,
   useMemo,
 } from "react";
-import { MapContext } from "../map/MapView";
+import { useMap } from "../map/MapView";
 import { useEsriPropertyUpdates, useEvents } from "../utils";
 
 /**
@@ -17,14 +17,19 @@ export const LayerContext = createContext<__esri.Layer | __esri.GroupLayer>(
   {} as __esri.Layer,
 );
 
-export type EventHandlerMap = { [key: string]: Function };
-
+/**
+ * Event handlers for all Layer components, some layer components may extend from this
+ */
 export interface LayerEventHandlerFnMap {
   "layerview-create": __esri.FeatureLayerLayerviewCreateEventHandler;
   "layerview-create-error": __esri.FeatureLayerLayerviewCreateErrorEventHandler;
   "layerview-destroy": __esri.FeatureLayerLayerviewDestroyEventHandler;
 }
 
+/**
+ * Properties that can be applied to any ESRIEACT Layer component.  Extends from
+ * esri's LayerProperties to include child components (i.e. in the case of GroupLayers)
+ */
 export type LayerComponentProps<
   T extends __esri.LayerProperties = __esri.LayerProperties,
   E extends Partial<LayerEventHandlerFnMap> = {},
@@ -42,16 +47,17 @@ export type CreateLayerFunction<T extends LayerComponentProps> = (
  * Factory function to create an esrieact layer component
  * @param createLayer Function that takes in the layer properties (which must extend from __esri.LayerProperties)
  *  and returns the layer instance
+ * @param ref The react ref to be passed from the parent
  * @param properties The layer properties
- * @returns null
+ * @returns A context provider whose context is the instance to be passed to children, or if there are no children, returns null
  */
 export const createLayerComponent = (
   createLayer: CreateLayerFunction<LayerComponentProps>,
   ref: Ref<__esri.Layer>,
-  { children, events, ...properties }: LayerComponentProps<{}, EventHandlerMap>,
+  { children, events, ...properties }: LayerComponentProps,
 ) => {
   const parent = useContext(LayerContext) as __esri.GroupLayer;
-  const { map } = useContext(MapContext);
+  const { map } = useMap();
 
   /**
    * Create instance only on first mount

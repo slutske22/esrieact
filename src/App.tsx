@@ -7,6 +7,7 @@ import {
   FeatureLayerView,
   VectorTileLayer,
   GroupLayer,
+  Expand,
 } from "../lib";
 import "./App.css";
 
@@ -57,6 +58,8 @@ const App: React.FC = () => {
           url="https://services.arcgis.com/DO4gTjwJVIJ7O9Ca/arcgis/rest/services/Unacast_Latest_Available__Visitation_and_Distance_/FeatureServer/0"
           opacity={0.5}
         /> */}
+
+        <Expand position="top-right" />
       </MapView>
       <button
         onClick={() => {

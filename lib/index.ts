@@ -1,2 +1,3 @@
 export * from "./layers";
-export * from "./map/MapView";
+export * from "./map";
+export * from "./widgets";

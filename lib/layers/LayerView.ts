@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import { LayerContext } from "./createLayerComponent";
-import { MapContext } from "..";
+import { useMap } from "..";
 import { useEsriPropertyUpdates } from "../utils";
 
 /**
@@ -50,7 +50,7 @@ export function createLayerViewComponent<
     props: P,
     ref: React.ForwardedRef<R>,
   ) {
-    const { view } = useContext(MapContext);
+    const { view } = useMap();
     const layer = useContext(LayerContext);
 
     const [layerView, setLayerView] = useState<__esri.LayerView>();

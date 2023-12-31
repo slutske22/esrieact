@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
 
+export type EventHandlerMap = Record<string, Function>;
+
 /**
  * Utility hook to attach event handlers to an esri [Accessor](https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Accessor.html)
  * instance, and refresh those event handlers if they are updated
@@ -7,10 +9,10 @@ import { useEffect, useRef } from "react";
  * @param instance The esri item instance to attach events to
  * @param events The events to attach, in the form of an event handler function map
  */
-export function useEvents<
-  I extends __esri.Accessor,
-  E extends Record<string, Function>,
->(instance: I, events?: E) {
+export function useEvents<I extends __esri.Accessor, E extends EventHandlerMap>(
+  instance: I,
+  events?: E,
+) {
   const handlers = useRef<IHandle[]>([]);
 
   /**

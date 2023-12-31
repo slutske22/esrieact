@@ -197,3 +197,11 @@ export const MapView = React.forwardRef<MapReference, Props>((props, ref) => {
     </MapContextProvider>
   );
 });
+
+/**
+ * Utility hook to get the undnerlying `map` and `view` instances of a MapView
+ */
+export const useMap = (): MapReference => {
+  const { map, view } = useContext(MapContext);
+  return { map, view };
+};
