@@ -1,13 +1,14 @@
 import React, { useRef, useState } from "react";
 import EsriFeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import config from "@arcgis/core/config";
 import {
   MapView,
   FeatureLayer,
   MapRef,
   FeatureLayerView,
-  VectorTileLayer,
   GroupLayer,
   Expand,
+  BasemapGallery,
 } from "../lib";
 import "./App.css";
 
@@ -16,6 +17,8 @@ const App: React.FC = () => {
   const mapRef = useRef<MapRef>(null);
   const flRef = useRef<EsriFeatureLayer>(null);
   const flViewRef = useRef<__esri.FeatureLayerView>(null);
+
+  config.apiKey = import.meta.env.VITE_ARCGIS_API_KEY;
 
   const [maxStorage, setMaxStorage] = useState(10000);
 
@@ -35,7 +38,7 @@ const App: React.FC = () => {
           },
         }}
       >
-        <VectorTileLayer url="https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer" />
+        {/* <VectorTileLayer url="https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer" /> */}
         <GroupLayer>
           <FeatureLayer
             ref={flRef}
@@ -60,6 +63,7 @@ const App: React.FC = () => {
         /> */}
 
         <Expand position="top-right" />
+        <BasemapGallery position="top-right" />
       </MapView>
       <button
         onClick={() => {

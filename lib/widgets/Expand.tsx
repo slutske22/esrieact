@@ -17,4 +17,6 @@ const createWidget = (
 export const Expand = React.forwardRef<
   __esri.Expand,
   WidgetComponentProps<__esri.ExpandProperties>
->((properties, ref) => createWidgetComponent(createWidget, ref, properties));
+>((properties, ref) => {
+  return createWidgetComponent(createWidget, ref, properties);
+});

@@ -11,7 +11,8 @@ export type WidgetComponentProps<
   T extends __esri.WidgetProperties = __esri.WidgetProperties,
   E extends Record<string, Function> = {},
 > = T &
-  React.PropsWithChildren & { events?: E } & {
+  React.PropsWithChildren & {
+    events?: E;
     position?: string | __esri.UIAddPosition;
   };
 
@@ -37,15 +38,15 @@ export const WidgetContext = createContext<EsriWidget>({} as EsriWidget);
  * @param properties The widget properties
  * @returns A context provider whose context is the instance to be passed to children, or if there are no children, returns null
  */
-export const createWidgetComponent = (
+export function createWidgetComponent<P extends WidgetComponentProps>(
   createWidget: CreateWidgetFunction,
   ref: Ref<EsriWidget>,
-  { children, events, position, ...properties }: WidgetComponentProps,
-) => {
+  { children, events, position, ...properties }: P,
+) {
   const { view } = useMap();
 
   const instance = useMemo(() => {
-    const instance = createWidget(properties);
+    const instance = createWidget({ ...properties, view });
     view.ui.add(instance, position);
     return instance;
   }, []);
@@ -59,4 +60,4 @@ export const createWidgetComponent = (
   return (
     <WidgetContext.Provider value={instance}>{children}</WidgetContext.Provider>
   );
-};
+}
