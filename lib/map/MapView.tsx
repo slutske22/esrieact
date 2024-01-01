@@ -203,5 +203,12 @@ export const MapView = React.forwardRef<MapReference, Props>((props, ref) => {
  */
 export const useMap = (): MapReference => {
   const { map, view } = useContext(MapContext);
+
+  if (!map || !view) {
+    throw new Error(
+      "Cannot find esrieact map context, are you sure your component is a descendent of a MapContext?",
+    );
+  }
+
   return { map, view };
 };

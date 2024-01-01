@@ -24,35 +24,36 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <MapView
-        ref={mapRef}
-        style={{ border: "1px solid red", height: "70vh", width: "70vw" }}
-        ViewProperties={{
-          extent: {
-            xmin: -9177811,
-            ymin: 4247000,
-            xmax: -9176791,
-            ymax: 4247784,
-            // @ts-expect-error Number is also accepted here, TS defs wrong?
-            spatialReference: 102100,
-          },
-        }}
-      >
-        {/* <VectorTileLayer url="https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer" /> */}
-        <GroupLayer>
-          <FeatureLayer
-            ref={flRef}
-            url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0"
-          >
-            <FeatureLayerView
-              ref={flViewRef}
-              filter={{
-                where: `C_Storage < ${maxStorage}`,
-              }}
-            />
-          </FeatureLayer>
-        </GroupLayer>
-        {/* <FeatureLayer
+      <div style={{ display: "flex" }}>
+        <MapView
+          ref={mapRef}
+          style={{ border: "1px solid red", height: "70vh", width: "70vw" }}
+          ViewProperties={{
+            extent: {
+              xmin: -9177811,
+              ymin: 4247000,
+              xmax: -9176791,
+              ymax: 4247784,
+              // @ts-expect-error Number is also accepted here, TS defs wrong?
+              spatialReference: 102100,
+            },
+          }}
+        >
+          {/* <VectorTileLayer url="https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer" /> */}
+          <GroupLayer>
+            <FeatureLayer
+              ref={flRef}
+              url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0"
+            >
+              <FeatureLayerView
+                ref={flViewRef}
+                filter={{
+                  where: `C_Storage < ${maxStorage}`,
+                }}
+              />
+            </FeatureLayer>
+          </GroupLayer>
+          {/* <FeatureLayer
           ref={flRef}
           url="https://services1.arcgis.com/4yjifSiIG17X0gW4/arcgis/rest/services/US_County_COVID19_Trends/FeatureServer/0"
         />
@@ -62,9 +63,16 @@ const App: React.FC = () => {
           opacity={0.5}
         /> */}
 
-        <Expand position="top-right" />
-        <BasemapGallery position="top-right" />
-      </MapView>
+          <Expand position="top-right" />
+          <BasemapGallery container="outsider" />
+        </MapView>
+
+        <div
+          id="outsider"
+          style={{ width: "200px", height: "70vh", border: "1px solid blue" }}
+        />
+      </div>
+
       <button
         onClick={() => {
           // setZoom((z) => z + 1);
