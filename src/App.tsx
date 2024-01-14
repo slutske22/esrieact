@@ -9,6 +9,7 @@ import {
   GroupLayer,
   Expand,
   BasemapGallery,
+  LayerList,
 } from "../lib";
 import "./App.css";
 
@@ -65,6 +66,7 @@ const App: React.FC = () => {
 
           <Expand position="top-right" />
           <BasemapGallery container="outsider" />
+          <LayerList />
         </MapView>
 
         <div

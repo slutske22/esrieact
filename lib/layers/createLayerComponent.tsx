@@ -33,7 +33,7 @@ export interface LayerEventHandlerFnMap {
 export type LayerComponentProps<
   T extends __esri.LayerProperties = __esri.LayerProperties,
   E extends Partial<LayerEventHandlerFnMap> = {},
-> = T & React.PropsWithChildren & { events?: E };
+> = React.PropsWithChildren<T> & { events?: E };
 
 /**
  * Function that takes in layer properties and returns an esri Layer instance. Properties must be

@@ -17,6 +17,4 @@ const createWidget = (
 export const BasemapGallery = React.forwardRef<
   EsriBasemapGallery,
   WidgetComponentProps<__esri.BasemapGalleryProperties>
->((properties, ref) => {
-  return createWidgetComponent(createWidget, ref, properties);
-});
+>((properties, ref) => createWidgetComponent(createWidget, ref, properties));

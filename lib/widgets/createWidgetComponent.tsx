@@ -10,11 +10,10 @@ import { useEsriPropertyUpdates, useEvents } from "../utils";
 export type WidgetComponentProps<
   T extends __esri.WidgetProperties = __esri.WidgetProperties,
   E extends Record<string, Function> = {},
-> = T &
-  React.PropsWithChildren & {
-    events?: E;
-    position?: string | __esri.UIAddPosition;
-  };
+> = React.PropsWithChildren<T> & {
+  events?: E;
+  position?: string | __esri.UIAddPosition;
+};
 
 /**
  * Function that takes in layer properties and returns an esri Layer instance. Properties must be
