@@ -1,4 +1,4 @@
-import {
+import React, {
   Ref,
   createContext,
   useContext,
@@ -33,7 +33,7 @@ export interface LayerEventHandlerFnMap {
 export type LayerComponentProps<
   T extends __esri.LayerProperties = __esri.LayerProperties,
   E extends Partial<LayerEventHandlerFnMap> = {},
-> = React.PropsWithChildren<T> & { events?: E };
+> = React.PropsWithChildren<T> & { events?: E; layerOrder?: number };
 
 /**
  * Function that takes in layer properties and returns an esri Layer instance. Properties must be
@@ -54,7 +54,7 @@ export type CreateLayerFunction<T extends LayerComponentProps> = (
 export const createLayerComponent = (
   createLayer: CreateLayerFunction<LayerComponentProps>,
   ref: Ref<__esri.Layer>,
-  { children, events, ...properties }: LayerComponentProps,
+  { children, events, layerOrder, ...properties }: LayerComponentProps,
 ) => {
   const parent = useContext(LayerContext) as __esri.GroupLayer;
   const { map } = useMap();
@@ -68,9 +68,9 @@ export const createLayerComponent = (
     // If the parent in a GroupLayer (or any EsriInstance that has the .add(layer) method), add it to that,
     // otherwise, add directly to the map
     if (parent && parent.add) {
-      parent.add(layer);
+      parent.add(layer, layerOrder);
     } else {
-      map.add(layer);
+      map.add(layer, layerOrder);
     }
     return layer;
   }, []);
@@ -81,6 +81,9 @@ export const createLayerComponent = (
 
   /**
    * Remove layer on unmount
+   *
+   * TODO: Potentially fade layer out when unmounted, guide here:
+   * https://community.esri.com/t5/arcgis-javascript-maps-sdk-questions/fade-a-layer-on-off-smoothly/m-p/70174
    */
   useEffect(() => {
     return () => {

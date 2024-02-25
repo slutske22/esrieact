@@ -1,6 +1,24 @@
 import { useEffect, useRef } from "react";
 
-export type EventHandlerMap = Record<string, Function>;
+/**
+ * Event handler that takes in modifier parameter
+ */
+export type WithMofidiers<T extends Function = Function> = {
+  modifiers: string[];
+  handler: T;
+};
+
+/**
+ * View event callback that may or may not take optional modifiers
+ */
+export type HandlerWithOptionalModifiers<T extends Function = Function> =
+  | T
+  | WithMofidiers<T>;
+
+export type EventHandlerMap = Record<
+  string,
+  Function | HandlerWithOptionalModifiers
+>;
 
 /**
  * Utility hook to attach event handlers to an esri [Accessor](https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Accessor.html)
@@ -22,8 +40,18 @@ export function useEvents<I extends __esri.Accessor, E extends EventHandlerMap>(
     if (instance && events) {
       handlers.current.forEach((handler) => handler.remove());
       handlers.current = Object.keys(events).map((eventName) => {
-        // @ts-expect-error Need typescript mapped types here, but will work even if TS is picky
-        return instance.on(eventName, events[eventName]);
+        const eventHanler = events[eventName];
+
+        if (eventHanler) {
+          if ((eventHanler as WithMofidiers).modifiers) {
+            const { modifiers, handler } = eventHanler as WithMofidiers;
+            // @ts-expect-error allow events to be handled
+            return instance.on(eventName, modifiers, handler);
+          } else {
+            // @ts-expect-error allow events to be handled
+            return instance.on(eventName, eventHanler);
+          }
+        }
       });
     }
     // Remove listeners and flush listener ref on unmount

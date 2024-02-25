@@ -1,7 +1,6 @@
 import { isEqual } from "lodash";
 export * from "./useEsriPropertyUpdates";
 export * from "./useEvents";
-export * from "./usePrevious";
 
 /*
  * Compare two objects by reducing an array of keys in obj1, having the

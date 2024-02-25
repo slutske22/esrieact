@@ -1,4 +1,4 @@
-import { Ref, createContext, useImperativeHandle, useMemo } from "react";
+import React, { Ref, createContext, useImperativeHandle, useMemo } from "react";
 import EsriWidget from "@arcgis/core/widgets/Widget";
 import { useMap } from "..";
 import { useEsriPropertyUpdates, useEvents } from "../utils";
