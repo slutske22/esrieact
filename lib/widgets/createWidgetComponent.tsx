@@ -1,4 +1,10 @@
-import React, { Ref, createContext, useImperativeHandle, useMemo } from "react";
+import React, {
+  Ref,
+  createContext,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+} from "react";
 import EsriWidget from "@arcgis/core/widgets/Widget";
 import { useMap } from "..";
 import { useEsriPropertyUpdates, useEvents } from "../utils";
@@ -46,13 +52,24 @@ export function createWidgetComponent<P extends WidgetComponentProps>(
 
   const instance = useMemo(() => {
     const instance = createWidget({ ...properties, view });
-    view.ui.add(instance, position);
+    if (!properties.container) {
+      view.ui.add(instance, position);
+    }
     return instance;
   }, []);
 
   useImperativeHandle(ref, () => instance);
   useEsriPropertyUpdates(instance, properties);
   useEvents(instance, events);
+
+  /**
+   * Remove widget on unmount
+   */
+  useEffect(() => {
+    return () => {
+      view.ui.remove(instance);
+    };
+  }, []);
 
   if (!children) return null;
 

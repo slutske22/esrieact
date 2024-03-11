@@ -1,6 +1,7 @@
 export * from "./createLayerComponent";
 
 export * from "./FeatureLayer";
+export * from "./GraphicsLayer";
 export * from "./GroupLayer";
 export * from "./ImageryLayer";
 export * from "./ImageryTileLayer";
