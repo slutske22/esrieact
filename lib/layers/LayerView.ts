@@ -58,6 +58,10 @@ export function createLayerViewComponent<
     useEffect(() => {
       view.whenLayerView(layer).then((layerView) => {
         setLayerView(layerView);
+        Object.keys(props as object).forEach(
+          // @ts-expect-error too restrictive
+          (property) => (layerView[property] = props[property]),
+        );
       });
     }, []);
 
