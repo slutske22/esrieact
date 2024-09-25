@@ -7,9 +7,9 @@ import {
   MapRef,
   FeatureLayerView,
   GroupLayer,
-  Expand,
   BasemapGallery,
   LayerList,
+  VectorTileLayer,
 } from "../lib";
 import "./App.css";
 
@@ -22,6 +22,7 @@ const App: React.FC = () => {
   config.apiKey = import.meta.env.VITE_ARCGIS_API_KEY;
 
   const [maxStorage, setMaxStorage] = useState(10000);
+  const [clickedLocation, setClickedLocation] = useState<object>({});
 
   return (
     <div>
@@ -38,10 +39,20 @@ const App: React.FC = () => {
               // @ts-expect-error Number is also accepted here, TS defs wrong?
               spatialReference: 102100,
             },
+            events: {
+              click: (e) => setClickedLocation(e.mapPoint),
+            },
           }}
         >
-          {/* <VectorTileLayer url="https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer" /> */}
-          <GroupLayer>
+          <VectorTileLayer url="https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer" />
+
+          <GroupLayer title="Feature Layers are kewl">
+            <FeatureLayer url="https://services1.arcgis.com/4yjifSiIG17X0gW4/arcgis/rest/services/US_County_COVID19_Trends/FeatureServer/0" />
+            <FeatureLayer
+              url="https://services.arcgis.com/DO4gTjwJVIJ7O9Ca/arcgis/rest/services/Unacast_Latest_Available__Visitation_and_Distance_/FeatureServer/0"
+              opacity={0.5}
+            />
+
             <FeatureLayer
               ref={flRef}
               url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0"
@@ -54,36 +65,32 @@ const App: React.FC = () => {
               />
             </FeatureLayer>
           </GroupLayer>
-          {/* <FeatureLayer
-          ref={flRef}
-          url="https://services1.arcgis.com/4yjifSiIG17X0gW4/arcgis/rest/services/US_County_COVID19_Trends/FeatureServer/0"
-        />
-        <FeatureLayer
-          ref={flRef}
-          url="https://services.arcgis.com/DO4gTjwJVIJ7O9Ca/arcgis/rest/services/Unacast_Latest_Available__Visitation_and_Distance_/FeatureServer/0"
-          opacity={0.5}
-        /> */}
 
-          <Expand position="top-right" />
+          <LayerList position="top-right" />
+
           <BasemapGallery container="outsider" />
-          <LayerList />
         </MapView>
 
         <div
           id="outsider"
           style={{ width: "200px", height: "70vh", border: "1px solid blue" }}
         />
+
+        <div style={{ minWidth: "200px" }}>
+          <pre style={{ textAlign: "left" }}>
+            {JSON.stringify(clickedLocation, null, 2)}
+          </pre>
+        </div>
       </div>
 
-      <button
-        onClick={() => {
-          // setZoom((z) => z + 1);
-          setMaxStorage((p) => p - 1000);
-          // console.log(flViewRef.current);
+      <label>Max Storage:</label>
+      <input
+        type="number"
+        value={maxStorage}
+        onChange={(e) => {
+          setMaxStorage(Number(e.target.value));
         }}
-      >
-        Filter more
-      </button>
+      />
     </div>
   );
 };

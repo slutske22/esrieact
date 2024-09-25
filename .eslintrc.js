@@ -39,6 +39,14 @@ module.exports = {
     camelcase: [0],
     "lines-between-class-members": [0],
 
+    /** Prettier rules */
+    "prettier/prettier": [
+      "error",
+      {
+        endOfLine: "auto",
+      },
+    ],
+
     /** react rules: */
     "react/jsx-key": [1],
     "react/button-has-type": [0],

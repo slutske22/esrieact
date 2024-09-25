@@ -1,7 +1,7 @@
 import React from "react";
 import EsriSketch from "@arcgis/core/widgets/Sketch";
 import { WidgetComponentProps, createWidgetComponent } from ".";
-import "./SketchStyle.scss";
+// import "./SketchStyle.scss";
 
 type SketchEventHandlerFnMap = Partial<{
   delete: __esri.SketchDeleteEventHandler;
