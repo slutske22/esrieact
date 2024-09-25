@@ -109,7 +109,7 @@ const App: React.FC = () => {
         <div
           id="outsider"
           style={{
-            width: "200px",
+            width: "250px",
             maxHeight: "70vh",
             border: "1px solid blue",
           }}
@@ -117,7 +117,7 @@ const App: React.FC = () => {
 
         <div
           style={{
-            minWidth: "200px",
+            minWidth: "300px",
             textAlign: "left",
             maxHeight: "70vh",
             overflow: "auto",
