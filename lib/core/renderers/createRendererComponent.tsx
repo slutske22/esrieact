@@ -2,6 +2,7 @@ import React, {
   Ref,
   createContext,
   useContext,
+  useEffect,
   useImperativeHandle,
   useMemo,
 } from "react";
@@ -42,6 +43,7 @@ export const createRendererComponent = (
   { children, ...properties }: RendererProps,
 ) => {
   const parent = useContext(LayerContext) as __esri.Layer;
+  const defaultRenderer = (parent as FeatureLayer).renderer;
 
   const instance = useMemo(() => {
     const renderer = createRenderer(properties);
@@ -70,6 +72,26 @@ export const createRendererComponent = (
 
   useImperativeHandle(ref, () => instance);
   useEsriPropertyUpdates(instance, properties);
+
+  /**
+   * Set the renderer of the parent layer back to its initial default on unmount
+   */
+  useEffect(() => {
+    return () => {
+      if (
+        parent instanceof FeatureLayer ||
+        parent instanceof SceneLayer ||
+        parent instanceof Sublayer ||
+        parent instanceof CSVLayer ||
+        parent instanceof GeoJSONLayer ||
+        parent instanceof OGCFeatureLayer ||
+        parent instanceof StreamLayer ||
+        parent instanceof WFSLayer
+      ) {
+        parent.renderer = defaultRenderer;
+      }
+    };
+  }, []);
 
   // If no children, there is no need to render a context provider
   if (!children) return null;

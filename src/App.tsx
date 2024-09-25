@@ -10,8 +10,13 @@ import {
   BasemapGallery,
   LayerList,
   VectorTileLayer,
+  Expand,
+  PictureMarkerSymbol,
+  SimpleRenderer,
 } from "../lib";
 import "./App.css";
+import BikeLogo from "./assets/bike.svg";
+import ZebraLogo from "./assets/zebra.png";
 
 const App: React.FC = () => {
   // Some tests to make sure refs are what we think they are
@@ -22,6 +27,7 @@ const App: React.FC = () => {
   config.apiKey = import.meta.env.VITE_ARCGIS_API_KEY;
 
   const [maxStorage, setMaxStorage] = useState(10000);
+  const [rendererImage, setRendererImage] = useState<string>();
   const [clickedLocation, setClickedLocation] = useState<object>({});
 
   return (
@@ -63,10 +69,22 @@ const App: React.FC = () => {
                   where: `C_Storage < ${maxStorage}`,
                 }}
               />
+
+              {rendererImage && (
+                <SimpleRenderer>
+                  <PictureMarkerSymbol
+                    height={24}
+                    width={24}
+                    url={rendererImage}
+                  />
+                </SimpleRenderer>
+              )}
             </FeatureLayer>
           </GroupLayer>
 
-          <LayerList position="top-right" />
+          <Expand position="top-right">
+            <LayerList />
+          </Expand>
 
           <BasemapGallery container="outsider" />
         </MapView>
@@ -83,14 +101,29 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      <label>Max Storage:</label>
-      <input
-        type="number"
-        value={maxStorage}
-        onChange={(e) => {
-          setMaxStorage(Number(e.target.value));
-        }}
-      />
+      <div style={{ display: "flex", alignItems: "center", marginTop: "10px" }}>
+        <label>Max Storage:</label>
+        <input
+          type="number"
+          value={maxStorage}
+          onChange={(e) => {
+            setMaxStorage(Number(e.target.value));
+          }}
+        />
+      </div>
+
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <label>Symbol:</label>
+        <button onClick={() => setRendererImage(undefined)}>None</button>
+        {[BikeLogo, ZebraLogo].map((logo) => (
+          <img
+            key={logo}
+            height={32}
+            src={logo}
+            onClick={() => setRendererImage(logo)}
+          />
+        ))}
+      </div>
     </div>
   );
 };

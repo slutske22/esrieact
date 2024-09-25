@@ -1,11 +1,13 @@
 import React, {
   Ref,
   createContext,
+  useContext,
   useEffect,
   useImperativeHandle,
   useMemo,
 } from "react";
 import EsriWidget from "@arcgis/core/widgets/Widget";
+import Expand from "@arcgis/core/widgets/Expand";
 import { useMap } from "..";
 import { useEsriPropertyUpdates, useEvents } from "../utils";
 
@@ -49,12 +51,19 @@ export function createWidgetComponent<P extends WidgetComponentProps>(
   { children, events, position, ...properties }: P,
 ) {
   const { view } = useMap();
+  const parentWidgetContext = useContext(WidgetContext);
 
   const instance = useMemo(() => {
     const instance = createWidget({ ...properties, view });
+    if (parentWidgetContext instanceof Expand) {
+      parentWidgetContext.content = instance;
+      return instance;
+    }
+
     if (!properties.container) {
       view.ui.add(instance, position);
     }
+
     return instance;
   }, []);
 

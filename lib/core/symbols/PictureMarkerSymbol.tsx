@@ -1,8 +1,10 @@
 import React, { useContext, useImperativeHandle, useMemo } from "react";
 import EsriPictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol.js";
 import Graphic from "@arcgis/core/Graphic";
+import Renderer from "@arcgis/core/renderers/Renderer";
 import { GraphicContext } from "../Graphic";
 import { useEsriPropertyUpdates } from "../../utils";
+import { RendererContext } from "../renderers";
 
 /**
  * A PictureMarkerSymbol component, must be rendered as a child of a Renderer component or Graphic component
@@ -14,7 +16,8 @@ export const PictureMarkerSymbol = React.forwardRef<
   __esri.PictureMarkerSymbol,
   __esri.PictureMarkerSymbolProperties
 >((properties, ref) => {
-  const parent = useContext(GraphicContext);
+  const parentGraphic = useContext(GraphicContext);
+  const parentRenderer = useContext(RendererContext);
 
   /**
    * Create instance only on first mount
@@ -22,7 +25,10 @@ export const PictureMarkerSymbol = React.forwardRef<
   const instance = useMemo(() => {
     const symbol = new EsriPictureMarkerSymbol(properties);
 
-    if (!(parent instanceof Graphic)) {
+    if (
+      !(parentGraphic instanceof Graphic) &&
+      !(parentRenderer instanceof Renderer)
+    ) {
       // Allow this because it only happens in development and is helpful for devs
       // eslint-disable-next-line
       console.error(
@@ -33,8 +39,15 @@ export const PictureMarkerSymbol = React.forwardRef<
       return;
     }
 
-    if (parent) {
-      parent.symbol = symbol;
+    if (parentRenderer) {
+      // @ts-expect-error allow this for renderers that do take a symbol
+      parentRenderer.symbol = symbol;
+      return symbol;
+    }
+
+    if (parentGraphic) {
+      parentGraphic.symbol = symbol;
+      return symbol;
     }
 
     return symbol;
