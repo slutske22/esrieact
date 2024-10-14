@@ -18,6 +18,17 @@ import "./App.css";
 import BikeLogo from "./assets/bike.svg";
 import ZebraLogo from "./assets/zebra.png";
 
+export const LAYER_URLS = {
+  vector_tile_layer_url:
+    "https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer",
+  featurelayer_covid:
+    "https://services1.arcgis.com/4yjifSiIG17X0gW4/arcgis/rest/services/US_County_COVID19_Trends/FeatureServer/0",
+  featurelayer_distance_scores:
+    "https://services.arcgis.com/DO4gTjwJVIJ7O9Ca/arcgis/rest/services/Unacast_Latest_Available__Visitation_and_Distance_/FeatureServer/0",
+  featurelayer_trees:
+    "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0",
+};
+
 const App: React.FC = () => {
   // Some tests to make sure refs are what we think they are
   const mapRef = useRef<MapRef>(null);
@@ -63,28 +74,24 @@ const App: React.FC = () => {
             },
           }}
         >
-          <VectorTileLayer url="https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer" />
+          <VectorTileLayer url={LAYER_URLS.vector_tile_layer_url} />
 
           <GroupLayer title="Feature Layers are kewl">
             <FeatureLayer
-              url="https://services1.arcgis.com/4yjifSiIG17X0gW4/arcgis/rest/services/US_County_COVID19_Trends/FeatureServer/0"
+              url={LAYER_URLS.featurelayer_covid}
               popupEnabled={false}
             />
+
             <FeatureLayer
-              url="https://services.arcgis.com/DO4gTjwJVIJ7O9Ca/arcgis/rest/services/Unacast_Latest_Available__Visitation_and_Distance_/FeatureServer/0"
+              url={LAYER_URLS.featurelayer_distance_scores}
               opacity={0.5}
               popupEnabled={false}
             />
 
-            <FeatureLayer
-              ref={flRef}
-              url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0"
-            >
+            <FeatureLayer ref={flRef} url={LAYER_URLS.featurelayer_trees}>
               <FeatureLayerView
                 ref={flViewRef}
-                filter={{
-                  where: `C_Storage < ${maxStorage}`,
-                }}
+                filter={{ where: `C_Storage < ${maxStorage}` }}
               />
 
               {rendererImage && (
