@@ -201,7 +201,7 @@ const Page: React.FC = () => {
       id="standard-html-id-for-wrapper-div"
       style={{ /* use this to ensure map is the size you need */ }}
       MapProperties={{ basemap: "topo-vector" }}
-      ViewProperties={{ extent: DEFAULT_FLORIDA_EXTENT }}
+      ViewProperties={{ extent: SOME_EXTENT_OBJECT }}
     />
   )
 }
