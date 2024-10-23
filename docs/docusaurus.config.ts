@@ -7,10 +7,11 @@ const config: Config = {
   favicon: "img/esrieact-logo-3.png",
 
   // Set the production url of your site here
-  url: "https://your-docusaurus-site.example.com",
+  url: "https://slutske22.github.io",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: "/esrieact",
+  baseUrl: "/",
+  organizationName: "slutske22",
 
   // GitHub pages deployment config.
   projectName: "esrieact", // Usually your repo name.
