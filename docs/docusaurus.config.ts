@@ -14,6 +14,7 @@ const config: Config = {
 
   // GitHub pages deployment config.
   projectName: "esrieact", // Usually your repo name.
+  trailingSlash: false,
 
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
