@@ -2,4 +2,26 @@
 sidebar_position: 1
 ---
 
+import { MapView } from '../../lib/map'
+
 # MapView
+
+<MapView 
+  style={{height: '400px', width: '600px' }}
+  MapProperties={{
+    basemap: 'topo'
+  }}
+  ViewProperties={{
+    extent: {
+      xmin: -9177811,
+      ymin: 4247000,
+      xmax: -9176791,
+      ymax: 4247784,
+      // @ts-expect-error Number is also accepted here, TS defs wrong?
+      spatialReference: 102100,
+    },
+    popup: {
+      defaultPopupTemplateEnabled: true,
+    }}
+  }
+/>
