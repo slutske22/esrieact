@@ -1,0 +1,4 @@
+site_name: ESRIEACT Documentation
+theme:
+  name: material
+  highlightjs: true
