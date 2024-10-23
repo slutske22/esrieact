@@ -4,7 +4,7 @@ import type * as Preset from "@docusaurus/preset-classic";
 
 const config: Config = {
   title: "ESRIEACT Docs",
-  favicon: "img/favicon.ico",
+  favicon: "img/esrieact-logo-3.png",
 
   // Set the production url of your site here
   url: "https://your-docusaurus-site.example.com",
@@ -48,7 +48,7 @@ const config: Config = {
       title: "ESRIEACT Docs",
       logo: {
         alt: "My Site Logo",
-        src: "img/logo.svg",
+        src: "img/esrieact-logo-3.png",
       },
       items: [
         {
