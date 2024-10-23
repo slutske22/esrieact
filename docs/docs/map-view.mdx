@@ -6,8 +6,23 @@ import { MapView } from '../../lib/map'
 
 # MapView
 
+A `MapView` is a react component which combines both an ESRI [`Map`](https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html) and a [`MapView`](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html) into a singular component. It will render a div, and once rendered, use it to render an ArcGIS JS API MapView. MapView accepts all `HTMLAttributes<HTMLDivElement>` properties, as well as optional MapProperties and ViewProperties, which allow you to set the inital Map and MapView options:
+
+```js
+const Page: React.FC = () => {
+  return (
+    <MapView
+      id="standard-html-id-for-wrapper-div"
+      style={{ /* use this to ensure map is the size you need */ }}
+      MapProperties={{ basemap: "topo-vector" }}
+      ViewProperties={{ extent: SOME_EXTENT_OBJECT }}
+    />
+  )
+}
+```
+
 <MapView 
-  style={{height: '400px', width: '600px' }}
+  style={{height: '400px', width: '100%' }}
   MapProperties={{
     basemap: 'topo'
   }}
