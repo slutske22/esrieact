@@ -89,6 +89,10 @@ export const ReactMap: React.FC = ({ layerList }) => {
 
 The wrappers for ESRIEACT components often do not render anything, but rather simply use react lifecycle methods to manage the interaction of an ESRI component to the map. If children of a component are needed, ESRIEACT components render a context object that provides the ESRI instance to any children.
 
+### What about ESRI's react library?
+
+ESRI recently released [@arcgis/map-components-react](https://www.npmjs.com/package/@arcgis/map-components-react), which offers some support for ArcGIS components in react.  Their [documentation](https://developers.arcgis.com/javascript/latest/get-started-react/) shows a basic example, but in the current early stage of this library, react components for map layers, renderers, graphics, etc, do not exist, and must still be added to a map using the classic imperative programming style.
+
 ## Props
 
 Vanilla ESRI component properties are class-based, and often circular. For example:
