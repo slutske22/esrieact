@@ -1,0 +1,2 @@
+/*! For license information please see 4994.2531b333.js.LICENSE.txt */
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[4994],{34994:(e,s,c)=>{c.r(s),c.d(s,{CalciteAction:()=>n,defineCustomElement:()=>d});var t=c(428);const n=t.A,d=t.d}}]);

@@ -1,8 +1,0 @@
-{
-  "label": "Layer Components",
-  "position": 2,
-  "link": {
-    "type": "generated-index",
-    "description": "ArcGIS JS API map layers, in react form!"
-  }
-}
