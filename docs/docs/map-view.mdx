@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-import { MapView } from '../../lib/map'
+import BrowserOnly from '@docusaurus/BrowserOnly';
 
 # MapView
 
@@ -21,25 +21,34 @@ const Page: React.FC = () => {
 }
 ```
 
-<MapView 
-  style={{height: '400px', width: '100%' }}
-  MapProperties={{
-    basemap: 'topo'
+<BrowserOnly>
+  {() => {
+
+    const MapView = require('../../lib/map').MapView
+
+    return (
+      <MapView 
+        style={{height: '400px', width: '100%' }}
+        MapProperties={{
+          basemap: 'topo'
+        }}
+        ViewProperties={{
+          extent: {
+            xmin: -9177811,
+            ymin: 4247000,
+            xmax: -9176791,
+            ymax: 4247784,
+            spatialReference: 102100,
+          },
+          popup: {
+            defaultPopupTemplateEnabled: true,
+          }}
+        }
+      />
+    )
   }}
-  ViewProperties={{
-    extent: {
-      xmin: -9177811,
-      ymin: 4247000,
-      xmax: -9176791,
-      ymax: 4247784,
-      // @ts-expect-error Number is also accepted here, TS defs wrong?
-      spatialReference: 102100,
-    },
-    popup: {
-      defaultPopupTemplateEnabled: true,
-    }}
-  }
-/>
+</BrowserOnly>
+
 
 # MapViewCore
 
