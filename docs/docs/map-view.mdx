@@ -86,7 +86,7 @@ Extends `HTMLAttributes<HTMLDivElement>`.  Additional props are:
 
 ### `children`
 
-Other ESRIEACT map components, like [layers](category/layer-components), or [widgets](category/widgets).
+Other ESRIEACT map components, like [layers](category/layer-components), or [widgets](category/widgets), etc.
 
 ### `MapProperties`
 
@@ -98,7 +98,7 @@ Other ESRIEACT map components, like [layers](category/layer-components), or [wid
 
 #### `ViewProperties.events`
 
-The `ViewProperties` prop can take an `events` field, which is an `ViewEventHandlerFnMap`, or a function that takes the `MapView` instance as a parameter, and returns a `ViewEventHandlerFnMap`.  A `ViewEventHandlerFnMap` is an object whose keys are possible events on a `MapView`, and whose values are the event handlers to be called on those events:
+The `ViewProperties` prop can take an `events` property, which is an `ViewEventHandlerFnMap`, or a function that takes the `MapView` instance as a parameter, and returns a `ViewEventHandlerFnMap`.  A `ViewEventHandlerFnMap` is an object whose keys are possible events on a `MapView`, and whose values are the event handlers to be called on those events:
 
 ```js
   resize: __esri.ViewResizeEventHandler;
@@ -123,4 +123,4 @@ The `ViewProperties` prop can take an `events` field, which is an `ViewEventHand
   blur: __esri.ViewBlurEventHandler;
 ```
 
-See examples here TODO
+For more information on MapView events, see [the ArcGIS JS API documentation](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#on).  See ESRIACT examples here TODO
