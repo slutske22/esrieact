@@ -47,7 +47,7 @@ const config: Config = {
     // Replace with your project's social card
     image: "img/docusaurus-social-card.jpg",
     navbar: {
-      title: "ESRIEACT Docs",
+      title: "ESRIEACT Documentation",
       logo: {
         alt: "My Site Logo",
         src: "img/esrieact-logo-3.png",
@@ -57,7 +57,14 @@ const config: Config = {
           type: "docSidebar",
           sidebarId: "tutorialSidebar",
           position: "left",
-          label: "Tutorial",
+          label: "API Docs",
+        },
+        {
+          type: "docSidebar",
+          sidebarId: "tutorialSidebar",
+          position: "left",
+          label: "Examples",
+          href: "examples",
         },
         {
           href: "https://github.com/slutske22/esrieact",
