@@ -46,7 +46,7 @@ export const ReactMap: React.FC = ({ layerList }) => {
 };
 ```
 
-However, any propery then updated within the above `new Extent` would not register as a property change with react. The reason for this is that many ArcGIS class-based instance properties and [non-Enumerable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Enumerability_and_ownership_of_properties), and as such, React will not know they have been changed, and will not update the property accordingly. For example, this will not work as expected:
+However, any propery then updated within the above `new Extent` would not register as a property change with react. The reason for this is that many ArcGIS class-based instance properties are [non-Enumerable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Enumerability_and_ownership_of_properties), and as such, React will not know they have been changed, and will not update the property accordingly. For example, this will not work as expected:
 
 ```ts
 import React from "react";
@@ -69,7 +69,7 @@ export const ReactMap: React.FC = ({ layerList }) => {
 };
 ```
 
-Because the property being updated is deeply nested within class-based ESRI components, whose resultant properties are non-enumerable, react will not sense the change and will not update the component. However, most ESRI component properties accept simple objects as option parameters in place of class constructors:
+Because the property being updated is deeply nested within class-based ESRI components, whose resultant properties are non-enumerable, react will not sense the change and will not update the component. However, most ESRI component properties accept simple objects as option parameters that get [auto-casted](https://developers.arcgis.com/javascript/latest/programming-patterns/#autocasting) to their corresponding class constructor:
 
 ```ts
 import React from "react";
