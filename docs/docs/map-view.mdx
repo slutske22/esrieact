@@ -4,6 +4,7 @@ title: MapView
 ---
 
 import BrowserOnly from '@docusaurus/BrowserOnly';
+import { useContext } from 'react';
 
 #
 
@@ -79,6 +80,60 @@ const OtherUI = () => {
   return <button onClick={() => view.zoom = view.zoom + 1}>Zoom in!</button>
 }
 ```
+
+<BrowserOnly>
+  {() => {
+
+    const MapViewCore = require('../../lib/map').MapViewCore
+    const MapContextProvider = require('../../lib/map').MapContextProvider
+
+    const OtherUI = () => {
+      const MapContext = require('../../lib/map').MapContext
+
+      const { view } = useContext(MapContext)
+
+      return (
+        <div style={{ marginLeft: '10px' }}>
+          <h5>Map and View references available outside the MapView component tree:</h5>
+          <button onClick={() => {
+            view.zoom = view.zoom + 1;
+          }}>
+            Zoom In!
+          </button>
+          <button onClick={() => {
+            view.zoom = view.zoom - 1;
+          }}>
+            Zoom Out!
+          </button>
+        </div>
+      )
+    }
+
+    return (
+      <MapContextProvider>
+        <div style={{ display: 'flex' }}>
+          <MapViewCore 
+            style={{height: '400px', minWidth: '80%' }}
+            MapProperties={{ basemap: 'topo' }}
+            ViewProperties={{
+              extent: {
+                xmin: -9177811,
+                ymin: 4247000,
+                xmax: -9176791,
+                ymax: 4247784,
+                spatialReference: 102100,
+              },
+              popup: {
+                defaultPopupTemplateEnabled: true,
+              }}
+            }
+          />
+          <OtherUI />
+        </div>
+      </MapContextProvider>
+    )
+  }}
+</BrowserOnly>
 
 ## Props
 
