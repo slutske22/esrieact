@@ -40,16 +40,16 @@ export function useEvents<I extends __esri.Accessor, E extends EventHandlerMap>(
     if (instance && events) {
       handlers.current.forEach((handler) => handler.remove());
       handlers.current = Object.keys(events).map((eventName) => {
-        const eventHanler = events[eventName];
+        const eventHandler = events[eventName];
 
-        if (eventHanler) {
-          if ((eventHanler as WithMofidiers).modifiers) {
-            const { modifiers, handler } = eventHanler as WithMofidiers;
+        if (eventHandler) {
+          if ((eventHandler as WithMofidiers).modifiers) {
+            const { modifiers, handler } = eventHandler as WithMofidiers;
             // @ts-expect-error allow events to be handled
             return instance.on(eventName, modifiers, handler);
           } else {
             // @ts-expect-error allow events to be handled
-            return instance.on(eventName, eventHanler);
+            return instance.on(eventName, eventHandler);
           }
         }
       });
