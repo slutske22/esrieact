@@ -5,7 +5,7 @@
   A react component library for the ArcGIS Javascript API.
 </p>
 
-## 📘 [Read the Docs (Work in Progress!)](slutske22.github.io/esrieact/)
+## 📘 [Read the Docs (Work in Progress!)](https://slutske22.github.io/esrieact/)
 
 ## File Organization
 
