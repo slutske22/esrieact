@@ -5,7 +5,7 @@ import {
   createLayerComponent,
 } from "./createLayerComponent";
 
-type FeatureLayerEventHandlerFnMap = Partial<{
+export type FeatureLayerEventHandlerFnMap = Partial<{
   refresh: __esri.FeatureLayerRefreshEventHandler;
   edits: __esri.FeatureLayerEditsEventHandler;
   "layerview-create": __esri.FeatureLayerLayerviewCreateEventHandler;
