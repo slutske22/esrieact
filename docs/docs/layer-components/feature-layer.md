@@ -3,3 +3,54 @@ sidebar_position: 1
 ---
 
 # FeatureLayer
+
+## Introduction
+
+One of the most used layer types is the `FeatureLayer`. A `FeatureLayer` can be declared alone, or can accept a `FeatureLayerView` as a child to help taylor the layer:
+
+```ts
+import React from "react";
+import { FeatureLayer, FeautureLayerView, MapView } from "./esri";
+
+const LAYER_URL = "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0";
+
+export const ReactMap: React.FC = () => {
+  const [maxStorage, setMaxStorage] = useState(1000);
+
+  return (
+    <MapView>
+      {/* A simple featurelayer: */}
+      <FeatureLayer url="some service url" />
+
+      {/* A featurelayer that uses a FeatureLayerView to do some front-end filtering: */}
+      <FeatureLayer url={LAYER_URL}>
+        <FeatureLayerView filter={{ where: `C_Storage < ${maxStorage}` }} />
+      </FeatureLayer>
+    </MapView>
+  );
+};
+```
+
+## Props
+
+`Props` extends [`FeatureLayer properties`](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#properties-summary)
+
+### `children`
+
+Children components can be any of the following esrieact components:
+
+- [`FeatureLayerView`](feature-layer-view)
+- Any [`Renderer`](/category/renderers) component that is compatible with a FeatureLayer
+- [`Graphic`](TODO) or multiple `Graphic`s components
+
+### `events`
+
+`FeatureLayerEventHandlerFnMap`: An event handler function map based on the events available on a FeatureLayer
+
+```ts
+  "refresh": __esri.FeatureLayerRefreshEventHandler;
+  "edits": __esri.FeatureLayerEditsEventHandler;
+  "layerview-create": __esri.FeatureLayerLayerviewCreateEventHandler;
+  "layerview-create-error": __esri.FeatureLayerLayerviewCreateErrorEventHandler;
+  "layerview-destroy": __esri.FeatureLayerLayerviewDestroyEventHandler;
+```
