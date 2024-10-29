@@ -5,6 +5,8 @@
   A react component library for the ArcGIS Javascript API.
 </p>
 
+## 📘 [Read the Docs (Work in Progress!)](slutske22.github.io/esrieact/)
+
 ## File Organization
 
 - `/lib` contains actual map component files that are the source code and main feature of this repository
