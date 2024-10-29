@@ -39,10 +39,32 @@ const MyCsvMap = () => {
 }
 ```
 
+Or you may want to use the ref of a `KMLLayerView` to get its underlying map images:
 
+```ts
+const MyKmlMap = () => {
+  const [kmlRef, setKmlRef] = useState<string[]>([])
+
+  useEffect(() => {
+    if (kmlRef) {
+      console.log('Visible map images are:', kmlRef.allVisibleMapImages)
+    }
+  }, [kmlRef])
+
+  return (
+    <MapView {...props}>
+      <KMLLayer url="http://quickmap.dot.ca.gov/data/lcs.kml">
+        <KMLLayerView ref={r => setKmlRef(r)} />
+      </KMLLayer>
+    </MapView>
+  )
+}
+```
 
 ## FeatureLayerView
 
-### Props
+Must be a child of a `<FeatureLayer />`.
 
-Extends [FeatureLayerView Props](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerView.html#properties-summary)
+Props are equivalent to [FeatureLayerView Props](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerView.html#properties-summary)
+
+`ref` is the instance of the underlying `FeatureLayerView` instance
