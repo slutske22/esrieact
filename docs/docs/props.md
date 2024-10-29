@@ -91,3 +91,5 @@ export const ReactMap: React.FC = ({ layerList }) => {
 ```
 
 It is prefereable to use this second syntax in this codebase. (Though in the case of trying to filter a FeatureLayer, it is preferable to use a [definitionExpression](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#definitionExpression) for server-side filtering, or a `<FeatureLayerView />` component with a `filter` applied for front-end filtering).
+
+Note that attempting to update any `readonly` properties via props or state, on any ArcGIS JS API instance, will fail.
