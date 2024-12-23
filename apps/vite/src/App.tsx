@@ -13,7 +13,7 @@ import {
   Expand,
   PictureMarkerSymbol,
   SimpleRenderer,
-} from "../../../packages/lib";
+} from "esrieact";
 import "./App.css";
 import BikeLogo from "./assets/bike.svg";
 import ZebraLogo from "./assets/zebra.png";
