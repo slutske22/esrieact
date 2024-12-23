@@ -26,3 +26,7 @@ dist-ssr
 .env
 .turbo
 .next
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts

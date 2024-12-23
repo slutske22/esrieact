@@ -7,11 +7,11 @@ import {
   MapView,
   FeatureLayer,
   MapRef,
-  FeatureLayerView,
-  GroupLayer,
+  // FeatureLayerView,
+  // GroupLayer,
   BasemapGallery,
   LayerList,
-  VectorTileLayer,
+  // VectorTileLayer,
   Expand,
   PictureMarkerSymbol,
   SimpleRenderer,
@@ -25,7 +25,7 @@ const App: React.FC = () => {
   // Some tests to make sure refs are what we think they are
   const mapRef = useRef<MapRef>(null);
   const flRef = useRef<EsriFeatureLayer>(null);
-  const flViewRef = useRef<__esri.FeatureLayerView>(null);
+  // const flViewRef = useRef<__esri.FeatureLayerView>(null);
 
   config.apiKey = process.env.NEXT_PUBLIC_ARCGIS_API_KEY as string;
 
@@ -39,7 +39,7 @@ const App: React.FC = () => {
     SETREADY(true);
   }, []);
 
-  console.log(READY);
+  // console.log(READY);
 
   if (!READY) return null;
 
