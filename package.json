@@ -12,6 +12,7 @@
     "apps/*",
     "packages/*"
   ],
+  "packageManager": "npm@10.2.4",
   "dependencies": {
     "@arcgis/core": "^4.28.10",
     "lodash": "^4.17.21",
