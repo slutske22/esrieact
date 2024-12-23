@@ -3,9 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "dev": "npx next dev",
     "tsc": "tsc --noEmit",
     "tsc:watch": "tsc --noEmit --watch",
     "preview": "vite preview"
@@ -19,6 +17,7 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.202",
+    "@types/node": "22.10.2",
     "@types/react": "^18.2.43",
     "typescript": "^5.2.2"
   }
