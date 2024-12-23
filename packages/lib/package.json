@@ -8,10 +8,15 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
+  "exports": {
+    ".": "./index.ts",
+    "./core/*": "./core/*",
+    "./layers/*": "./layers/*",
+    "./map/*": "./map/*",
+    "./symbols/*": "./symbols/*",
+    "./utils/*": "./utils/*",
+    "./widgets/*": "./widgets/*"
+  },
   "dependencies": {
     "@arcgis/core": "^4.28.10",
     "lodash": "^4.17.21",

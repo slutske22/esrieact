@@ -1,5 +1,5 @@
 {
-  "name": "esrieact",
+  "name": "vite-example",
   "private": true,
   "version": "0.0.0",
   "scripts": {
@@ -8,10 +8,6 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
   "dependencies": {
     "@arcgis/core": "^4.28.10",
     "lodash": "^4.17.21",

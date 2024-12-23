@@ -13,7 +13,7 @@ import {
   Expand,
   PictureMarkerSymbol,
   SimpleRenderer,
-} from "../lib";
+} from "../../../packages/lib";
 import "./App.css";
 import BikeLogo from "./assets/bike.svg";
 import ZebraLogo from "./assets/zebra.png";
