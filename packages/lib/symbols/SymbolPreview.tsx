@@ -17,11 +17,11 @@ interface Props {
  */
 export const SymbolPreview: React.FC<Props> = ({ symbol, options }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const [result, setResult] = useState<HTMLElement>(null);
+  const [result, setResult] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
-    if (result && !ref.current.innerHTML) {
-      ref.current.appendChild(result);
+    if (result && !ref.current?.innerHTML) {
+      ref.current?.appendChild(result);
     }
   }, [result, JSON.stringify(symbol.toJSON())]);
 

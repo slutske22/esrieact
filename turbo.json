@@ -8,6 +8,7 @@
       "dependsOn": ["^check-types"]
     },
     "lint": {},
+    "tsc:watch": {},
     "dev": {
       "persistent": true,
       "cache": false

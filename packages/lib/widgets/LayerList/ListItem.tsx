@@ -17,4 +17,5 @@ const createWidget = (
 export const LayerList = React.forwardRef<
   EsriListItem,
   WidgetComponentProps<__esri.ListItemProperties>
+  // @ts-expect-error need to figure out why ts is complaining here
 >((properties, ref) => createWidgetComponent(createWidget, ref, properties));
