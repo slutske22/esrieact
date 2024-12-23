@@ -4,11 +4,16 @@
     "build": {
       "outputs": ["dist/**"]
     },
-    "check-types": {
-      "dependsOn": ["^check-types"]
+    "//#lint": {},
+    "tsc": {},
+    "//#lint:watch": {
+      "persistent": true,
+      "cache": true
     },
-    "lint": {},
-    "tsc:watch": {},
+    "tsc:watch": {
+      "persistent": true,
+      "cache": true
+    },
     "dev": {
       "persistent": true,
       "cache": false
