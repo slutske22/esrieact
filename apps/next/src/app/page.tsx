@@ -1,7 +1,11 @@
-import React from "react";
+"use client";
 
-const Home: React.FC<{ searchParams: Record<string, string> }> = async ({}) => {
-  return <main>The main homepage goes here</main>;
-};
+import Image from "next/image";
+import styles from "./page.module.css";
+import dynamic from "next/dynamic";
 
-export default Home;
+const App = dynamic(() => import("./App"), { ssr: false });
+
+export default function Home() {
+  return <App />;
+}
