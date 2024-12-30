@@ -8,7 +8,7 @@ import {
   FeatureLayer,
   MapRef,
   // FeatureLayerView,
-  // GroupLayer,
+  GroupLayer,
   BasemapGallery,
   LayerList,
   // VectorTileLayer,
@@ -80,39 +80,39 @@ const App: React.FC = () => {
         >
           {/* <VectorTileLayer url="https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer" /> */}
 
-          {/* <GroupLayer title="Feature Layers are kewl"> */}
-          <FeatureLayer
-            url="https://services1.arcgis.com/4yjifSiIG17X0gW4/arcgis/rest/services/US_County_COVID19_Trends/FeatureServer/0"
-            popupEnabled={false}
-          />
-          <FeatureLayer
-            url="https://services.arcgis.com/DO4gTjwJVIJ7O9Ca/arcgis/rest/services/Unacast_Latest_Available__Visitation_and_Distance_/FeatureServer/0"
-            opacity={0.5}
-            popupEnabled={false}
-          />
+          <GroupLayer title="Feature Layers are kewl">
+            <FeatureLayer
+              url="https://services1.arcgis.com/4yjifSiIG17X0gW4/arcgis/rest/services/US_County_COVID19_Trends/FeatureServer/0"
+              popupEnabled={false}
+            />
+            <FeatureLayer
+              url="https://services.arcgis.com/DO4gTjwJVIJ7O9Ca/arcgis/rest/services/Unacast_Latest_Available__Visitation_and_Distance_/FeatureServer/0"
+              opacity={0.5}
+              popupEnabled={false}
+            />
 
-          <FeatureLayer
-            ref={flRef}
-            url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0"
-          >
-            {/* <FeatureLayerView
+            <FeatureLayer
+              ref={flRef}
+              url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0"
+            >
+              {/* <FeatureLayerView
                 ref={flViewRef}
                 filter={{
                   where: `C_Storage < ${maxStorage}`,
                 }}
               /> */}
 
-            {rendererImage && (
-              <SimpleRenderer>
-                <PictureMarkerSymbol
-                  height={24}
-                  width={24}
-                  url={rendererImage}
-                />
-              </SimpleRenderer>
-            )}
-          </FeatureLayer>
-          {/* </GroupLayer> */}
+              {rendererImage && (
+                <SimpleRenderer>
+                  <PictureMarkerSymbol
+                    height={24}
+                    width={24}
+                    url={rendererImage}
+                  />
+                </SimpleRenderer>
+              )}
+            </FeatureLayer>
+          </GroupLayer>
 
           <Expand position="top-right">
             <LayerList />
