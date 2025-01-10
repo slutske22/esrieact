@@ -28,7 +28,7 @@ const Page: React.FC = () => {
 <BrowserOnly>
   {() => {
 
-    const MapView = require('../../lib/map').MapView
+    const MapView = require('../../packages/esrieact/map').MapView
 
     return (
       <MapView 
@@ -84,11 +84,11 @@ const OtherUI = () => {
 <BrowserOnly>
   {() => {
 
-    const MapViewCore = require('../../lib/map').MapViewCore
-    const MapContextProvider = require('../../lib/map').MapContextProvider
+    const MapViewCore = require('../../packages/esrieact/map').MapViewCore
+    const MapContextProvider = require('../../packages/esrieact/map').MapContextProvider
 
     const OtherUI = () => {
-      const MapContext = require('../../lib/map').MapContext
+      const MapContext = require('../../packages/esrieact/map').MapContext
 
       const { view } = useContext(MapContext)
 
