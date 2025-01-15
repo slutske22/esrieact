@@ -4,9 +4,37 @@ slug: /
 title: Introduction
 ---
 
+import BrowserOnly from '@docusaurus/BrowserOnly';
+import { useContext } from 'react';
+
 # ESRIEACT
 
 A react component library for the ArcGIS Javascript API.
+
+<BrowserOnly>
+  {() => {
+
+    const MapView = require('../../packages/esrieact/map').MapView
+
+    return (
+      <MapView 
+        style={{height: '200px', width: '100%' }}
+        MapProperties={{
+          basemap: 'topo'
+        }}
+        ViewProperties={{
+          ui: { components: [] },
+          zoom: 2,
+          center: [-10, 30],
+          popup: {
+            defaultPopupTemplateEnabled: true,
+          }}
+          
+        }
+      />
+    )
+  }}
+</BrowserOnly>
 
 ## Getting Started
 
