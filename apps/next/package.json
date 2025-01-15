@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "npx next dev",
     "tsc": "tsc --noEmit",
-    "tsc:watch": "tsc --noEmit --watch",
+    "tsc:watch": "tsc --noEmit --watch --preserveWatchOutput",
     "preview": "vite preview"
   },
   "dependencies": {
