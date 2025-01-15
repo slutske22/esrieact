@@ -11,4 +11,5 @@ export default defineConfig({
       typescript: true,
     }),
   ],
+  clearScreen: false,
 });
