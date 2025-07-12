@@ -1,24 +1,24 @@
 {
   "name": "esrieact",
-  "private": true,
+  "private": false,
   "version": "0.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "start": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc",
     "tsc": "tsc --noEmit",
-    "tsc:watch": "tsc --noEmit --watch --preserveWatchOutput",
-    "preview": "vite preview"
+    "tsc:watch": "tsc --noEmit --watch --preserveWatchOutput"
   },
   "exports": {
-    ".": "./index.ts",
-    "./core/*": "./core/*",
-    "./layers/*": "./layers/*",
-    "./map/*": "./map/*",
-    "./symbols/*": "./symbols/*",
-    "./utils/*": "./utils/*",
-    "./widgets/*": "./widgets/*"
+    ".": "./dist/index.js",
+    "./core/*": "./dist/core/*",
+    "./layers/*": "./dist/layers/*",
+    "./map/*": "./dist/map/*",
+    "./symbols/*": "./dist/symbols/*",
+    "./utils/*": "./dist/utils/*",
+    "./widgets/*": "./dist/widgets/*"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@arcgis/core": "^4.28.10",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
