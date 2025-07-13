@@ -6,10 +6,10 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist",
-    "../../README.md"
+    "README.md"
   ],
   "scripts": {
-    "build": "rm -rf dist && tsc",
+    "build": "rm -rf dist && tsc && cp ../../README.md .",
     "tsc": "tsc --noEmit",
     "tsc:watch": "tsc --noEmit --watch --preserveWatchOutput"
   },

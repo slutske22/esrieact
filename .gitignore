@@ -30,3 +30,6 @@ dist-ssr
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Copied build readme
+*/esrieact/README.md
