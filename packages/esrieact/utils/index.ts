@@ -1,4 +1,4 @@
-import { isEqual } from "lodash";
+import isEqual from "lodash.isequal";
 export * from "./useEsriPropertyUpdates";
 export * from "./useEvents";
 
