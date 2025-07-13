@@ -91,7 +91,10 @@ interface MapContextProviderProps {
 }
 
 /**
- * Provider which provides the map context to all descedants
+ * Provider which provides the map context to all descedants.
+ *
+ * @Documentation
+ * [MapContextProvider](https://slutske22.github.io/esrieact/map-view#mapcontextprovider)
  */
 export const MapContextProvider: React.FC<MapContextProviderProps> = ({
   children,
@@ -118,15 +121,24 @@ export const MapContextProvider: React.FC<MapContextProviderProps> = ({
 interface Props extends HTMLAttributes<HTMLDivElement> {
   /**
    * Properties passed to the [Map](https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html)
+   *
+   * @Documentation
+   * [MapProperties](https://slutske22.github.io/esrieact/map-view#mapproperties)
    */
   MapProperties?: __esri.MapProperties;
   /**
    * Properties passed to the [MapView](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html)
+   *
+   * @Documentation
+   * [ViewProperties](https://slutske22.github.io/esrieact/map-view#viewproperties)
    */
   ViewProperties?: __esri.MapViewProperties & {
     /**
      * Events that are attached to the MapView.  Can be an event handler function map, or a function of the `view`
      * which return an event handler function map
+     *
+     * @Documentation
+     * [ViewProperties.events](https://slutske22.github.io/esrieact/map-view#viewpropertiesevents)
      */
     events?:
       | ViewEventHandlerFnMap
@@ -142,7 +154,10 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  * MapView Component for 2D map. Accepts properties for both the Map and the MapView.  Renders the container
  * div, and once mounted, renders the map to it.
  *
- * ***Does not provide its own Map Context, and as such, will fail if you do not manuaaly provide one***
+ * ***Does not provide its own Map Context, and as such, will fail if you do not manually provide one***
+ *
+ * @Documentation
+ * [MapViewCore](https://slutske22.github.io/esrieact/map-view#mapviewcore)
  *
  * @example
  * // App.tsx
@@ -233,6 +248,9 @@ export const MapViewCore = React.forwardRef<
 /**
  * MapView Component for 2D map. Accepts properties for both the Map and the MapView.  Renders the container
  * div, and once mounted, renders the map to it.
+ *
+ * @Documentation
+ * [MapView](https://slutske22.github.io/esrieact/map-view)
  *
  * ArcGIS JS API Source Components:
  * - [Map](https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html)
