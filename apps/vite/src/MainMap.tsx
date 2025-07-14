@@ -12,6 +12,7 @@ import {
   BasemapGallery,
   SimpleRenderer,
   PictureMarkerSymbol,
+  ImageryLayer,
 } from "esrieact";
 import { useAtom } from "jotai";
 import {
@@ -19,9 +20,20 @@ import {
   clickedLocationAtom,
   maxStorageAtom,
   rendererImageAtom,
+  visibleLayersAtom,
 } from "./state";
-import { LAYER_URLS } from "./App";
+import { HAWAII_LAYERS } from "./layers";
 
+// Extent for the major Hawaiian islands in Web Mercator (wkid: 3857)
+export const HAWAII_EXTENT = {
+  xmin: -159.475,
+  ymin: 19.675,
+  xmax: -156.225,
+  ymax: 21.425,
+  spatialReference: {
+    wkid: 4326,
+  },
+};
 /**
  * The main map component of the example app
  */
@@ -31,25 +43,18 @@ export const MainMap = () => {
   const [, setClickedGraphics] = useAtom(clickedGraphicsAtom);
   const [maxStorage] = useAtom(maxStorageAtom);
   const [rendererImage] = useAtom(rendererImageAtom);
+  const [visibleLayers] = useAtom(visibleLayersAtom);
 
   const flRef = useRef<EsriFeatureLayer>(null);
   const flViewRef = useRef<__esri.FeatureLayerView>(null);
+
   return (
     <MapView
       ref={mapRef}
-      style={{ border: "1px solid red", height: "70vh", width: "70vw" }}
+      style={{ border: "1px solid red", height: "70vh", flex: 1 }}
       ViewProperties={{
-        extent: {
-          xmin: -9177811,
-          ymin: 4247000,
-          xmax: -9176791,
-          ymax: 4247784,
-          // @ts-expect-error Number is also accepted here, TS defs wrong?
-          spatialReference: 102100,
-        },
-        popup: {
-          defaultPopupTemplateEnabled: true,
-        },
+        extent: HAWAII_EXTENT,
+        popup: { defaultPopupTemplateEnabled: true },
         events: {
           click: async (e) => {
             const view = mapRef.current!.view!;
@@ -63,8 +68,9 @@ export const MainMap = () => {
           },
         },
       }}
+      MapProperties={{ basemap: "topo-vector" }}
     >
-      <VectorTileLayer url={LAYER_URLS.vector_tile_layer_url} />
+      {/* <VectorTileLayer url={LAYER_URLS.vector_tile_layer_url} />
 
       <GroupLayer title="Feature Layers are kewl">
         <FeatureLayer
@@ -90,13 +96,28 @@ export const MainMap = () => {
             </SimpleRenderer>
           )}
         </FeatureLayer>
-      </GroupLayer>
+      </GroupLayer> */}
+
+      {HAWAII_LAYERS.map((layer) => {
+        if (!visibleLayers.includes(layer.id)) return null;
+
+        switch (layer.layerType) {
+          case "feature":
+            return <FeatureLayer url={layer.url} />;
+          case "imagery":
+            return <ImageryLayer url={layer.url} />;
+          case "vector-tile":
+            return <VectorTileLayer url={layer.url} />;
+        }
+      })}
 
       <Expand position="top-right">
         <LayerList />
       </Expand>
 
-      <BasemapGallery container="outsider" />
+      <Expand position="top-right">
+        <BasemapGallery />
+      </Expand>
     </MapView>
   );
 };

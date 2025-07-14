@@ -11,17 +11,7 @@ import {
   rendererImageAtom,
 } from "./state";
 import { MainMap } from "./MainMap";
-
-export const LAYER_URLS = {
-  vector_tile_layer_url:
-    "https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer",
-  featurelayer_covid:
-    "https://services1.arcgis.com/4yjifSiIG17X0gW4/arcgis/rest/services/US_County_COVID19_Trends/FeatureServer/0",
-  featurelayer_distance_scores:
-    "https://services.arcgis.com/DO4gTjwJVIJ7O9Ca/arcgis/rest/services/Unacast_Latest_Available__Visitation_and_Distance_/FeatureServer/0",
-  featurelayer_trees:
-    "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0",
-};
+import { Menu } from "./Menu";
 
 const App: React.FC = () => {
   config.apiKey = import.meta.env.VITE_ARCGIS_API_KEY;
@@ -32,18 +22,10 @@ const App: React.FC = () => {
   const [clickedGraphics] = useAtom(clickedGraphicsAtom);
 
   return (
-    <div>
+    <>
       <div style={{ display: "flex" }}>
+        <Menu />
         <MainMap />
-
-        <div
-          id="outsider"
-          style={{
-            width: "250px",
-            maxHeight: "70vh",
-            border: "1px solid blue",
-          }}
-        />
 
         <div
           style={{
@@ -86,7 +68,7 @@ const App: React.FC = () => {
           />
         ))}
       </div>
-    </div>
+    </>
   );
 };
 
