@@ -26,12 +26,12 @@ import { HAWAII_LAYERS, LayerConfig } from "./layers";
 
 // Extent for the major Hawaiian islands in Web Mercator (wkid: 3857)
 export const HAWAII_EXTENT = {
-  xmin: -159.475,
-  ymin: 19.675,
-  xmax: -156.225,
-  ymax: 21.425,
+  xmax: -17550549,
+  xmin: -17580397,
+  ymax: 2461002,
+  ymin: 2438185,
   spatialReference: {
-    wkid: 4326,
+    wkid: 102100,
   },
 };
 /**
@@ -60,6 +60,9 @@ export const MainMap = () => {
         return <VectorTileLayer url={layer.url} />;
     }
   };
+
+  // @ts-expect-error
+  window.map = mapRef;
 
   return (
     <MapView
