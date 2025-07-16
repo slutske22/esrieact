@@ -65,7 +65,7 @@ export const createLayerComponent = (
   const instance = useMemo(() => {
     const layer = createLayer(properties);
 
-    // If the parent in a GroupLayer (or any EsriInstance that has the .add(layer) method), add it to that,
+    // If the parent is a GroupLayer (or any EsriInstance that has the .add(layer) method), add it to that,
     // otherwise, add directly to the map
     if (parent && parent.add) {
       parent.add(layer, layerOrder);
@@ -87,7 +87,11 @@ export const createLayerComponent = (
    */
   useEffect(() => {
     return () => {
-      map.remove(instance);
+      if (parent && parent.remove) {
+        parent.remove(instance);
+      } else {
+        map.remove(instance);
+      }
     };
   }, []);
 

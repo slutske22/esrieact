@@ -22,7 +22,7 @@ import {
   rendererImageAtom,
   visibleLayersAtom,
 } from "./state";
-import { HAWAII_LAYERS } from "./layers";
+import { HAWAII_LAYERS, LayerConfig } from "./layers";
 
 // Extent for the major Hawaiian islands in Web Mercator (wkid: 3857)
 export const HAWAII_EXTENT = {
@@ -47,6 +47,19 @@ export const MainMap = () => {
 
   const flRef = useRef<EsriFeatureLayer>(null);
   const flViewRef = useRef<__esri.FeatureLayerView>(null);
+
+  const renderLayer = (layer: LayerConfig) => {
+    if (!visibleLayers.includes(layer.id)) return null;
+
+    switch (layer.layerType) {
+      case "feature":
+        return <FeatureLayer url={layer.url} />;
+      case "imagery":
+        return <ImageryLayer url={layer.url} />;
+      case "vector-tile":
+        return <VectorTileLayer url={layer.url} />;
+    }
+  };
 
   return (
     <MapView
@@ -99,16 +112,18 @@ export const MainMap = () => {
       </GroupLayer> */}
 
       {HAWAII_LAYERS.map((layer) => {
+        if (!layer.sublayers && !layer.url) return null;
         if (!visibleLayers.includes(layer.id)) return null;
 
-        switch (layer.layerType) {
-          case "feature":
-            return <FeatureLayer url={layer.url} />;
-          case "imagery":
-            return <ImageryLayer url={layer.url} />;
-          case "vector-tile":
-            return <VectorTileLayer url={layer.url} />;
+        if (layer.sublayers) {
+          return (
+            <GroupLayer key={layer.id}>
+              {layer.sublayers.map((sublayer) => renderLayer(sublayer))}
+            </GroupLayer>
+          );
         }
+
+        return renderLayer(layer);
       })}
 
       <Expand position="top-right">
