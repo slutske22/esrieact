@@ -26,20 +26,28 @@ React state can be used to manage various view and map properties:
 
 ```tsx live
 function Example() {
-  const [extent, setExtent] = useState(HAWAII_EXTENT);
+  const [ext, setExt] = useState(HAWAII_EXTENT);
+  const [basemap, setBasemap] = useState("topo-vector");
 
   return (
     <div class="flex gap-2">
       <div>
         <h5>Change Extent:</h5>
+        <div class="flex gap-2 mb-8">
+          <button onClick={() => setExt(HAWAII_EXTENT)}>Hawaii</button>
+          <button onClick={() => setExt(CALIFORNIA_EXTENT)}>California</button>
+        </div>
+
+        <h5>Change Basemap:</h5>
         <div class="flex gap-2">
-          <button>Hawaii</button>
-          <button>California</button>
+          <button onClick={() => setBasemap("topo-vector")}>Topo Vector</button>
+          <button onClick={() => setBasemap("streets")}>Streets</button>
         </div>
       </div>
+
       <MapView
-        ViewProperties={{ extent: HAWAII_EXTENT }}
-        MapProperties={{ basemap: "topo-vector" }}
+        ViewProperties={{ extent: ext }}
+        MapProperties={{ basemap }}
         style={{ height: "300px", flex: 1 }}
       />
     </div>
