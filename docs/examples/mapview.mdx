@@ -10,6 +10,14 @@ A `MapView` can be declared without any children, with some simple props to set 
 
 ```tsx live
 function Example() {
+  const OAHU_EXTENT = {
+    xmax: -17550549,
+    xmin: -17580397,
+    ymax: 2461002,
+    ymin: 2438185,
+    spatialReference: { wkid: 102100 },
+  };
+
   return (
     <MapView
       ViewProperties={{ extent: OAHU_EXTENT }}
