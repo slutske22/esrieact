@@ -28,7 +28,7 @@ import { HAWAII_LAYERS, infrastructureSubLayers, LayerConfig } from "./layers";
 import { benthicZoneValueAtom } from "./custom-controls";
 
 // Extent for the major Hawaiian islands in Web Mercator (wkid: 3857)
-export const HAWAII_EXTENT = {
+export const OAHU_EXTENT = {
   xmax: -17550549,
   xmin: -17580397,
   ymax: 2461002,
@@ -76,7 +76,7 @@ export const MainMap = () => {
       ref={mapRef}
       style={{ border: "1px solid red", height: "70vh", flex: 1 }}
       ViewProperties={{
-        extent: HAWAII_EXTENT,
+        extent: OAHU_EXTENT,
         popup: { defaultPopupTemplateEnabled: true },
         events: {
           click: async (e) => {

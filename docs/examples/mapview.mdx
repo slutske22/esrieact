@@ -12,7 +12,7 @@ A `MapView` can be declared without any children, with some simple props to set 
 function Example() {
   return (
     <MapView
-      ViewProperties={{ extent: HAWAII_EXTENT }}
+      ViewProperties={{ extent: OAHU_EXTENT }}
       MapProperties={{ basemap: "topo-vector" }}
       style={{ height: "300px", width: "100%" }}
     />
@@ -20,26 +20,26 @@ function Example() {
 }
 ```
 
-## State-based MapProperties
+## State-based properties
 
 React state can be used to manage various view and map properties:
 
 ```tsx live
 function Example() {
-  const [ext, setExt] = useState(HAWAII_EXTENT);
+  const [ext, setExt] = useState(OAHU_EXTENT);
   const [basemap, setBasemap] = useState("topo-vector");
 
   return (
-    <div class="flex gap-2">
+    <div className="flex gap-2">
       <div>
         <h5>Change Extent:</h5>
-        <div class="flex gap-2 mb-8">
-          <button onClick={() => setExt(HAWAII_EXTENT)}>Hawaii</button>
+        <div className="flex gap-2 mb-8">
+          <button onClick={() => setExt(OAHU_EXTENT)}>Hawaii</button>
           <button onClick={() => setExt(CALIFORNIA_EXTENT)}>California</button>
         </div>
 
         <h5>Change Basemap:</h5>
-        <div class="flex gap-2">
+        <div className="flex gap-2">
           <button onClick={() => setBasemap("topo-vector")}>Topo Vector</button>
           <button onClick={() => setBasemap("streets")}>Streets</button>
         </div>
@@ -51,6 +51,37 @@ function Example() {
         style={{ height: "300px", flex: 1 }}
       />
     </div>
+  );
+}
+```
+
+## Getting a ref
+
+A `ref` is available on the `MapView` which gives you access to the esri `map`, `view`, and the `MapView` DOM `element`:
+
+```tsx live
+function Example() {
+  const ref = useRef<MapRef>();
+
+  return (
+    <>
+      <div className="flex gap-2 mb-2">
+        <button onClick={() => console.log(ref.current)}>Log the Ref</button>
+        <button
+          onClick={() => {
+            ref.current.view.goTo(KILAUEA_TARGET, { duration: 5000 });
+          }}
+        >
+          Use the ref to fly to Kilauea Volcano
+        </button>
+      </div>
+      <MapView
+        ref={ref}
+        ViewProperties={{ extent: HAWAII_EXTENT }}
+        MapProperties={{ basemap: "topo-vector" }}
+        style={{ height: "300px", width: "100%" }}
+      />
+    </>
   );
 }
 ```
