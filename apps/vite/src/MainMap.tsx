@@ -14,6 +14,7 @@ import {
   PictureMarkerSymbol,
   ImageryLayer,
   Legend,
+  MapImageLayer,
 } from "esrieact";
 import { useAtom } from "jotai";
 import {
@@ -23,7 +24,7 @@ import {
   rendererImageAtom,
   visibleLayersAtom,
 } from "./state";
-import { HAWAII_LAYERS, LayerConfig } from "./layers";
+import { HAWAII_LAYERS, infrastructureSubLayers, LayerConfig } from "./layers";
 import { benthicZoneValueAtom } from "./custom-controls";
 
 // Extent for the major Hawaiian islands in Web Mercator (wkid: 3857)
@@ -62,10 +63,10 @@ export const MainMap = () => {
         return <ImageryLayer url={layer.url} />;
       case "vector-tile":
         return <VectorTileLayer url={layer.url} />;
+      case "mapimagelayer":
+        return <MapImageLayer url={layer.url} />;
     }
   };
-
-  console.log(benthicZoneFilter);
 
   // @ts-expect-error
   window.map = mapRef;
@@ -149,6 +150,16 @@ export const MainMap = () => {
             }
           />
         </FeatureLayer>
+      )}
+
+      {visibleLayers.includes("infrastructure") && (
+        <MapImageLayer
+          url="https://geodata.hawaii.gov/arcgis/rest/services/Infrastructure/MapServer"
+          sublayers={infrastructureSubLayers.map((l) => ({
+            id: l.layerId,
+            visible: true,
+          }))}
+        />
       )}
 
       <Expand position="top-right">

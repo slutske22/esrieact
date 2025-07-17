@@ -1,5 +1,5 @@
 import { atom } from "jotai";
-import { HAWAII_LAYERS } from "./layers";
+// import { HAWAII_LAYERS } from "./layers";
 
 export const clickedLocationAtom = atom<object | null>(null);
 export const clickedGraphicsAtom = atom<__esri.Graphic[]>([]);
@@ -12,5 +12,5 @@ export const visibleLayersAtom = atom<string[]>([
   //   .flat()
   //   .map((sl) => sl?.id)
   //   .filter(Boolean) as string[]),
-  "benthic-habitat",
+  "infrastructure",
 ]);
