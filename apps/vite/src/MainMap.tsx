@@ -13,6 +13,7 @@ import {
   SimpleRenderer,
   PictureMarkerSymbol,
   ImageryLayer,
+  Legend,
 } from "esrieact";
 import { useAtom } from "jotai";
 import {
@@ -23,6 +24,7 @@ import {
   visibleLayersAtom,
 } from "./state";
 import { HAWAII_LAYERS, LayerConfig } from "./layers";
+import { benthicZoneValueAtom } from "./custom-controls";
 
 // Extent for the major Hawaiian islands in Web Mercator (wkid: 3857)
 export const HAWAII_EXTENT = {
@@ -42,6 +44,7 @@ export const MainMap = () => {
   const [, setClickedLocation] = useAtom(clickedLocationAtom);
   const [, setClickedGraphics] = useAtom(clickedGraphicsAtom);
   const [maxStorage] = useAtom(maxStorageAtom);
+  const [benthicZoneFilter] = useAtom(benthicZoneValueAtom);
   const [rendererImage] = useAtom(rendererImageAtom);
   const [visibleLayers] = useAtom(visibleLayersAtom);
 
@@ -49,6 +52,7 @@ export const MainMap = () => {
   const flViewRef = useRef<__esri.FeatureLayerView>(null);
 
   const renderLayer = (layer: LayerConfig) => {
+    if (layer.skipRender) return null;
     if (!visibleLayers.includes(layer.id)) return null;
 
     switch (layer.layerType) {
@@ -60,6 +64,8 @@ export const MainMap = () => {
         return <VectorTileLayer url={layer.url} />;
     }
   };
+
+  console.log(benthicZoneFilter);
 
   // @ts-expect-error
   window.map = mapRef;
@@ -114,7 +120,10 @@ export const MainMap = () => {
         </FeatureLayer>
       </GroupLayer> */}
 
-      {HAWAII_LAYERS.map((layer) => {
+      {/**
+       * Layers rendered from a list controlled by state variables
+       */}
+      {HAWAII_LAYERS.filter((l) => !l.skipRender).map((layer) => {
         if (!layer.sublayers && !layer.url) return null;
         if (!visibleLayers.includes(layer.id)) return null;
 
@@ -129,12 +138,29 @@ export const MainMap = () => {
         return renderLayer(layer);
       })}
 
+      {visibleLayers.includes("benthic-habitat") && (
+        <FeatureLayer url="https://geodata.hawaii.gov/arcgis/rest/services/CoastalMarine/MapServer/1">
+          <FeatureLayerView
+            ref={flViewRef}
+            filter={
+              benthicZoneFilter
+                ? { where: `zone = '${benthicZoneFilter}'` }
+                : undefined
+            }
+          />
+        </FeatureLayer>
+      )}
+
       <Expand position="top-right">
         <LayerList />
       </Expand>
 
       <Expand position="top-right">
         <BasemapGallery />
+      </Expand>
+
+      <Expand position="top-right">
+        <Legend />
       </Expand>
     </MapView>
   );

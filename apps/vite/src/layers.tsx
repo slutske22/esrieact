@@ -4,9 +4,19 @@ export interface LayerConfig {
   id: string;
   url?: string;
   description: string;
-  layerType: "feature" | "imagery" | "vector-tile" | "group-layer";
+  layerType: "feature" | "imagery" | "vector-tile";
+  /**
+   * Sublayers, if any.  Will render group as a GroupLayer
+   */
   sublayers?: LayerConfig[];
+  /**
+   * Custom controls to render under the menu item in the menu
+   */
   CustomControls?: React.FC;
+  /**
+   * Skip rendering the layer in the list, so that it can be demonstrated in another way
+   */
+  skipRender?: boolean;
 }
 
 export const HAWAII_LAYERS: LayerConfig[] = [
@@ -39,6 +49,7 @@ export const HAWAII_LAYERS: LayerConfig[] = [
     description: "Benthic Habitat",
     layerType: "feature",
     CustomControls: BenthicLayerFilter,
+    skipRender: true,
   },
   {
     id: "humpback-whale-sanctuary",

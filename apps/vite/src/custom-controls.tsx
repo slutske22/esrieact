@@ -3,7 +3,7 @@ import { atom, useAtom } from "jotai";
 import { benthicZones } from "./layers";
 
 export const censusFilterValueAtom = atom<number | undefined>(undefined);
-export const benthicZoneValue = atom<string | undefined>(undefined);
+export const benthicZoneValueAtom = atom<string | undefined>(undefined);
 
 /**
  * Little control for census filter
@@ -28,7 +28,7 @@ export const CensusLayerFilter: React.FC = () => {
  * Little control for census filter
  */
 export const BenthicLayerFilter: React.FC = () => {
-  const [value, setValue] = useAtom(benthicZoneValue);
+  const [value, setValue] = useAtom(benthicZoneValueAtom);
 
   return (
     <div>
