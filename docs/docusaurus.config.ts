@@ -32,14 +32,32 @@ const config: Config = {
     [
       "@docusaurus/preset-classic",
       {
-        docs: {
-          routeBasePath: "/",
-          sidebarPath: "./sidebars.ts",
-        },
+        docs: false, // disables built-in docs plugin
         theme: {
           customCss: "./src/css/custom.css",
         },
-      } satisfies Preset.Options,
+      },
+    ],
+  ],
+
+  plugins: [
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "default",
+        path: "docs",
+        routeBasePath: "/",
+        sidebarPath: require.resolve("./sidebars.js"),
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "examples",
+        path: "examples",
+        routeBasePath: "examples",
+        sidebarPath: require.resolve("./sidebars.examples.js"),
+      },
     ],
   ],
 
@@ -58,13 +76,14 @@ const config: Config = {
           sidebarId: "tutorialSidebar",
           position: "left",
           label: "API Docs",
+          docsPluginId: "default",
         },
         {
           type: "docSidebar",
-          sidebarId: "tutorialSidebar",
+          sidebarId: "examplesSidebar",
           position: "left",
           label: "Examples",
-          href: "examples",
+          docsPluginId: "examples",
         },
         {
           href: "https://github.com/slutske22/esrieact",
