@@ -29,11 +29,13 @@ function Example() {
   const [extent, setExtent] = useState(HAWAII_EXTENT);
 
   return (
-    <div class="row">
+    <div class="flex gap-2">
       <div>
         <h5>Change Extent:</h5>
-        <button>Hawaii</button>
-        <button>California</button>
+        <div class="flex gap-2">
+          <button>Hawaii</button>
+          <button>California</button>
+        </div>
       </div>
       <MapView
         ViewProperties={{ extent: HAWAII_EXTENT }}
