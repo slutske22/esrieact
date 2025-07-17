@@ -1,0 +1,46 @@
+---
+sidebar_position: 1
+---
+
+# MapView
+
+## Basic Example
+
+A `MapView` can be declared without any children, with some simple props to set the view and map details. As in a vanilla ArcGIS JS API implementation, the height and width of the map container must be set.
+
+```tsx live
+function Example() {
+  return (
+    <MapView
+      ViewProperties={{ extent: HAWAII_EXTENT }}
+      MapProperties={{ basemap: "topo-vector" }}
+      style={{ height: "300px", width: "100%" }}
+    />
+  );
+}
+```
+
+## State-based MapProperties
+
+React state can be used to manage various view and map properties:
+
+```tsx live
+function Example() {
+  const [extent, setExtent] = useState(HAWAII_EXTENT);
+
+  return (
+    <div class="row">
+      <div>
+        <h5>Change Extent:</h5>
+        <button>Hawaii</button>
+        <button>California</button>
+      </div>
+      <MapView
+        ViewProperties={{ extent: HAWAII_EXTENT }}
+        MapProperties={{ basemap: "topo-vector" }}
+        style={{ height: "300px", flex: 1 }}
+      />
+    </div>
+  );
+}
+```
