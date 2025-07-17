@@ -38,6 +38,16 @@ export const Menu: React.FC = () => {
 
   return (
     <div className="main-menu">
+      <div className="menu-title">
+        <a
+          href="https://slutske22.github.io/esrieact/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <img src="/esrieact-logo-3.png" alt="ESRIEACT Logo" />
+        </a>
+        <h3>ESRIEACT Example App</h3>
+      </div>
       {HAWAII_LAYERS.map((layer) => {
         return (
           <Fragment key={layer.id}>

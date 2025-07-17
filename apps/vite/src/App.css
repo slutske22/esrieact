@@ -1,7 +1,9 @@
 html {
   box-sizing: border-box;
 }
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: inherit;
 }
 
@@ -47,13 +49,27 @@ html {
   color: #888;
 }
 
-
 .main-menu {
-  padding: 2rem;
+  padding: 0.5rem 1rem 1rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   width: 500px;
+}
+
+.menu-title {
+  display: flex;
+  align-items: center;
+}
+
+.menu-title img {
+  width: 32px;
+  margin-right: 8px;
+  margin-top: 8px;
+}
+
+.main-menu h3 {
+  margin: 10px 0;
 }
 
 .item-row {
