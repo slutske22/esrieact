@@ -15,19 +15,24 @@ export const Menu: React.FC = () => {
       key={layer.id}
       style={{ paddingLeft: `${depth * 20}px` }}
     >
-      <input
-        type="checkbox"
-        name={layer.id}
-        checked={visibleLayers.includes(layer.id)}
-        onClick={() => {
-          if (visibleLayers.includes(layer.id)) {
-            setVisibleLayers((prev) => prev.filter((l) => l !== layer.id));
-          } else {
-            setVisibleLayers((prev) => [...prev, layer.id]);
-          }
-        }}
-      />
-      <span>{layer.description}</span>
+      <div className="item-row">
+        <input
+          type="checkbox"
+          name={layer.id}
+          checked={visibleLayers.includes(layer.id)}
+          onClick={() => {
+            if (visibleLayers.includes(layer.id)) {
+              setVisibleLayers((prev) => prev.filter((l) => l !== layer.id));
+            } else {
+              setVisibleLayers((prev) => [...prev, layer.id]);
+            }
+          }}
+        />
+        <span>{layer.description}</span>
+      </div>
+      <div className="custom-control-wrapper">
+        {layer.CustomControls && <layer.CustomControls />}
+      </div>
     </div>
   );
 

@@ -1,9 +1,12 @@
+import { BenthicLayerFilter } from "./custom-controls";
+
 export interface LayerConfig {
   id: string;
   url?: string;
   description: string;
   layerType: "feature" | "imagery" | "vector-tile" | "group-layer";
   sublayers?: LayerConfig[];
+  CustomControls?: React.FC;
 }
 
 export const HAWAII_LAYERS: LayerConfig[] = [
@@ -35,6 +38,7 @@ export const HAWAII_LAYERS: LayerConfig[] = [
     url: "https://geodata.hawaii.gov/arcgis/rest/services/CoastalMarine/MapServer/1",
     description: "Benthic Habitat",
     layerType: "feature",
+    CustomControls: BenthicLayerFilter,
   },
   {
     id: "humpback-whale-sanctuary",
@@ -87,4 +91,21 @@ export const HAWAII_LAYERS: LayerConfig[] = [
       },
     ],
   },
+];
+
+export const benthicZones = [
+  "Back Reef",
+  "Unknown",
+  "Fore Reef",
+  "Unclassified",
+  "Reef Hole",
+  "Lagoon",
+  "Land",
+  "Reef Crest",
+  "Dredged",
+  "Bank/Shelf",
+  "Channel",
+  "Reef Flat",
+  "Bank/Shelf Escarpment",
+  "Shoreline Intertidal",
 ];

@@ -55,3 +55,12 @@ html {
   align-items: flex-start;
   width: 500px;
 }
+
+.item-row {
+  display: flex;
+  align-items: center;
+}
+
+.custom-control-wrapper {
+  padding-left: 24px;
+}
