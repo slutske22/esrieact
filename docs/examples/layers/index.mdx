@@ -133,6 +133,60 @@ function Example() {
 }
 ```
 
+## State managed props
+
+Just like `visible`, any and all _non-readonly_ layer properties can be managed with state:
+
+```tsx live
+function Example() {
+  const [opacity, setOpacity] = useState(100);
+  const [listMode, setListMode] = useState("show");
+
+  return (
+    <div>
+      <div className="flex gap-10 mb-2">
+        <div>
+          <h4>List Mode</h4>
+          <select
+            value={listMode}
+            onChange={(e) => setListMode(e.target.value)}
+          >
+            {["show", "hide", "hide-children"].map((mode) => (
+              <option key={mode} value={mode}>
+                {mode}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <h4>Opacity</h4>
+          <input
+            type="range"
+            value={opacity}
+            onChange={(e) => setOpacity(e.target.value)}
+          />
+        </div>
+      </div>
+
+      <MapView
+        ViewProperties={{ extent: OAHU_EXTENT }}
+        MapProperties={{ basemap: "topo-vector" }}
+        style={{ height: "300px", width: "100%" }}
+      >
+        <MapImageLayer
+          url={LANDCOVER_IMAGELAYER_URL}
+          opacity={opacity / 100}
+          listMode={listMode}
+        />
+        <LayerList position="top-right" />
+      </MapView>
+    </div>
+  );
+}
+```
+
+All layers inherit properties from [\_\_esri.LayerPropeties](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#properties-summary), though many layers have other specific properties that can be managed via state.
+
 ## Refs
 
 Each layer can take a ref, which returns the underlying ArcGIS JS API layer instance:
