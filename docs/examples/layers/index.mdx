@@ -76,7 +76,7 @@ function Example() {
 
 ## State managed visibility
 
-The above scenario manages whether or not a layer is added to the map. Under the hood, esrieact calls the `.addTo` and `.remove` layers on the map instance for the child layers. If you wish for the layers to remain present on the map, but toggle their visibility, you can manage their `visible` prop with state:
+The above scenario manages whether or not a layer present on the map. Under the hood, esrieact calls the `.addTo` and `.remove` methods on the map instance with the child layers. If you wish for the layers to remain present on the map, but toggle their visibility, you can manage their `visible` prop with state:
 
 ```tsx live
 function Example() {
@@ -189,7 +189,7 @@ All layers inherit properties from [\_\_esri.LayerPropeties](https://developers.
 
 ## Refs
 
-Each layer can take a ref, which returns the underlying ArcGIS JS API layer instance:
+Each layer can take a ref, which holds the underlying ArcGIS JS API layer instance:
 
 ```tsx live
 function Example() {
