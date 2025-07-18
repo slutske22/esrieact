@@ -12,8 +12,8 @@ function Example() {
       MapProperties={{ basemap: "topo-vector" }}
       style={{ height: "300px", width: "100%" }}
     >
-      <FeatureLayer url={BENTHIC_ZONE_FEATURELAYER_URL} />
-      <MapImageLayer url={CARBON_HABITAT_IMAGELAYER_URL} />
+      <FeatureLayer url={BENTHIC_FEATURELAYER_URL} />
+      <MapImageLayer url={LANDCOVER_IMAGELAYER_URL} />
     </MapView>
   );
 }
@@ -23,7 +23,7 @@ function Example() {
 
 ```tsx live
 function Example() {
-  const [visibleLayers, setVisibleLayers] = useState(["benthic", "carbon"]);
+  const [visibleLayers, setVisibleLayers] = useState(["benthic", "landcover"]);
 
   const toggleLayer = (layerName, checked) => {
     if (checked) {
@@ -40,19 +40,19 @@ function Example() {
           <input
             type="checkbox"
             className="mr-2"
-            checked={visibleLayers.includes("benthic")}
-            onChange={(e) => toggleLayer("benthic", e.target.checked)}
+            checked={visibleLayers.includes("landcover")}
+            onChange={(e) => toggleLayer("landcover", e.target.checked)}
           />
-          Benthic Zones
+          Land Cover Status
         </label>
         <label>
           <input
             type="checkbox"
             className="mr-2"
-            checked={visibleLayers.includes("carbon")}
-            onChange={(e) => toggleLayer("carbon", e.target.checked)}
+            checked={visibleLayers.includes("benthic")}
+            onChange={(e) => toggleLayer("benthic", e.target.checked)}
           />
-          Carbon Habitat Status
+          Benthic Habitat
         </label>
       </div>
 
@@ -62,11 +62,71 @@ function Example() {
         style={{ height: "300px", width: "100%" }}
       >
         {visibleLayers.includes("benthic") && (
-          <FeatureLayer url={BENTHIC_ZONE_FEATURELAYER_URL} />
+          <FeatureLayer url={BENTHIC_FEATURELAYER_URL} />
         )}
-        {visibleLayers.includes("carbon") && (
-          <MapImageLayer url={CARBON_HABITAT_IMAGELAYER_URL} />
+        {visibleLayers.includes("landcover") && (
+          <MapImageLayer url={LANDCOVER_IMAGELAYER_URL} />
         )}
+        <LayerList position="top-right" />
+      </MapView>
+    </div>
+  );
+}
+```
+
+## State managed visibility
+
+The above scenario manages whether or not a layer is added to the map. Under the hood, esrieact calls the `.addTo` and `.remove` layers on the map instance for the child layers. If you wish for the layers to remain present on the map, but toggle their visibility, you can manage their `visible` prop with state:
+
+```tsx live
+function Example() {
+  const [visibleLayers, setVisibleLayers] = useState(["benthic", "landcover"]);
+
+  const toggleLayer = (layerName, checked) => {
+    if (checked) {
+      setVisibleLayers([...visibleLayers, layerName]);
+    } else {
+      setVisibleLayers(visibleLayers.filter((l) => l !== layerName));
+    }
+  };
+
+  return (
+    <div>
+      <div className="flex flex-col gap-2 mb-2">
+        <label>
+          <input
+            type="checkbox"
+            className="mr-2"
+            checked={visibleLayers.includes("landcover")}
+            onChange={(e) => toggleLayer("landcover", e.target.checked)}
+          />
+          Land Cover Visible
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            className="mr-2"
+            checked={visibleLayers.includes("benthic")}
+            onChange={(e) => toggleLayer("benthic", e.target.checked)}
+          />
+          Benthic Habitat Visible
+        </label>
+      </div>
+
+      <MapView
+        ViewProperties={{ extent: OAHU_EXTENT }}
+        MapProperties={{ basemap: "topo-vector" }}
+        style={{ height: "300px", width: "100%" }}
+      >
+        <FeatureLayer
+          url={BENTHIC_FEATURELAYER_URL}
+          visible={visibleLayers.includes("benthic")}
+        />
+        <MapImageLayer
+          url={LANDCOVER_IMAGELAYER_URL}
+          visible={visibleLayers.includes("landcover")}
+        />
+        <LayerList position="top-right" />
       </MapView>
     </div>
   );
@@ -89,14 +149,8 @@ function Example() {
         MapProperties={{ basemap: "topo-vector" }}
         style={{ height: "300px", width: "100%" }}
       >
-        <FeatureLayer
-          ref={featureLayerRef}
-          url={BENTHIC_ZONE_FEATURELAYER_URL}
-        />
-        <MapImageLayer
-          ref={mapImageLayerRef}
-          url={CARBON_HABITAT_IMAGELAYER_URL}
-        />
+        <FeatureLayer ref={featureLayerRef} url={BENTHIC_FEATURELAYER_URL} />
+        <MapImageLayer ref={mapImageLayerRef} url={LANDCOVER_IMAGELAYER_URL} />
       </MapView>
 
       <div className="flex gap-2 mt-2">

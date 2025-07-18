@@ -31,8 +31,8 @@ export const CALIFORNIA_EXTENT = {
   },
 };
 
-export const BENTHIC_ZONE_FEATURELAYER_URL =
+export const BENTHIC_FEATURELAYER_URL =
   "https://geodata.hawaii.gov/arcgis/rest/services/CoastalMarine/MapServer/1";
 
-export const CARBON_HABITAT_IMAGELAYER_URL =
+export const LANDCOVER_IMAGELAYER_URL =
   "https://geodata.hawaii.gov/arcgis/rest/services/LandUseLandCover_Raster/MapServer";
