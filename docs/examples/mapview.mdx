@@ -122,7 +122,7 @@ function Example() {
       <div className="flex gap-2">
         <Menu />
 
-        <div class="flex-1 border-green-800 border">
+        <div className="flex-1 border-green-800 border">
           <MapViewCore
             ViewProperties={{ extent: HAWAII_EXTENT }}
             MapProperties={{ basemap: "topo-vector" }}
@@ -138,3 +138,107 @@ render(<Example />);
 ```
 
 A `MapView` creates its own internal `MapContextProvider` and will ignore any `MapContextProvider`s that you declare, so you must use a `MapViewCore` to communicate with `MapContextProvider`.
+
+## Events
+
+Numerous events can be listened to with simple event listeners defined on the `ViewProperties` prop:
+
+```tsx live
+function Example() {
+  const [point, setPont] = useState();
+  const [logs, setLogs] = useState([]);
+  const [basemap, setBasemap] = useState("topo-vector");
+
+  return (
+    <div>
+      <div className="flex justify-between">
+        <div>
+          <h5>Click the map!</h5>
+          <pre>
+            {JSON.stringify(
+              {
+                lat: point?.latitude ?? "waiting for click",
+                lon: point?.longitude ?? "waiting for click",
+              },
+              null,
+              2,
+            )}
+          </pre>
+        </div>
+
+        <div>
+          <h5>Change Basemap to see layer events:</h5>
+          <div className="flex gap-2">
+            <button onClick={() => setBasemap("topo-vector")}>
+              Topo Vector
+            </button>
+            <button onClick={() => setBasemap("streets")}>Streets</button>
+          </div>
+        </div>
+      </div>
+
+      <MapView
+        style={{ height: "300px", width: "100%" }}
+        MapProperties={{ basemap }}
+        ViewProperties={{
+          extent: OAHU_EXTENT,
+          events: {
+            click: (e) => {
+              setPont(e.mapPoint);
+              setLogs([...logs, `click event fired`]);
+            },
+            "layerview-create": (e) =>
+              setLogs([...logs, `layerview-create event fired: ${e.layer.id}`]),
+            "layerview-destroy": (e) =>
+              setLogs([
+                ...logs,
+                `layerview-destroy event fired: ${e.layer.id}`,
+              ]),
+          },
+        }}
+      />
+
+      <div className="text-amber-50 bg-black w-full p-3">
+        <code className="!bg-black">
+          {logs.map((l) => (
+            <>
+              {l}
+              <br />
+            </>
+          ))}
+        </code>
+      </div>
+    </div>
+  );
+}
+```
+
+For a full list of events, see [ViewProperties.events](/map-view#viewpropertiesevents)
+
+## Events with `view` access
+
+You can also define the `events` property as a function of the `view`, which gives you access to the `view` object within the callback
+
+```tsx live
+function Example() {
+  return (
+    <>
+      <h4>Click the map to center the view on your click</h4>
+      <MapView
+        style={{ height: "300px", width: "100%" }}
+        MapProperties={{ basemap: "topo-vector" }}
+        ViewProperties={{
+          extent: OAHU_EXTENT,
+          // No need for a ref, view available within callback
+          events: (view) => ({
+            click: (e) =>
+              view.goTo({
+                center: [e.mapPoint.longitude, e.mapPoint.latitude],
+              }),
+          }),
+        }}
+      />
+    </>
+  );
+}
+```

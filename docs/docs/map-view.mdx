@@ -3,8 +3,8 @@ sidebar_position: 3
 title: MapView
 ---
 
-import BrowserOnly from '@docusaurus/BrowserOnly';
-import { useContext } from 'react';
+import BrowserOnly from "@docusaurus/BrowserOnly";
+import { useContext } from "react";
 
 #
 
@@ -31,7 +31,7 @@ const Page: React.FC = () => {
     const MapView = require('../../packages/esrieact/map').MapView
 
     return (
-      <MapView 
+      <MapView
         style={{height: '400px', width: '100%' }}
         MapProperties={{
           basemap: 'topo'
@@ -50,7 +50,9 @@ const Page: React.FC = () => {
         }
       />
     )
-  }}
+
+}}
+
 </BrowserOnly>
 
 ## MapContextProvider
@@ -112,7 +114,7 @@ const OtherUI = () => {
     return (
       <MapContextProvider>
         <div style={{ display: 'flex' }}>
-          <MapViewCore 
+          <MapViewCore
             style={{height: '400px', minWidth: '80%' }}
             MapProperties={{ basemap: 'topo' }}
             ViewProperties={{
@@ -132,12 +134,14 @@ const OtherUI = () => {
         </div>
       </MapContextProvider>
     )
-  }}
+
+}}
+
 </BrowserOnly>
 
 ## Props
 
-Extends `HTMLAttributes<HTMLDivElement>`.  Additional props are:
+Extends `HTMLAttributes<HTMLDivElement>`. Additional props are:
 
 ### `children`
 
@@ -149,11 +153,11 @@ Other ESRIEACT map components, like [layers](category/layer-components), or [wid
 
 ### `ViewProperties`
 
-`ViewProperties` extends [`MapView properties`](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#properties-summary).  Accepts the additional field, `events`:
+`ViewProperties` extends [`MapView properties`](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#properties-summary). Accepts the additional field, `events`:
 
 #### `ViewProperties.events`
 
-The `ViewProperties` prop can take an `events` property, which is an `ViewEventHandlerFnMap`, or a function that takes the `MapView` instance as a parameter, and returns a `ViewEventHandlerFnMap`.  A `ViewEventHandlerFnMap` is an object whose keys are possible events on a `MapView`, and whose values are the event handlers to be called on those events:
+The `ViewProperties` prop can take an `events` property, which is an `ViewEventHandlerFnMap`, or a function that takes the `MapView` instance as a parameter, and returns a `ViewEventHandlerFnMap`. A `ViewEventHandlerFnMap` is an object whose keys are possible events on a `MapView`, and whose values are the event handlers to be called on those events:
 
 ```js
   "resize": __esri.ViewResizeEventHandler;
@@ -178,4 +182,4 @@ The `ViewProperties` prop can take an `events` property, which is an `ViewEventH
   "blur": __esri.ViewBlurEventHandler;
 ```
 
-For more information on MapView events, see [the ArcGIS JS API documentation](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#on).  See ESRIACT examples here TODO
+For more information on MapView events, see [the ArcGIS JS API documentation](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#on). See ESRIACT examples [here](/examples/mapview#events).
