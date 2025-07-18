@@ -1,0 +1,20 @@
+# Layers
+
+## Introduction
+
+All layers types can be added a `MapView` as children:
+
+```tsx live
+function Example() {
+  return (
+    <MapView
+      ViewProperties={{ extent: OAHU_EXTENT }}
+      MapProperties={{ basemap: "topo-vector" }}
+      style={{ height: "300px", width: "100%" }}
+    >
+      <FeatureLayer url={BENTHIC_ZONE_FEATURELAYER_URL} />
+      <MapImageLayer url={CARBON_HABITAT_IMAGELAYER_URL} />
+    </MapView>
+  );
+}
+```

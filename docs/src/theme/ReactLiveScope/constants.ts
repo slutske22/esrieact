@@ -30,3 +30,9 @@ export const CALIFORNIA_EXTENT = {
     wkid: 102100,
   },
 };
+
+export const BENTHIC_ZONE_FEATURELAYER_URL =
+  "https://geodata.hawaii.gov/arcgis/rest/services/CoastalMarine/MapServer/1";
+
+export const CARBON_HABITAT_IMAGELAYER_URL =
+  "https://geodata.hawaii.gov/arcgis/rest/services/LandUseLandCover_Raster/MapServer";

@@ -1,0 +1,17 @@
+## Basic Example
+
+A `FeatureLayer`, like any
+
+```tsx live
+function Example() {
+  return (
+    <MapView
+      ViewProperties={{ extent: OAHU_EXTENT }}
+      MapProperties={{ basemap: "topo-vector" }}
+      style={{ height: "300px", width: "100%" }}
+    >
+      <FeatureLayer url={BENTHIC_ZONE_FEATURELAYER_URL} />
+    </MapView>
+  );
+}
+```
