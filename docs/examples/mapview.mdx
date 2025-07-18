@@ -93,3 +93,48 @@ function Example() {
   );
 }
 ```
+
+## Externalizing the `MapRef` with `MapContextProvider`
+
+It is a very common use case to need to access the underlying `map` and `view` instances from outside the `MapView` container. Instead of using a `MapView`, you can use a `MapViewContext` to wrap the parts of your application that need access to the map. When using a `MapViewContext`, use a `MapViewCore`, which will read the same context as the rest of your application.
+
+```tsx live noInline
+function Menu() {
+  const { map, view } = useMap();
+
+  return (
+    <nav className="border-blue-800 border p-2">
+      <h4>Elsewhere in the component tree</h4>
+      <button
+        onClick={() => {
+          view.goTo(KILAUEA_TARGET, { duration: 5000 });
+        }}
+      >
+        Fly to Kilauea Volcano
+      </button>
+    </nav>
+  );
+}
+
+function Example() {
+  return (
+    <MapContextProvider>
+      <div className="flex gap-2">
+        <Menu />
+
+        <div class="flex-1 border-green-800 border">
+          <MapViewCore
+            ViewProperties={{ extent: HAWAII_EXTENT }}
+            MapProperties={{ basemap: "topo-vector" }}
+            style={{ height: "300px", width: "100%" }}
+          />
+        </div>
+      </div>
+    </MapContextProvider>
+  );
+}
+
+render(<Example />);
+```
+
+A `MapView` creates its own internal `MapContextProvider` and will ignore any `MapContextProvider`s that you declare, so you must use a `MapViewCore` to communicate with `MapContextProvider`.

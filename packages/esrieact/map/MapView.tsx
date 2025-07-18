@@ -268,9 +268,11 @@ export const MapView = React.forwardRef<MapReference, Props>((props, ref) => {
  * Utility hook to get the undnerlying `map` and `view` instances of a MapView
  */
 export const useMap = (): MapReference => {
-  const { map, view } = useContext(MapContext);
+  const context = useContext(MapContext);
 
-  if (!map || !view) {
+  const { map, view } = context;
+
+  if (!context) {
     throw new Error(
       "Cannot find esrieact map context, are you sure your component is a descendent of a MapContext?",
     );
