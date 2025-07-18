@@ -2,7 +2,7 @@
 
 ## Introduction
 
-All layers types can be added a `MapView` as children:
+All layers types can be added to a `MapView` as children:
 
 ```tsx live
 function Example() {
@@ -15,6 +15,99 @@ function Example() {
       <FeatureLayer url={BENTHIC_ZONE_FEATURELAYER_URL} />
       <MapImageLayer url={CARBON_HABITAT_IMAGELAYER_URL} />
     </MapView>
+  );
+}
+```
+
+## State managed layers
+
+```tsx live
+function Example() {
+  const [visibleLayers, setVisibleLayers] = useState(["benthic", "carbon"]);
+
+  const toggleLayer = (layerName, checked) => {
+    if (checked) {
+      setVisibleLayers([...visibleLayers, layerName]);
+    } else {
+      setVisibleLayers(visibleLayers.filter((l) => l !== layerName));
+    }
+  };
+
+  return (
+    <div>
+      <div className="flex flex-col gap-2 mb-2">
+        <label>
+          <input
+            type="checkbox"
+            className="mr-2"
+            checked={visibleLayers.includes("benthic")}
+            onChange={(e) => toggleLayer("benthic", e.target.checked)}
+          />
+          Benthic Zones
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            className="mr-2"
+            checked={visibleLayers.includes("carbon")}
+            onChange={(e) => toggleLayer("carbon", e.target.checked)}
+          />
+          Carbon Habitat Status
+        </label>
+      </div>
+
+      <MapView
+        ViewProperties={{ extent: OAHU_EXTENT }}
+        MapProperties={{ basemap: "topo-vector" }}
+        style={{ height: "300px", width: "100%" }}
+      >
+        {visibleLayers.includes("benthic") && (
+          <FeatureLayer url={BENTHIC_ZONE_FEATURELAYER_URL} />
+        )}
+        {visibleLayers.includes("carbon") && (
+          <MapImageLayer url={CARBON_HABITAT_IMAGELAYER_URL} />
+        )}
+      </MapView>
+    </div>
+  );
+}
+```
+
+## Refs
+
+Each layer can take a ref, which returns the underlying ArcGIS JS API layer instance:
+
+```tsx live
+function Example() {
+  const featureLayerRef = useRef<__esri.FeatureLayer>();
+  const mapImageLayerRef = useRef<__esri.MapImageLayer>();
+
+  return (
+    <div>
+      <MapView
+        ViewProperties={{ extent: OAHU_EXTENT }}
+        MapProperties={{ basemap: "topo-vector" }}
+        style={{ height: "300px", width: "100%" }}
+      >
+        <FeatureLayer
+          ref={featureLayerRef}
+          url={BENTHIC_ZONE_FEATURELAYER_URL}
+        />
+        <MapImageLayer
+          ref={mapImageLayerRef}
+          url={CARBON_HABITAT_IMAGELAYER_URL}
+        />
+      </MapView>
+
+      <div className="flex gap-2 mt-2">
+        <button onClick={() => console.log(featureLayerRef)}>
+          Log FeatureLayer ref
+        </button>
+        <button onClick={() => console.log(mapImageLayerRef)}>
+          Log MapImageLayer ref
+        </button>
+      </div>
+    </div>
   );
 }
 ```
