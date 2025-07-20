@@ -219,3 +219,53 @@ function Example() {
   );
 }
 ```
+
+## Events
+
+Just like `MapView`, events can be listened to on any `Layer` component:
+
+```tsx live
+function Example() {
+  const [point, setPont] = useState();
+  const [logs, setLogs] = useState([]);
+  const [basemap, setBasemap] = useState("topo-vector");
+
+  return (
+    <div>
+      <MapView
+        style={{ height: "300px", width: "100%" }}
+        MapProperties={{ basemap }}
+        ViewProperties={{ extent: OAHU_EXTENT }}
+      >
+        <FeatureLayer
+          url={BENTHIC_FEATURELAYER_URL}
+          events={{
+            "layerview-create": (e) => {
+              setLogs((l) => [...l, `layerview-create: ${e}`]);
+            },
+          }}
+        />
+        <MapImageLayer
+          url={LANDCOVER_IMAGELAYER_URL}
+          events={{
+            "layerview-create": (e) => {
+              setLogs((l) => [...l, `layerview-create: ${e}`]);
+            },
+          }}
+        />
+      </MapView>
+
+      <div className="text-amber-50 bg-black w-full p-3">
+        <code className="!bg-black">
+          {logs.map((l) => (
+            <>
+              {l}
+              <br />
+            </>
+          ))}
+        </code>
+      </div>
+    </div>
+  );
+}
+```
