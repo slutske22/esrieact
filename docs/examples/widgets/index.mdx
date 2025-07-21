@@ -1,0 +1,65 @@
+# Widgets
+
+## As map children
+
+Widgets can be added to a `MapView` as children. They take all the same properties as their native ArcGIS JS API instance:
+
+```tsx live
+function Example() {
+  return (
+    <MapView
+      ViewProperties={{ extent: OAHU_EXTENT }}
+      MapProperties={{ basemap: "topo-vector" }}
+      style={{ height: "400px", width: "100%" }}
+    >
+      <SearchBar position="top-right" />
+      <Legend position="top-right" />
+
+      <FeatureLayer
+        url={BENTHIC_FEATURELAYER_URL}
+        definitionExpression="zone = 'Back Reef'"
+      />
+    </MapView>
+  );
+}
+```
+
+## State managed props
+
+Properties of a widget can be managed via react state:
+
+```tsx live
+function Example() {
+  const [checked, setChecked] = useState(true);
+  return (
+    <div>
+      <div>
+        <label className="flex gap-2 mb-2 items-center">
+          <input
+            type="checkbox"
+            value={checked}
+            onChange={(e) => setChecked(e.target.value)}
+          />
+          Legend: Respect Definition Expression
+        </label>
+      </div>
+
+      <MapView
+        ViewProperties={{ extent: OAHU_EXTENT }}
+        MapProperties={{ basemap: "topo-vector" }}
+        style={{ height: "400px", width: "100%" }}
+      >
+        <FeatureLayer
+          url={OAHU_HPMS_ROADS_FL_URL}
+          definitionExpression="f_system_t = 'Interstate'"
+        />
+
+        <Legend
+          position="top-right"
+          respectLayerDefinitionExpression={checked}
+        />
+      </MapView>
+    </div>
+  );
+}
+```

@@ -36,3 +36,6 @@ export const BENTHIC_FEATURELAYER_URL =
 
 export const LANDCOVER_IMAGELAYER_URL =
   "https://geodata.hawaii.gov/arcgis/rest/services/LandUseLandCover_Raster/MapServer";
+
+export const OAHU_HPMS_ROADS_FL_URL =
+  "https://geodata.hawaii.gov/arcgis/rest/services/Transportation/MapServer/12";
