@@ -1,6 +1,7 @@
 import React from "react";
 import * as constants from "./constants";
-// import * as Esrieact from "../../../../packages/esrieact/dist";
+import "@arcgis/map-components/components/arcgis-compass";
+import * as Esrieact from "../../../../packages/esrieact/dist";
 
 // Add react-live imports you need here
 const ReactLiveScope: unknown = {

@@ -30,15 +30,15 @@ Properties of a widget can be managed via react state:
 
 ```tsx live
 function Example() {
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(true);
   return (
     <div>
       <div>
         <label className="flex gap-2 mb-2 items-center">
           <input
             type="checkbox"
-            value={checked}
-            onChange={(e) => setChecked(e.target.value)}
+            checked={checked}
+            onChange={(e) => setChecked(e.target.checked)}
           />
           Legend: Respect Definition Expression
         </label>
@@ -56,10 +56,37 @@ function Example() {
 
         <Legend
           position="top-right"
+          key={`${checked}`}
           respectLayerDefinitionExpression={checked}
         />
       </MapView>
     </div>
   );
 }
+```
+
+## Integration with web components
+
+During development of this library, esri announced [their plan to transition away from classic widgets, to standard web components](https://developers.arcgis.com/javascript/latest/components-transition-plan/).
+
+```tsx live noInline
+function Provider({ children }) {
+  return <MapContextProvider>{children}</MapContextProvider>;
+}
+
+function Example() {
+  return (
+    <MapViewCore
+      ViewProperties={{ extent: HAWAII_EXTENT }}
+      MapProperties={{ basemap: "topo-vector" }}
+      style={{ height: "300px", width: "100%" }}
+    />
+  );
+}
+
+render(
+  <MapContextProvider>
+    <Example />
+  </MapContextProvider>,
+);
 ```
