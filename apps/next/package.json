@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "npx next dev",
+    "dev": "npx next dev --port 3005",
     "tsc": "tsc --noEmit",
     "tsc:watch": "tsc --noEmit --watch --preserveWatchOutput",
     "preview": "vite preview"
@@ -12,14 +12,13 @@
     "@arcgis/core": "^4.30.0",
     "esrieact": "*",
     "lodash": "^4.17.21",
-    "next": "^14.2.21",
-    "react": "^18.2.0",
-    "usehooks-ts": "^2.9.1"
+    "next": "^15.1.0",
+    "react": "^19.0.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.202",
     "@types/node": "22.10.2",
-    "@types/react": "^18.2.43",
+    "@types/react": "^19.0.0",
     "typescript": "^5.2.2"
   }
 }

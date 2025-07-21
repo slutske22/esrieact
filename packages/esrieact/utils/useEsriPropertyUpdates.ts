@@ -1,4 +1,4 @@
-import { useUpdateEffect } from "usehooks-ts";
+import { useUpdateEffect } from "./useUpdateEffect";
 import { usePrevious } from "./usePrevious";
 import { getObjectDiff } from ".";
 
