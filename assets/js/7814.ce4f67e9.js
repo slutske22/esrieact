@@ -1,0 +1,108 @@
+"use strict";
+exports.id = 7814;
+exports.ids = [7814];
+exports.modules = {
+
+/***/ 87814:
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, {
+  FeatureSnappingEngine: () => (/* binding */ P)
+});
+
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/chunks/tslib.es6.js
+var tslib_es6 = __webpack_require__(66866);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/core/Accessor.js + 4 modules
+var Accessor = __webpack_require__(52495);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/core/arrayUtils.js
+var arrayUtils = __webpack_require__(85569);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/core/handleUtils.js
+var handleUtils = __webpack_require__(20464);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/core/has.js
+var has = __webpack_require__(39831);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/core/asyncUtils.js
+var asyncUtils = __webpack_require__(12690);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/core/Collection.js + 1 modules
+var Collection = __webpack_require__(48982);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/core/promiseUtils.js
+var promiseUtils = __webpack_require__(40189);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/core/reactiveUtils.js
+var reactiveUtils = __webpack_require__(85251);
+;// ../node_modules/@arcgis/core/core/mapCollectionUtils.js
+/*
+All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+See https://js.arcgis.com/4.33/esri/copyright.txt for details.
+*/
+function c(e,o,s){const r=s?.createCollection?.()??new Collection/* default */.A,n=!!s?.recycleItems?new d:null,i=(e,t=0)=>{if(!e?.length)return;const o=r.splice(t,e.length);n?n.processRemoved(e):o.forEach(m)},c=(e,t=0)=>{if(!e?.length)return;const s=[];for(const r of e){const e=n?.use(r);if(e)s.push(e);else{const e=o(r);n?.register(r,e),s.push(e)}}r.addMany(s,t)},l=(0,reactiveUtils.on)(e,"after-splice",(({added:e,start:t,removed:o})=>{i(o,t),c(e,t)}),{sync:!0,onListenerRemove:e=>i(e.items),onListenerAdd:e=>c(e.items)});return r.addHandles(l),r}class d{constructor(){this._originalToMapped=new Map,this._removedItemCandidates=new Set,this._garbageCollectionQueued=!1}processRemoved(e){if(!e?.length)return;const{_removedItemCandidates:t}=this;for(const o of e)this._getItem(o)?.markRemoved()&&(t.add(o),this._queueGarbageCollection())}use(e){const t=this._getItem(e);return t&&(t.removed=!1),t?.item}register(e,t){this._originalToMapped.set(e,new l(t))}_getItem(e){return this._originalToMapped.get(e)}_queueGarbageCollection(){this._garbageCollectionQueued||(this._garbageCollectionQueued=!0,queueMicrotask((()=>this._garbageCollectCandidates())))}_garbageCollectCandidates(){this._garbageCollectionQueued=!1;const{_removedItemCandidates:e}=this,t=Array.from(e);e.clear(),t.forEach((e=>this._garbageCollectIfRemoved(e)))}_garbageCollectIfRemoved(e){const{_originalToMapped:t}=this,o=this._getItem(e);o?.removed&&(m(o.item),t.delete(e))}}class l{constructor(e){this.item=e,this.removed=!1}markRemoved(){return this.removed=!0,!0}}function m(e){"object"==typeof e&&e&&("destroy"in e&&"function"==typeof e.destroy?e.destroy():(0,handleUtils/* removeIfHandle */.wt)(e))}function u(s,a,d){const l=new Collection/* default */.A,u=c(s,(t=>(0,asyncUtils/* createTask */.UT)((async e=>{const o=await a(t,e);if((0,promiseUtils/* isAborted */.G4)(e))throw m(o),(0,promiseUtils/* createAbortError */.NK)();return o}))),d),f=()=>null,g=async e=>{const t=await e.promise,o=u.indexOf(e);o<0||l.splice(o,1,t)};l.addMany(u.items.map(f));for(const e of u)(0,promiseUtils/* ignoreAbortErrors */.QZ)(g(e));const h=u.on("after-splice",(({added:e,start:t,deleteCount:o})=>{const s=l.splice(t,o);for(const r of s)m(r);if(e?.length){l.addMany(e.map(f),t);for(const t of e)(0,promiseUtils/* ignoreAbortErrors */.QZ)(g(t))}}));return l.addHandles([(0,handleUtils/* destroyHandle */.DQ)(u),h]),l}
+
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/core/unitUtils.js
+var unitUtils = __webpack_require__(92976);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/core/accessorSupport/decorators/property.js
+var property = __webpack_require__(21564);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/core/Logger.js
+var Logger = __webpack_require__(539);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/core/accessorSupport/decorators/subclass.js
+var subclass = __webpack_require__(63863);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/core/libs/gl-matrix-2/math/vec2.js
+var vec2 = __webpack_require__(60704);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/chunks/vec32.js
+var vec32 = __webpack_require__(24121);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/core/libs/gl-matrix-2/factories/vec3f64.js
+var vec3f64 = __webpack_require__(58359);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/core/libs/gl-matrix-2/math/common.js
+var common = __webpack_require__(65257);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/core/support/UpdatingHandles.js
+var UpdatingHandles = __webpack_require__(4238);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/support/elevationInfoUtils.js
+var elevationInfoUtils = __webpack_require__(27451);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/views/interactive/sketch/constraints.js
+var constraints = __webpack_require__(81066);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/views/interactive/sketch/normalizedPoint.js
+var normalizedPoint = __webpack_require__(97847);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/core/sql.js
+var sql = __webpack_require__(76859);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/core/RandomLCG.js
+var RandomLCG = __webpack_require__(9272);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/layers/support/FeatureFilter.js
+var FeatureFilter = __webpack_require__(25758);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/layers/support/floorFilterUtils.js
+var floorFilterUtils = __webpack_require__(58921);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/layers/support/layerUtils.js
+var layerUtils = __webpack_require__(40454);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/views/interactive/snapping/snappingUtils.js
+var snappingUtils = __webpack_require__(61851);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/views/support/layerViewUtils.js
+var layerViewUtils = __webpack_require__(38201);
+;// ../node_modules/@arcgis/core/views/interactive/snapping/FeatureSnappingSourceInfo.js
+/*
+All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+See https://js.arcgis.com/4.33/esri/copyright.txt for details.
+*/
+let f=class extends Accessor/* default */.A{set attributeRulesEnabled(e){this._set("attributeRulesEnabled",e),e&&this.loadRules()}get layerView(){return this.view?.allLayerViews?.find((e=>e.layer===this.layer))}get valid(){const{_valid:e,snappingSource:t,layer:r}=this;return!(!t||!r)&&e}get subtypeFilter(){const{layer:e,snappingSource:t}=this;if(!(0,layerUtils/* isSubtypeGroupLayer */.F2)(e)||!e.subtypes?.length||!t)return{mode:"not-in-use",filter:null};const r=t.layerSource.sublayerSources.filter((e=>e.enabled&&e.layer.visible&&(0,layerViewUtils/* scaleBoundsPredicate */.JU)(this.view?.scale,e.layer.effectiveScaleRange.minScale,e.layer.effectiveScaleRange.maxScale))).map((e=>e.layer.subtypeCode));if(!r.length)return{mode:"none-visible",filter:null};if(r.length===e.subtypes.length)return{mode:"all-visible",filter:null};const i=e.fieldsIndex.get(e.subtypeField)?.name??e.subtypeField;return 1===r.length?{mode:"in-use",filter:`${i} = ${r.getItemAt(0)}`}:{mode:"in-use",filter:`${i} IN (${r.join(", ")})`}}get floorFilter(){const{view:e,layer:t}=this;return e&&t?(0,floorFilterUtils/* getFloorFilterClause */.E)({view:e,layer:t}):null}constructor(e){super(e),this.layer=null,this.snappingSource=null,this.rulesTable=null,this._valid=null}initialize(){if(!this.snappingSource||!this.layer)return void(this._valid=!1);const{layer:e,snappingSource:t}=this;if("refresh"in e){const r=e;this.addHandles(r.on("refresh",(()=>t.refresh())))}this.loadRules(),this.addHandles([(0,reactiveUtils/* watch */.wB)((()=>t.updating),(e=>t.layerSource.updating=e),reactiveUtils/* syncAndInitial */.pc),(0,reactiveUtils/* watch */.wB)((()=>t.availability),(e=>t.layerSource.availability=e),reactiveUtils/* syncAndInitial */.pc)])}getFetchCandidatesParameters(e,t,r){if(!this.valid)return[];const{layer:i,layerView:l,floorFilter:o,rulesTable:a,subtypeFilter:u}=this,y={distance:r,mode:this.view?.type??"2d",point:e,coordinateHelper:t.coordinateHelper,...h(),filter:l&&"filter"in l?l.filter:null};if(o&&(y.filter=FeatureSnappingSourceInfo_m(y.filter,o)),"not-in-use"!==u.mode&&"all-visible"!==u.mode){if("none-visible"===u.mode)return[];y.filter?y.filter.where=(0,sql/* sqlAnd */.mA)(y.filter.where,u.mode):y.filter=new FeatureFilter/* default */.A({where:u.filter})}if(!this.attributeRulesEnabled)return[y];const f=t.feature,v="subtype-sublayer"===f?.sourceLayer?.type?f.sourceLayer.parent:f?.sourceLayer;if(a&&f&&(0,snappingUtils/* isUtilityNetworkWebMap */.Tu)(this.view?.map)&&((0,layerUtils/* isFeatureLayer */.yZ)(i)||(0,layerUtils/* isSubtypeGroupLayer */.F2)(i))&&((0,layerUtils/* isFeatureLayer */.yZ)(v)||(0,layerUtils/* isSubtypeGroupLayer */.F2)(v))&&this.view.map.utilityNetworks?.find((e=>e.isUtilityLayer(v)))){if("loaded"!==a.loadStatus)return[];const e=[],t=i.layerId,r=a.getFeatureSQL(v,f)?.[t];if(!r)return[];const l=r.anyVertex;let s=r.endVertex;return s&&l&&s===l&&(s=""),s&&e.push({...y,returnEdge:!1,vertexMode:"ends",filter:FeatureSnappingSourceInfo_m(y.filter,s)}),l&&e.push({...y,returnEdge:(0,has/* default */.A)("snapping-include-edges-when-applying-any-vertex-rule")??!1,vertexMode:"all",filter:FeatureSnappingSourceInfo_m(y.filter,l)}),e}return[y]}async loadRules(){this._valid=null;const{layer:e,view:t,attributeRulesEnabled:i}=this;if(i&&e&&t&&(0,snappingUtils/* isUtilityNetworkWebMap */.Tu)(t?.map)&&((0,layerUtils/* isFeatureLayer */.yZ)(e)||(0,layerUtils/* isSubtypeGroupLayer */.F2)(e)))try{await Promise.allSettled(t.map.utilityNetworks?.map((e=>e.load()))??[]);const r=t.map.utilityNetworks?.find((t=>t.isUtilityLayer(e)));r&&(this.rulesTable=await r.getRulesTable(),await(this.rulesTable?.load()))}catch(l){return this._valid=!1,void Logger/* default */.A.getLogger("esri.views.interactive.snapping.FeatureSnappingSourceInfo").error("Failed to load rules table for snapping source",e.title)}this._valid=!0}remove(){this.destroy()}destroy(){this.snappingSource?.destroy()}};function h(){return{returnEdge:!0,vertexMode:"all"}}function FeatureSnappingSourceInfo_m(e,t){return null==e?new FeatureFilter/* default */.A({where:t}):e.where?new FeatureFilter/* default */.A({where:(0,sql/* sqlAnd */.mA)(e.where,t)}):new FeatureFilter/* default */.A({where:t})}(0,tslib_es6._)([(0,property/* property */.MZ)({constructOnly:!0})],f.prototype,"layer",void 0),(0,tslib_es6._)([(0,property/* property */.MZ)({constructOnly:!0})],f.prototype,"snappingSource",void 0),(0,tslib_es6._)([(0,property/* property */.MZ)({constructOnly:!0})],f.prototype,"view",void 0),(0,tslib_es6._)([(0,property/* property */.MZ)({value:!1})],f.prototype,"attributeRulesEnabled",null),(0,tslib_es6._)([(0,property/* property */.MZ)()],f.prototype,"layerView",null),(0,tslib_es6._)([(0,property/* property */.MZ)()],f.prototype,"rulesTable",void 0),(0,tslib_es6._)([(0,property/* property */.MZ)()],f.prototype,"valid",null),(0,tslib_es6._)([(0,property/* property */.MZ)()],f.prototype,"subtypeFilter",null),(0,tslib_es6._)([(0,property/* property */.MZ)()],f.prototype,"floorFilter",null),(0,tslib_es6._)([(0,property/* property */.MZ)()],f.prototype,"_valid",void 0),f=(0,tslib_es6._)([(0,subclass/* subclass */.$)("esri.views.interactive.snapping.FeatureSnappingSourceInfo")],f);
+
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/views/interactive/snapping/SnappingDomain.js
+var SnappingDomain = __webpack_require__(40508);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/views/interactive/snapping/candidates/DrapedEdgeSnappingCandidate.js
+var DrapedEdgeSnappingCandidate = __webpack_require__(46113);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/views/interactive/snapping/candidates/EdgeSnappingCandidate.js
+var EdgeSnappingCandidate = __webpack_require__(15991);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/views/interactive/snapping/candidates/FeatureSnappingCandidate.js
+var FeatureSnappingCandidate = __webpack_require__(90814);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/views/interactive/snapping/candidates/RightAngleSnappingCandidate.js
+var RightAngleSnappingCandidate = __webpack_require__(49935);
+// EXTERNAL MODULE: ../node_modules/@arcgis/core/views/interactive/support/viewUtils.js
+var viewUtils = __webpack_require__(38175);
+;// ../node_modules/@arcgis/core/views/interactive/snapping/FeatureSnappingEngine.js
+/*
+All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+See https://js.arcgis.com/4.33/esri/copyright.txt for details.
+*/
+let P=class extends Accessor/* default */.A{get updating(){return this._snappingSources.some((e=>null==e?.valid||!0===e.valid&&!0===e.snappingSource?.updating))||this._updatingHandles.updating}constructor(e){super(e),this.options=null,this._domain=SnappingDomain/* SnappingDomain */.n.FEATURE,this._updatingHandles=new UpdatingHandles/* UpdatingHandles */.U,this._sourceModules={featureService:{module:null,loader:null},featureCollection:{module:null,loader:null},graphics:{module:null,loader:null},notes:{module:null,loader:null},scene:{module:null,loader:null}}}initialize(){const e=u((()=>this.options?._effectiveFeatureSources),((e,t)=>this._createSourceInfo(e,t)));this._snappingSources=e,this.addHandles([(0,handleUtils/* destroyHandle */.DQ)(e),(0,reactiveUtils/* watch */.wB)((()=>({rulesEnabled:!!this.options?.attributeRulesEnabled,sources:this._snappingSources.filter(arrayUtils/* isSome */.Ru)})),(({rulesEnabled:e,sources:t})=>{for(const r of t)r.attributeRulesEnabled=e}),reactiveUtils/* sync */.OH)])}destroy(){this._set("options",null),this._updatingHandles.destroy()}async fetchCandidates(e,t,r,a){if(!(t&this._domain&&null!=this.options&&this.options.effectiveFeatureEnabled))return[];const n=[],i=this._computeScreenSizeDistanceParameters(e,r);for(const s of this._snappingSources){if(!s?.valid||!s.snappingSource?.layerSource?.enabled||s.layerView?.suspended)continue;const t=s.getFetchCandidatesParameters(e,r,i);for(const e of t)n.push(s.snappingSource.fetchCandidates(e,a).then((e=>e.filter((e=>!this._candidateIsExcluded(s.snappingSource,e,r.excludeFeature))))))}const c=(await (0,promiseUtils/* allSettledValues */.nA)(n)).flat();return this._addRightAngleCandidates(c,e,i,r),(0,promiseUtils/* throwIfAborted */.Te)(a),(0,snappingUtils/* sortCandidatesInPlace */.xX)(e,c),c}_addRightAngleCandidates(e,t,r,a){const n=null!=a.vertexHandle?a.vertexHandle.rightEdge?.rightVertex?.pos:null!=a.editGeometryOperations&&"polygon"===a.editGeometryOperations.data.type?a.editGeometryOperations.data.components[0]?.getFirstVertex()?.pos:null,s=null!=a.vertexHandle?a.vertexHandle.leftEdge?.leftVertex?.pos:null!=a.editGeometryOperations?a.editGeometryOperations.data.components[0]?.getLastVertex()?.pos:null,{view:o}=this,i=(0,normalizedPoint/* fromAnyMapPoint */.Lp)(n,o,a),c=(0,normalizedPoint/* fromAnyMapPoint */.Lp)(s,o,a),u=e.length;for(let l=0;l<u;l++)this._addRightAngleCandidate(e[l],c,t,r,e),this._addRightAngleCandidate(e[l],i,t,r,e)}_addRightAngleCandidate(e,t,r,a,n){if(null==t||!U(e))return;const s=e.constraint.closestTo(t),o=(s[0]-r[0])/a.x,i=(s[1]-r[1])/a.y,{start:c,end:u}=e.constraint;if(o*o+i*i<=1){const r=(0,vec2/* squaredDistance */.hG)((0,normalizedPoint/* asVec2 */.Xz)(s),(0,normalizedPoint/* asVec2 */.Xz)(c))>(0,vec2/* squaredDistance */.hG)((0,normalizedPoint/* asVec2 */.Xz)(s),(0,normalizedPoint/* asVec2 */.Xz)(u))?c:u,a=new RightAngleSnappingCandidate/* RightAngleSnappingCandidate */.HJ({targetPoint:(0,normalizedPoint/* markAsTarget */.de)(s),otherVertex:t,otherVertexType:RightAngleSnappingCandidate/* OtherVertexType */.pn.NEXT,previousVertex:r,constraint:new constraints/* VerticalHalfPlaneConstraint */.FX(t,s),objectId:e.objectId,isDraped:e.isDraped,domain:SnappingDomain/* SnappingDomain */.n.FEATURE});n.push(a)}}_computeScreenSizeDistanceParameters(e,t){let r=null!=this.options?this.options.distance*("touch"===t.pointer?this.options.touchSensitivityMultiplier:1):0;return null==this.view?{x:r,y:r,z:r,distance:r}:"2d"===this.view.type?(r*=this.view.resolution,{x:r,y:r,z:r,distance:r}):this._computeScreenSizeDistanceParameters3D(e,r,this.view,t)}_computeScreenSizeDistanceParameters3D(e,t,r,a){const{spatialReference:n}=a;r.renderCoordsHelper.toRenderCoords(e,n,D);const s=r.state.camera.computeScreenPixelSizeAt(D),o=s*r.renderCoordsHelper.unitInMeters,i=o/(0,unitUtils/* getMetersPerUnitForSR */.GA)(n),c=o/(0,unitUtils/* getMetersPerVerticalUnitForSR */.G9)(n),p=t*i,d=t*c,m=(0,viewUtils/* vectorToScreenPoint */.j)(e,n,elevationInfoUtils/* absoluteHeightElevationInfo */.qt,r),g=m?z(m,e,i,0,0,r,a):0,h=m?z(m,e,0,i,0,r,a):0,S=m?z(m,e,0,0,c,r,a):0;return{x:0===g?0:p/g,y:0===h?0:p/h,z:0===S?0:d/S,distance:s*t}}_candidateIsExcluded(e,t,r){if(null==r)return!1;const a=this._getCandidateObjectId(t);if(null==a)return!1;const n=e.layerSource.layer;return"graphics"===n.type?r.uid===a:r.sourceLayer===n&&(!(!r.attributes||!("objectIdField"in n))&&r.attributes[n.objectIdField]===a)}_getCandidateObjectId(e){return e instanceof FeatureSnappingCandidate/* FeatureSnappingCandidate */.w?e.objectId:null}async _createSourceInfo(e,t){const r=e.layer;r.loaded||(await r.load(),(0,promiseUtils/* throwIfAborted */.Te)(t));const{view:a}=this,n=await this._createFeatureSnappingSourceType(e);return (0,promiseUtils/* throwIfAborted */.Te)(t),new f(null==n?{}:{snappingSource:n,view:a,layer:r})}async _createFeatureSnappingSourceType(e){switch(e.layer.type){case"feature":case"geojson":case"csv":case"oriented-imagery":case"subtype-group":case"wfs":return this._createFeatureSnappingSourceFeatureLayer(e);case"graphics":return this._createFeatureSnappingSourceGraphicsLayer(e);case"map-notes":return this._createFeatureSnappingSourceMapNotesLayer(e);case"scene":case"building-scene":return this._createFeatureSnappingSourceSceneLayer(e)}return null}async _createFeatureSnappingSourceSceneLayer(e){const{view:t}=this;if(null==t||"3d"!==t.type)return null;return new((await this._getSourceModule("scene")).SceneLayerSnappingSource)({layerSource:e,view:t})}async _createFeatureSnappingSourceFeatureLayer(e){switch(e.layer.source?.type){case"feature-layer":case"oriented-imagery":return new((await this._getSourceModule("featureService")).FeatureServiceSnappingSource)({spatialReference:this.spatialReference,view:this.view,layerSource:e});case"memory":case"csv":case"geojson":case"wfs":if("mesh"===e.layer.geometryType)return null;return new((await this._getSourceModule("featureCollection")).FeatureCollectionSnappingSource)({layerSource:e,view:this.view})}return null}async _createFeatureSnappingSourceGraphicsLayer(e){return new((await this._getSourceModule("graphics")).GraphicsSnappingSource)({getGraphicsLayers:()=>[e.layer],spatialReference:this.spatialReference,view:this.view,layerSource:e})}async _createFeatureSnappingSourceMapNotesLayer(e){return new((await this._getSourceModule("notes")).GraphicsSnappingSource)({getGraphicsLayers:()=>e.layer.sublayers?.toArray()??[],spatialReference:this.spatialReference,view:this.view,layerSource:e})}async _getSourceModule(e){const t=this._sourceModules[e];if(null==t.loader){const t=this._loadSourceModule(e),r={module:null,loader:t};this._sourceModules[e]=r;const a=await t,n={module:a,loader:t};return this._sourceModules[e]=n,a}return null==t.module?t.loader:t.module}_loadSourceModule(e){const t=this._updatingHandles;switch(e){case"featureService":return t.addPromise(__webpack_require__.e(/* import() */ 6774).then(__webpack_require__.bind(__webpack_require__, 56774)));case"featureCollection":return t.addPromise(__webpack_require__.e(/* import() */ 3476).then(__webpack_require__.bind(__webpack_require__, 33476)));case"graphics":case"notes":return t.addPromise(__webpack_require__.e(/* import() */ 587).then(__webpack_require__.bind(__webpack_require__, 70587)));case"scene":return t.addPromise(__webpack_require__.e(/* import() */ 1529).then(__webpack_require__.bind(__webpack_require__, 11529)))}}get test(){}};function U(e){return(e instanceof EdgeSnappingCandidate/* EdgeSnappingCandidate */.z||e instanceof DrapedEdgeSnappingCandidate/* DrapedEdgeSnappingCandidate */.X)&&!A(e)}function A({constraint:{start:e,end:t}}){const r=(0,vec32.s)(e,t),a=(0,vec2/* squaredDistance */.hG)((0,normalizedPoint/* asVec2 */.Xz)(e),(0,normalizedPoint/* asVec2 */.Xz)(t));return r<(0,common/* getEpsilon */.FD)()||a/r<T}function z(e,t,r,a,n,s,{spatialReference:o}){const i=(0,vec32.c)(O,t);i[0]+=r,i[1]+=a,i[2]+=n;const c=(0,viewUtils/* vectorToScreenPoint */.j)(i,o,elevationInfoUtils/* absoluteHeightElevationInfo */.qt,s);return c?(0,snappingUtils/* screenDistance */.Mo)(c,e):1/0}(0,tslib_es6._)([(0,property/* property */.MZ)({constructOnly:!0})],P.prototype,"spatialReference",void 0),(0,tslib_es6._)([(0,property/* property */.MZ)({constructOnly:!0})],P.prototype,"view",void 0),(0,tslib_es6._)([(0,property/* property */.MZ)()],P.prototype,"options",void 0),(0,tslib_es6._)([(0,property/* property */.MZ)({readOnly:!0})],P.prototype,"updating",null),(0,tslib_es6._)([(0,property/* property */.MZ)()],P.prototype,"_snappingSources",void 0),P=(0,tslib_es6._)([(0,subclass/* subclass */.$)("esri.views.interactive.snapping.FeatureSnappingEngine")],P);const D=(0,vec3f64/* create */.vt)(),O=(0,vec3f64/* create */.vt)(),T=1e-4;
+
+
+/***/ })
+
+};
+;

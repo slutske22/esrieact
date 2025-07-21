@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[8537],{8537:(e,t,o)=>{o.r(t),o.d(t,{execute:()=>s});var r=o(57592),c=o(60628);const n=new r.d;function s(e,t){const o=(0,c.fromGeometry)(e);return n.execute(o.getGeometry(),(0,c.fromGeometryToGXGeometry)(t),o.getSpatialReference())}}}]);
