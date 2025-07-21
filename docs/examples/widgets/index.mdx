@@ -67,20 +67,37 @@ function Example() {
 
 ## Integration with web components
 
-During development of this library, esri announced [their plan to transition away from classic widgets, to standard web components](https://developers.arcgis.com/javascript/latest/components-transition-plan/).
+During development of this library, esri announced [their plan to transition away from classic widgets, to standard web components](https://developers.arcgis.com/javascript/latest/components-transition-plan/). These standard web components make development with react much more intuitive for UI elements like widgets. This library has not yet been brought up to date to be based on web-components. In the meantime, you can either use the class (but soon to be deprecated) widgets as shown above, or you can mix in the newer web-components. You can declare a web component widget in your map, but you must manually add the widget to the `view`:
 
 ```tsx live noInline
+// import "@arcgis/map-components/components/arcgis-directional-pad";
+
 function Provider({ children }) {
   return <MapContextProvider>{children}</MapContextProvider>;
 }
 
 function Example() {
+  const { view } = useMap();
+
+  useEffect(() => {
+    if (view?.when) {
+      view.when(() => {
+        const pad = document.querySelector("arcgis-directional-pad");
+        pad.view = view;
+
+        view.ui.add(pad, "top-right");
+      });
+    }
+  }, [view]);
+
   return (
     <MapViewCore
       ViewProperties={{ extent: HAWAII_EXTENT }}
       MapProperties={{ basemap: "topo-vector" }}
       style={{ height: "300px", width: "100%" }}
-    />
+    >
+      <arcgis-directional-pad></arcgis-directional-pad>
+    </MapViewCore>
   );
 }
 
@@ -90,3 +107,5 @@ render(
   </MapContextProvider>,
 );
 ```
+
+Once this library has been brought up to date with the still-emerging web component standard, the `useEffect` in the above example will no longer be necessary.

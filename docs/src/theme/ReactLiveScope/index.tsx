@@ -1,6 +1,6 @@
 import React from "react";
 import * as constants from "./constants";
-import "@arcgis/map-components/components/arcgis-compass";
+import "@arcgis/map-components/components/arcgis-directional-pad";
 import * as Esrieact from "../../../../packages/esrieact/dist";
 
 // Add react-live imports you need here
