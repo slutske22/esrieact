@@ -5,7 +5,7 @@ interface Props {
   /**
    * The symbol to render in HTML
    */
-  symbol: __esri.Symbol;
+  symbol: __esri.SymbolUnion;
   /**
    * HTML rendering options to be passed to `renderPreviewHTML`
    */
@@ -33,7 +33,7 @@ export const SymbolPreview: React.FC<Props> = ({ symbol, options }) => {
       symbol,
       options ?? localOptions,
     );
-    setResult(symbolNode);
+    setResult(symbolNode as HTMLElement);
   }, [JSON.stringify(symbol.toJSON())]);
 
   return <div ref={ref} />;

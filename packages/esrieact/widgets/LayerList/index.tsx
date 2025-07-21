@@ -17,4 +17,5 @@ const createWidget = (
 export const LayerList = React.forwardRef<
   EsriLayerList,
   WidgetComponentProps<__esri.LayerListProperties>
+  // @ts-expect-error internal mismatch of arcgis types?
 >((properties, ref) => createWidgetComponent(createWidget, ref, properties));

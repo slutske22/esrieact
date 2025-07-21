@@ -18,5 +18,6 @@ export const Legend = React.forwardRef<
   __esri.Legend,
   WidgetComponentProps<__esri.LegendProperties>
 >((properties, ref) => {
+  // @ts-expect-error internal mismatch of arcgis types?
   return createWidgetComponent(createWidget, ref, properties);
 });

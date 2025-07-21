@@ -18,5 +18,6 @@ export const Expand = React.forwardRef<
   __esri.Expand,
   WidgetComponentProps<__esri.ExpandProperties>
 >((properties, ref) => {
+  // @ts-expect-error internal mismatch of arcgis types?
   return createWidgetComponent(createWidget, ref, properties);
 });

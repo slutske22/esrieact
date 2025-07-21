@@ -17,4 +17,5 @@ const createWidget = (
 export const BasemapGallery = React.forwardRef<
   EsriBasemapGallery,
   WidgetComponentProps<__esri.BasemapGalleryProperties>
+  // @ts-expect-error internal mismatch of arcgis types?
 >((properties, ref) => createWidgetComponent(createWidget, ref, properties));

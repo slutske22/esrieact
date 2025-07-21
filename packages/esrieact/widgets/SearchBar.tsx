@@ -8,6 +8,7 @@ type ExtendedSearchProperties = __esri.SearchProperties &
 const createSearchWidget = (
   properties: WidgetComponentProps<ExtendedSearchProperties>,
 ): EsriSearch => {
+  // @ts-expect-error internal mismatch of arcgis types?
   return new EsriSearch(properties);
 };
 
