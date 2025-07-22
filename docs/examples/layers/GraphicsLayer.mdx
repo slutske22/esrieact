@@ -1,0 +1,89 @@
+---
+sidebar_position: 3
+---
+
+# GraphicsLayer
+
+## Basic Usage
+
+A `GraphicsLayer` is a layer that can display arbitrary graphics. It can take various `Graphic` components as children:
+
+```tsx live
+function Example() {
+  return (
+    <MapView
+      ViewProperties={{ extent: OAHU_EXTENT }}
+      MapProperties={{ basemap: "topo-vector" }}
+      style={{ height: "300px", width: "100%" }}
+    >
+      <GraphicsLayer>
+        <Graphic
+          geometry={{
+            type: "point",
+            x: -17565473,
+            y: 2449593.5,
+            spatialReference: { wkid: 102100 },
+          }}
+          symbol={{
+            type: "simple-marker",
+            color: "red",
+          }}
+        />
+      </GraphicsLayer>
+    </MapView>
+  );
+}
+```
+
+## As a canvas for `Sketch`
+
+When working with a `Sketch` component, you need to specify the `layer` to draw to, which must be a `GraphicsLayer`.
+
+```tsx live
+function Example() {
+  const [layerRef, setLayerRef] = useState();
+
+  return (
+    <MapView
+      ViewProperties={{ extent: OAHU_EXTENT }}
+      MapProperties={{ basemap: "topo-vector" }}
+      style={{ height: "300px", width: "100%" }}
+    >
+      <GraphicsLayer ref={(r) => r && setLayerRef(r)} />
+      {layerRef && <Sketch layer={layerRef} position="top-right" />}
+    </MapView>
+  );
+}
+```
+
+## Events
+
+A `GraphicsLayer` can capture all events as defined [in the ArcGIS API for JavaScript documentation](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html#events-summary):
+
+```tsx live
+function Example() {
+  const [layerRef, setLayerRef] = useState();
+
+  return (
+    <MapView
+      ViewProperties={{ extent: OAHU_EXTENT }}
+      MapProperties={{ basemap: "topo-vector" }}
+      style={{ height: "300px", width: "100%" }}
+    >
+      <GraphicsLayer
+        ref={(r) => r && setLayerRef(r)}
+        events={{
+          "layerview-create": (e) => console.log("layerview-create", e),
+          "layerview-create-error": (e) =>
+            console.log("layerview-create-error", e),
+          "layerview-destroy": (e) => console.log("layerview-destroy", e),
+          create: (e) => console.log("create", e),
+          update: (e) => console.log("update", e),
+          delete: (e) => console.log("delete", e),
+        }}
+      />
+      {layerRef && <Sketch layer={layerRef} position="top-right" />}
+    </MapView>
+  );
+}
+```
