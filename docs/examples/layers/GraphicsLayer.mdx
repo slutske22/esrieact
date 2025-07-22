@@ -70,19 +70,24 @@ function Example() {
       MapProperties={{ basemap: "topo-vector" }}
       style={{ height: "300px", width: "100%" }}
     >
-      <GraphicsLayer
-        ref={(r) => r && setLayerRef(r)}
-        events={{
-          "layerview-create": (e) => console.log("layerview-create", e),
-          "layerview-create-error": (e) =>
-            console.log("layerview-create-error", e),
-          "layerview-destroy": (e) => console.log("layerview-destroy", e),
-          create: (e) => console.log("create", e),
-          update: (e) => console.log("update", e),
-          delete: (e) => console.log("delete", e),
-        }}
-      />
-      {layerRef && <Sketch layer={layerRef} position="top-right" />}
+      <GraphicsLayer ref={(r) => r && setLayerRef(r)} />
+      {layerRef && (
+        <Sketch
+          layer={layerRef}
+          position="top-right"
+          events={{
+            create: (e) => {
+              if (e.state === "complete") {
+                console.log("create", e);
+                console.log(
+                  "Layer the <Sketch /> draws to is the <GraphicsLayer />:",
+                  e.graphic.layer === layerRef,
+                );
+              }
+            },
+          }}
+        />
+      )}
     </MapView>
   );
 }
