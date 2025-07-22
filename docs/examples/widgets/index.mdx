@@ -84,7 +84,6 @@ function Example() {
       view.when(() => {
         const pad = document.querySelector("arcgis-directional-pad");
         pad.view = view;
-
         view.ui.add(pad, "top-right");
       });
     }
@@ -108,4 +107,4 @@ render(
 );
 ```
 
-Once this library has been brought up to date with the still-emerging web component standard, the `useEffect` in the above example will no longer be necessary.
+Once this library has been brought up to date with the still-emerging web component standard, and its mixture with React 19, the `useEffect` in the above example will no longer be necessary 🤞.
