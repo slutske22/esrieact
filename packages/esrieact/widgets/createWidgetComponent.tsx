@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useImperativeHandle,
   useMemo,
+  useRef,
 } from "react";
 import EsriWidget from "@arcgis/core/widgets/Widget";
 import Expand from "@arcgis/core/widgets/Expand";
@@ -52,6 +53,7 @@ export function createWidgetComponent<P extends WidgetComponentProps>(
 ) {
   const { view } = useMap();
   const parentWidgetContext = useContext(WidgetContext);
+  const childrenRef = useRef<HTMLElement>(null);
 
   const instance = useMemo(() => {
     const instance = createWidget({ ...properties, view });
@@ -72,6 +74,20 @@ export function createWidgetComponent<P extends WidgetComponentProps>(
   useEvents(instance, events);
 
   /**
+   * Check if children is a singular HTML element and assign its ref to instance.content,
+   * enables dev to make arbitrary UI elements children of an Expand widget
+   */
+  useEffect(() => {
+    if (children && childrenRef.current && instance) {
+      if (React.isValidElement(children) && typeof children.type === "string") {
+        if (instance instanceof Expand) {
+          instance.content = childrenRef.current;
+        }
+      }
+    }
+  }, [children, instance]);
+
+  /**
    * Remove widget on unmount
    */
   useEffect(() => {
@@ -81,6 +97,17 @@ export function createWidgetComponent<P extends WidgetComponentProps>(
   }, []);
 
   if (!children) return null;
+
+  // Check if children is a singular HTML element
+  if (React.isValidElement(children) && typeof children.type === "string") {
+    return (
+      <WidgetContext.Provider value={instance}>
+        {React.cloneElement(children as React.ReactElement<any>, {
+          ref: childrenRef,
+        })}
+      </WidgetContext.Provider>
+    );
+  }
 
   return (
     <WidgetContext.Provider value={instance}>{children}</WidgetContext.Provider>
