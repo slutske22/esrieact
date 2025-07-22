@@ -37,5 +37,42 @@ export const BENTHIC_FEATURELAYER_URL =
 export const LANDCOVER_IMAGELAYER_URL =
   "https://geodata.hawaii.gov/arcgis/rest/services/LandUseLandCover_Raster/MapServer";
 
+export const CLIMATE_RATINGS_RASTERLAYER_URL =
+  "https://geodata.hawaii.gov/arcgis/rest/services/Climate_Raster/MapServer";
+
 export const OAHU_HPMS_ROADS_FL_URL =
   "https://geodata.hawaii.gov/arcgis/rest/services/Transportation/MapServer/12";
+
+export const blendModes = [
+  "average",
+  "color-burn",
+  "color-dodge",
+  "color",
+  "darken",
+  "destination-atop",
+  "destination-in",
+  "destination-out",
+  "destination-over",
+  "difference",
+  "exclusion",
+  "hard-light",
+  "hue",
+  "invert",
+  "lighten",
+  "lighter",
+  "luminosity",
+  "minus",
+  "multiply",
+  "normal",
+  "overlay",
+  "plus",
+  "reflect",
+  "saturation",
+  "screen",
+  "soft-light",
+  "source-atop",
+  "source-in",
+  "source-out",
+  "vivid-light",
+  "xor",
+];

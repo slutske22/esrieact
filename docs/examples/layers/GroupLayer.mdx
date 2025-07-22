@@ -1,0 +1,122 @@
+# GroupLayer
+
+## Basic Usage
+
+A `GroupLayer` can take other layers as children:
+
+```tsx live
+<MapView
+  ViewProperties={{ extent: OAHU_EXTENT }}
+  MapProperties={{ basemap: "topo-vector" }}
+  style={{ height: "300px", width: "100%" }}
+>
+  <GroupLayer title="Benthic and Landcover">
+    <FeatureLayer url={BENTHIC_FEATURELAYER_URL} />
+    <MapImageLayer url={LANDCOVER_IMAGELAYER_URL} />
+  </GroupLayer>
+
+  <LayerList position="top-right" />
+</MapView>
+```
+
+## State managed properties
+
+You can use state to manage properties of a `GroupLayer`:
+
+```tsx live
+function Example() {
+  const [visibilityMode, setVisibilityMode] = useState("independent");
+
+  return (
+    <div className="flex gap-2">
+      <div>
+        <h4>Visibility Mode</h4>
+        <select
+          value={visibilityMode}
+          onChange={(e) => setVisibilityMode(e.target.value)}
+        >
+          {["independent", "inherited", "exclusive"].map((visibilityMode) => (
+            <option key={visibilityMode} value={visibilityMode}>
+              {visibilityMode}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <MapView
+        ViewProperties={{ extent: OAHU_EXTENT }}
+        MapProperties={{ basemap: "topo-vector" }}
+        style={{ height: "300px", width: "100%" }}
+      >
+        <GroupLayer title="Land and Rain Group" visibilityMode={visibilityMode}>
+          <FeatureLayer url={BENTHIC_FEATURELAYER_URL} />
+          <MapImageLayer url={LANDCOVER_IMAGELAYER_URL} />
+        </GroupLayer>
+
+        <LayerList
+          position="top-right"
+          listItemCreatedFunction={(event) => {
+            const item = event.item;
+            if (item.layer.type === "group") {
+              item.open = true;
+            }
+          }}
+        />
+      </MapView>
+    </div>
+  );
+}
+```
+
+## Example - Blend Mode
+
+Another example of state-managed properties. In this example, blend mode applies only to the layers within the group layer.
+
+```tsx live
+function Example() {
+  const [blendMode, setBlendMode] = useState("multiply");
+
+  return (
+    <div className="flex gap-2">
+      <div>
+        <h4>Choose Blend Mode</h4>
+        <select
+          value={blendMode}
+          onChange={(e) => setBlendMode(e.target.value)}
+        >
+          {blendModes.map((blendMode) => (
+            <option key={blendMode} value={blendMode}>
+              {blendMode}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <MapView
+        ViewProperties={{ extent: OAHU_EXTENT }}
+        MapProperties={{ basemap: "topo-vector" }}
+        style={{ height: "300px", width: "100%" }}
+      >
+        <MapImageLayer
+          url={CLIMATE_RATINGS_RASTERLAYER_URL}
+          sublayers={[{ id: 4, visible: true }]}
+        />
+
+        <GroupLayer title="Land and Rain Group">
+          <MapImageLayer
+            url={LANDCOVER_IMAGELAYER_URL}
+            sublayers={[{ id: 1, visible: true }]}
+          />
+          <MapImageLayer
+            url={CLIMATE_RATINGS_RASTERLAYER_URL}
+            sublayers={[{ id: 1, visible: true }]}
+            blendMode={blendMode}
+          />
+        </GroupLayer>
+
+        <LayerList position="top-right" />
+      </MapView>
+    </div>
+  );
+}
+```
