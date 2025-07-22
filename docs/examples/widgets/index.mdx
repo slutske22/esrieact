@@ -12,13 +12,10 @@ function Example() {
       MapProperties={{ basemap: "topo-vector" }}
       style={{ height: "400px", width: "100%" }}
     >
+      <FeatureLayer url={BENTHIC_FEATURELAYER_URL} />
+
       <SearchBar position="top-right" />
       <Legend position="top-right" />
-
-      <FeatureLayer
-        url={BENTHIC_FEATURELAYER_URL}
-        definitionExpression="zone = 'Back Reef'"
-      />
     </MapView>
   );
 }
@@ -63,6 +60,83 @@ function Example() {
     </div>
   );
 }
+```
+
+## Widgets outside the map
+
+Widgets can also be added outside of the `MapView` component using the `container` property.
+
+```tsx live
+function Example() {
+  return (
+    <div className="flex gap-2">
+      <MapView
+        ViewProperties={{ extent: OAHU_EXTENT }}
+        MapProperties={{ basemap: "topo-vector" }}
+        style={{ height: "400px", width: "100%" }}
+      >
+        <Legend position="top-right" container="legend-container" />
+
+        <FeatureLayer
+          url={BENTHIC_FEATURELAYER_URL}
+          definitionExpression="zone = 'Back Reef'"
+        />
+      </MapView>
+      <div className="w-[300px] border border-green-500 bg-white">
+        <h4 className="text-center m-1">Outside the map</h4>
+        <div
+          id="legend-container"
+          className="w-full max-h-[400px] overflow-y-auto"
+        />
+      </div>
+    </div>
+  );
+}
+```
+
+## Widgets elsewhere in the tree
+
+In the above example, the semantics of the component tree are a bit odd. The `Legend` is declared as a child of the `MapView`. You can have a component tree that matches your UI more closely by using the `MapViewContext` and a careful combination of `container` and `view` props:
+
+```tsx live noInline
+function OtherUI() {
+  const { view } = useMap();
+
+  return (
+    <nav className="border-blue-800 border p-2">
+      <h4>Elsewhere in the component tree</h4>
+
+      <div
+        id="legend-container-2"
+        className="w-full max-h-[300px] overflow-y-auto"
+      >
+        {view && <Legend container="legend-container-2" view={view} />}{" "}
+      </div>
+    </nav>
+  );
+}
+
+function Example() {
+  return (
+    <MapContextProvider>
+      <div className="flex gap-2">
+        <OtherUI />
+
+        <div className="flex-1 border-green-800 border items-stretch">
+          <MapViewCore
+            ViewProperties={{ extent: OAHU_EXTENT }}
+            MapProperties={{ basemap: "topo-vector" }}
+            style={{ height: "100%", width: "100%" }}
+          >
+            <FeatureLayer url={BENTHIC_FEATURELAYER_URL} />
+          </MapViewCore>
+        </div>
+      </div>
+    </MapContextProvider>
+  );
+}
+
+render(<Example />);
 ```
 
 ## Integration with web components

@@ -17,7 +17,9 @@ import { useEsriPropertyUpdates, useEvents } from "../utils";
  * esri's WidgetProperties to include child components and the widget position
  */
 export type WidgetComponentProps<
-  T extends __esri.WidgetProperties = __esri.WidgetProperties,
+  T extends __esri.WidgetProperties = __esri.WidgetProperties & {
+    view?: __esri.MapView;
+  },
   E extends Record<string, Function> = {},
 > = React.PropsWithChildren<T> & {
   events?: E;
@@ -49,9 +51,10 @@ export const WidgetContext = createContext<EsriWidget>({} as EsriWidget);
 export function createWidgetComponent<P extends WidgetComponentProps>(
   createWidget: CreateWidgetFunction,
   ref: Ref<EsriWidget>,
-  { children, events, position, ...properties }: P,
+  { children, events, position, view: viewFromProps, ...properties }: P,
 ) {
   const { view } = useMap();
+
   const parentWidgetContext = useContext(WidgetContext);
   const childrenRef = useRef<HTMLElement>(null);
 
@@ -67,7 +70,7 @@ export function createWidgetComponent<P extends WidgetComponentProps>(
     }
 
     return instance;
-  }, []);
+  }, [view]);
 
   useImperativeHandle(ref, () => instance);
   useEsriPropertyUpdates(instance, properties);
