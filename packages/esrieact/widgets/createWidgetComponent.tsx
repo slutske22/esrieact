@@ -79,7 +79,7 @@ export function createWidgetComponent<P extends WidgetComponentProps>(
    */
   useEffect(() => {
     if (children && childrenRef.current && instance) {
-      if (React.isValidElement(children) && typeof children.type === "string") {
+      if (React.isValidElement(children)) {
         if (instance instanceof Expand) {
           instance.content = childrenRef.current;
         }
@@ -98,18 +98,12 @@ export function createWidgetComponent<P extends WidgetComponentProps>(
 
   if (!children) return null;
 
-  // Check if children is a singular HTML element
-  if (React.isValidElement(children) && typeof children.type === "string") {
-    return (
-      <WidgetContext.Provider value={instance}>
-        {React.cloneElement(children as React.ReactElement<any>, {
-          ref: childrenRef,
-        })}
-      </WidgetContext.Provider>
-    );
-  }
-
+  // Pass ref to the child element - works for both HTML elements and forwardRef components
   return (
-    <WidgetContext.Provider value={instance}>{children}</WidgetContext.Provider>
+    <WidgetContext.Provider value={instance}>
+      {React.cloneElement(children as React.ReactElement<any>, {
+        ref: childrenRef,
+      })}
+    </WidgetContext.Provider>
   );
 }

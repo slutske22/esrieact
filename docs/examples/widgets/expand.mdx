@@ -24,7 +24,7 @@ function Example() {
 
 ## With arbitrary UI
 
-An `Expand` can also take any arbitrary UI element as a child
+An `Expand` can also take any arbitrary UI element as a child.
 
 ```tsx live
 function Example() {
@@ -36,10 +36,52 @@ function Example() {
     >
       <MapImageLayer url={LANDCOVER_IMAGELAYER_URL} />
 
-      <Expand position="top-right" content="custom-expand-content">
-        <div>Some custom content you'd like to show</div>
+      <Expand
+        position="top-right"
+        content="custom-expand-content"
+        expandIcon="caret-square-left"
+      >
+        <div className="p-2">Some custom content you'd like to show</div>
       </Expand>
     </MapView>
   );
 }
+```
+
+## With custom component
+
+Note that if using aritrary HTML markup as a child of `Expand`, you must use a single element that can take a ref, and that ref must reference an HTML element.
+
+```tsx live noInline
+const CustomContent = React.forwardRef<HTMLDivElement>((props, ref) => {
+  return (
+    <div ref={ref} className="max-w-[300px] p-2">
+      You can even use a whole custom component as a child of an Expand widget,
+      so long as it returns a single HTML element, and the component ref
+      forwards to that element.
+    </div>
+  );
+});
+
+function Example() {
+  return (
+    <MapView
+      ViewProperties={{ extent: OAHU_EXTENT }}
+      MapProperties={{ basemap: "topo-vector" }}
+      style={{ height: "300px", width: "100%" }}
+    >
+      <MapImageLayer url={LANDCOVER_IMAGELAYER_URL} />
+
+      <Expand
+        position="top-right"
+        content="custom-expand-content"
+        expandIcon="satellite-3"
+      >
+        <CustomContent />
+      </Expand>
+    </MapView>
+  );
+}
+
+render(<Example />);
 ```
