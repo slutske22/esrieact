@@ -1,0 +1,45 @@
+# Expand
+
+## Simple example
+
+An `Expand` can take another widget as a child:
+
+```tsx live
+function Example() {
+  return (
+    <MapView
+      ViewProperties={{ extent: OAHU_EXTENT }}
+      MapProperties={{ basemap: "topo-vector" }}
+      style={{ height: "300px", width: "100%" }}
+    >
+      <MapImageLayer url={LANDCOVER_IMAGELAYER_URL} />
+
+      <Expand position="top-right">
+        <LayerList />
+      </Expand>
+    </MapView>
+  );
+}
+```
+
+## With arbitrary UI
+
+An `Expand` can also take any arbitrary UI element as a child
+
+```tsx live
+function Example() {
+  return (
+    <MapView
+      ViewProperties={{ extent: OAHU_EXTENT }}
+      MapProperties={{ basemap: "topo-vector" }}
+      style={{ height: "300px", width: "100%" }}
+    >
+      <MapImageLayer url={LANDCOVER_IMAGELAYER_URL} />
+
+      <Expand position="top-right" content="custom-expand-content">
+        <div>Some custom content you'd like to show</div>
+      </Expand>
+    </MapView>
+  );
+}
+```
