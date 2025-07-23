@@ -76,3 +76,38 @@ export const blendModes = [
   "vivid-light",
   "xor",
 ];
+
+export const GRAPHICS_EXAMPLE_ARRAY = [
+  {
+    id: "1",
+    name: "Simple Marker Point",
+    geometry: {
+      type: "point",
+      x: -17565473,
+      y: 2449593.5,
+      spatialReference: { wkid: 102100 },
+    },
+    symbol: {
+      type: "simple-marker",
+      color: "red",
+    },
+  },
+  {
+    id: "2",
+    name: "Simple Line Polyline",
+    geometry: {
+      type: "polyline",
+      paths: [
+        [-17565473, 2445493.5],
+        [-17564473, 2448393.5],
+        [-17563473, 2449293.5],
+      ],
+      spatialReference: { wkid: 102100 },
+    },
+    symbol: {
+      type: "simple-line",
+      color: "blue",
+      width: 2,
+    },
+  },
+];
