@@ -2,7 +2,7 @@
 
 The `createLayerComponent` function can be used to create any type of component that extends from the [ESRI `Layer` class](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html). It takes in a function that creates the layer instance, a ref, and the layer properties, and returns a react-ready component that can be used as a child of the `MapView`.
 
-### Function signature:
+## Function signature
 
 ```ts
 /**
@@ -43,23 +43,64 @@ export type CreateLayerFunction<T extends LayerComponentProps> = (
 ) => __esri.Layer;
 ```
 
-### Example Usage
+## Example Usage
 
-```tsx live noInline
+### Typescript
+
+```ts
 // GeoJSONLayer.ts
-const createGeoJSONLayer = (
-  properties: LayerComponentProps<__esri.GeoJSONLayerProperties>,
+
+/**
+ * An event handler function map specific to a GeoJSONLayer
+ */
+export type GeoJSONLayerEventHandlerFnMap = Partial<{
+  refresh: __esri.GeoJSONLayerRefreshEventHandler;
+  edits: __esri.GeoJSONLayerEditsEventHandler;
+  "layerview-create": __esri.GeoJSONLayerLayerviewCreateEventHandler;
+  "layerview-create-error": __esri.GeoJSONLayerLayerviewCreateErrorEventHandler;
+  "layerview-destroy": __esri.GeoJSONLayerLayerviewDestroyEventHandler;
+}>;
+
+/**
+ * Function that takes in properties of a GeoJSONLayer, and returns the GeoJSONLayer instance
+ */
+const createLayer = (
+  properties: LayerComponentProps<
+    __esri.GeoJSONLayerProperties,
+    GeoJSONLayerEventHandlerFnMap
+  >,
 ): __esri.GeoJSONLayer => {
   return new EsriGeoJSONLayer(properties);
 };
 
-const GeoJSONLayer = React.forwardRef<
+/**
+ * The GeoJSONLayer React component
+ */
+export const GeoJSONLayer = React.forwardRef<
   __esri.GeoJSONLayer,
-  LayerComponentProps<__esri.GeoJSONLayerProperties>
->((properties, ref) =>
-  createLayerComponent(createGeoJSONLayer, ref, properties),
-);
+  LayerComponentProps<
+    __esri.GeoJSONLayerProperties,
+    GeoJSONLayerEventHandlerFnMap
+  >
+>((properties, ref) => createLayerComponent(createLayer, ref, properties));
+```
 
+### Javascript
+
+Most of the code above is typescript typings to ensure correct property typing, as well as event typing. If we look at this through the lens of pure Javascript, the code is quite simple:
+
+```js
+const createLayer = (properties) => new EsriGeoJSONLayer(properties);
+
+export const GeoJSONLayer = (properties, ref) =>
+  createLayerComponent(createLayer, ref, properties);
+```
+
+### Usage
+
+Now you can use `GeoJSONLayer` as a child of a `MapView`:
+
+```tsx live
 // Example.tsx
 function Example() {
   return (
@@ -72,6 +113,4 @@ function Example() {
     </MapView>
   );
 }
-
-render(<Example />);
 ```

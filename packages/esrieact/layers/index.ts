@@ -11,3 +11,4 @@ export * from "./WebTileLayer";
 export * from "./WMSLayer";
 export * from "./VectorTileLayer";
 export * from "./MapImageLayer";
+export * from "./GeoJSONLayer";
