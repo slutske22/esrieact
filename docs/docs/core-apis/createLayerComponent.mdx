@@ -68,17 +68,7 @@ function Example() {
       MapProperties={{ basemap: "topo-vector" }}
       style={{ height: "300px", width: "100%" }}
     >
-      <GeoJSONLayer
-        data={SAMPLE_OAHU_GEOJSON}
-        renderer={{
-          type: "simple",
-          symbol: {
-            type: "simple-marker",
-            color: "red",
-            size: 8,
-          },
-        }}
-      />
+      <GeoJSONLayer url="/sample-oahu-geojson.json" />
     </MapView>
   );
 }

@@ -1,5 +1,3 @@
-import SAMPLE_OAHU_GEOJSON from "./sample-oahu-geojson.json";
-
 export const HAWAII_EXTENT = {
   xmin: -161.1,
   ymin: 18.8,
@@ -113,5 +111,3 @@ export const GRAPHICS_EXAMPLE_ARRAY = [
     },
   },
 ];
-
-export { SAMPLE_OAHU_GEOJSON };

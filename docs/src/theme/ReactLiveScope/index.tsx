@@ -11,12 +11,15 @@ const ReactLiveScope: unknown = {
 
   // constants
   ...constants,
+
+  // Direct ESRI components
+  EsriGeoJSONLayer,
 };
 
 // Only import esrieact on the client side
 if (typeof window !== "undefined") {
   import("../../../../packages/esrieact/dist").then((Esrireact) => {
-    Object.assign(ReactLiveScope as any, { ...Esrireact, EsriGeoJSONLayer });
+    Object.assign(ReactLiveScope as any, Esrireact);
   });
 }
 
