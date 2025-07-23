@@ -1,0 +1,87 @@
+# `createLayerComponent`
+
+The `createLayerComponent` function can be used to create any type of component that extends from the [ESRI `Layer` class](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html). It takes in a function that creates the layer instance, a ref, and the layer properties, and returns a react-ready component that can be used as a child of the `MapView`.
+
+### Function signature:
+
+```ts
+/**
+ * Factory function to create an esrieact layer component
+ * @param createLayer Function that takes in the layer properties
+ * (which must extend from __esri.LayerProperties)
+ *  and returns the layer instance
+ * @param ref The react ref to be passed from the parent
+ * @param properties The layer properties
+ * @returns A context provider whose context is the instance to be passed to children,
+ * or if there are no children, returns null.
+ */
+createLayerComponent: (
+  createLayer: CreateLayerFunction<LayerComponentProps>,
+  ref: Ref<__esri.Layer>,
+  { children, events, layerOrder, ...properties }: LayerComponentProps,
+) => JSX.Element | null;
+```
+
+Where
+
+```ts
+/**
+ * Properties that can be applied to any ESRIEACT Layer component.  Extends from
+ * esri's LayerProperties to include child components (i.e. in the case of GroupLayers)
+ */
+export type LayerComponentProps<
+  T extends __esri.LayerProperties = __esri.LayerProperties,
+  E extends Partial<LayerEventHandlerFnMap> = {},
+> = React.PropsWithChildren<T> & { events?: E; layerOrder?: number };
+
+/**
+ * Function that takes in layer properties and returns an esri Layer instance. Properties must be
+ * any esri properties that extend esri.LayerProperties, and optional children
+ */
+export type CreateLayerFunction<T extends LayerComponentProps> = (
+  properties: T,
+) => __esri.Layer;
+```
+
+### Example Usage
+
+```tsx live noInline
+// GeoJSONLayer.ts
+const createGeoJSONLayer = (
+  properties: LayerComponentProps<__esri.GeoJSONLayerProperties>,
+): __esri.GeoJSONLayer => {
+  return new EsriGeoJSONLayer(properties);
+};
+
+const GeoJSONLayer = React.forwardRef<
+  __esri.GeoJSONLayer,
+  LayerComponentProps<__esri.GeoJSONLayerProperties>
+>((properties, ref) =>
+  createLayerComponent(createGeoJSONLayer, ref, properties),
+);
+
+// Example.tsx
+function Example() {
+  return (
+    <MapView
+      ViewProperties={{ extent: OAHU_EXTENT }}
+      MapProperties={{ basemap: "topo-vector" }}
+      style={{ height: "300px", width: "100%" }}
+    >
+      <GeoJSONLayer
+        data={SAMPLE_OAHU_GEOJSON}
+        renderer={{
+          type: "simple",
+          symbol: {
+            type: "simple-marker",
+            color: "red",
+            size: 8,
+          },
+        }}
+      />
+    </MapView>
+  );
+}
+
+render(<Example />);
+```

@@ -1,0 +1,243 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Waikiki Beach",
+        "type": "beach",
+        "description": "Famous beach area in Honolulu"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-17565473, 2449593.5]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Diamond Head",
+        "type": "volcanic_crater",
+        "description": "Iconic volcanic crater and hiking destination"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-17564473, 2448393.5]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pearl Harbor",
+        "type": "harbor",
+        "description": "Historic naval base and memorial"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-17573473, 2451593.5]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "H-1 Highway",
+        "type": "highway",
+        "description": "Main east-west highway across Oahu"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-17573473, 2451593.5],
+          [-17565473, 2449593.5],
+          [-17564473, 2448393.5],
+          [-17563473, 2447293.5]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kamehameha Highway",
+        "type": "highway",
+        "description": "Scenic coastal highway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-17565473, 2449593.5],
+          [-17564473, 2448393.5],
+          [-17563473, 2447293.5],
+          [-17562473, 2446193.5]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Ala Moana Beach Park",
+        "type": "park",
+        "description": "Popular beach park and recreation area"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-17565473, 2449593.5],
+            [-17564473, 2449593.5],
+            [-17564473, 2448593.5],
+            [-17565473, 2448593.5],
+            [-17565473, 2449593.5]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Honolulu Harbor",
+        "type": "harbor",
+        "description": "Main commercial harbor of Honolulu"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-17566473, 2450593.5],
+            [-17565473, 2450593.5],
+            [-17565473, 2449593.5],
+            [-17566473, 2449593.5],
+            [-17566473, 2450593.5]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kapiolani Park",
+        "type": "park",
+        "description": "Large public park near Waikiki"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-17564473, 2448393.5],
+            [-17563473, 2448393.5],
+            [-17563473, 2447393.5],
+            [-17564473, 2447393.5],
+            [-17564473, 2448393.5]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "University of Hawaii at Manoa",
+        "type": "university",
+        "description": "Main campus of the University of Hawaii system"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-17563473, 2447293.5]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Hanauma Bay",
+        "type": "nature_preserve",
+        "description": "Protected marine life conservation area"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-17562473, 2446193.5]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Koko Head Trail",
+        "type": "hiking_trail",
+        "description": "Popular hiking trail with scenic views"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-17562473, 2446193.5],
+          [-17561473, 2446093.5],
+          [-17560473, 2445993.5]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sandy Beach Park",
+        "type": "beach",
+        "description": "Famous bodysurfing beach"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-17561473, 2446093.5],
+            [-17560473, 2446093.5],
+            [-17560473, 2445093.5],
+            [-17561473, 2445093.5],
+            [-17561473, 2446093.5]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kaneohe Bay",
+        "type": "bay",
+        "description": "Large bay on the windward side of Oahu"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-17570473, 2453593.5]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "North Shore Beaches",
+        "type": "beach_area",
+        "description": "Famous surfing beaches including Pipeline and Sunset"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-17570473, 2453593.5],
+            [-17569473, 2453593.5],
+            [-17569473, 2452593.5],
+            [-17570473, 2452593.5],
+            [-17570473, 2453593.5]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pali Highway",
+        "type": "highway",
+        "description": "Scenic highway connecting Honolulu to windward side"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-17565473, 2449593.5],
+          [-17567473, 2451593.5],
+          [-17569473, 2452593.5]
+        ]
+      }
+    }
+  ]
+}
