@@ -1,3 +1,5 @@
+import SAMPLE_GEOJSON from "./sample-oahu-geojson.json";
+
 export const HAWAII_EXTENT = {
   xmin: -161.1,
   ymin: 18.8,
@@ -111,3 +113,11 @@ export const GRAPHICS_EXAMPLE_ARRAY = [
     },
   },
 ];
+
+export const SAMPLE_GEOJSON_URL = (() => {
+  const blob = new Blob([JSON.stringify(SAMPLE_GEOJSON)], {
+    type: "application/json",
+  });
+
+  return URL.createObjectURL(blob);
+})();
