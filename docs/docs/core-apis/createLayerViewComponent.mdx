@@ -1,0 +1,58 @@
+# `createLayerViewComponent`
+
+## Function signature
+
+```ts
+createLayerViewComponent<
+  P extends __esri.LayerViewProperties,
+  R extends __esri.LayerView,
+>(): React.ForwardRefExoticComponent<
+  React.PropsWithoutRef<P> & React.RefAttributes<R>
+>;
+```
+
+## Example Usage
+
+If you need to create a layer view component that is not in ESRIEACT, you can use `createLayerViewComponent` to create it. For example, here we want to create a `GeoJSONLayerView` component:
+
+### Typescript
+
+```ts
+const GeoJSONLayerView = createLayerViewComponent<
+  __esri.GeoJSONLayerViewProperties,
+  __esri.GeoJSONLayerView
+>();
+```
+
+### Javascript
+
+You may notice that there are no arguments to the `createLayerViewComponent` function. This is because the `LayerView` component is a generic component that can be used to create any type of layer view component. Most of the code above is for proper typescript typing. The javascript version is much simpler:
+
+```js
+const GeoJSONLayerView = createLayerViewComponent();
+```
+
+### Usage
+
+```tsx live noInline
+const GeoJSONLayerView = createLayerViewComponent<
+  __esri.GeoJSONLayerViewProperties,
+  __esri.GeoJSONLayerView
+>();
+
+function Example() {
+  return (
+    <MapView
+      ViewProperties={{ extent: OAHU_EXTENT_2 }}
+      MapProperties={{ basemap: "topo-vector" }}
+      style={{ height: "300px", width: "100%" }}
+    >
+      <GeoJSONLayer url={SAMPLE_GEOJSON_URL}>
+        <GeoJSONLayerView />
+      </GeoJSONLayer>
+    </MapView>
+  );
+}
+
+render(<Example />);
+```
