@@ -18,6 +18,16 @@ export const OAHU_EXTENT = {
   },
 };
 
+export const OAHU_EXTENT_2 = {
+  xmin: -157.96,
+  ymin: 21.21,
+  xmax: -157.76,
+  ymax: 21.44,
+  spatialReference: {
+    wkid: 4326,
+  },
+};
+
 export const KILAUEA_TARGET = {
   center: [-155.292, 19.406],
   zoom: 12,
