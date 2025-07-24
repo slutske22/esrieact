@@ -22,4 +22,88 @@ function Example() {
 
 ## Using Graphics as direct FeatureLayer children
 
-TODO
+A `FeatureLayer` can also be declared with `Graphics` as children.
+
+```tsx live
+function Example() {
+  const POINT_GRAPHIC = {
+    geometry: {
+      type: "point",
+      x: -17565473,
+      y: 2449593.5,
+      spatialReference: { wkid: 102100 },
+    },
+    symbol: {
+      type: "simple-marker",
+      color: "red",
+    },
+  };
+
+  const LINE_GRAPHIC = {
+    geometry: {
+      type: "polyline",
+      paths: [
+        [-17565473, 2445493.5],
+        [-17564473, 2448393.5],
+        [-17563473, 2449293.5],
+      ],
+      spatialReference: { wkid: 102100 },
+    },
+    symbol: {
+      type: "simple-line",
+      color: "blue",
+      width: 2,
+    },
+  };
+
+  return (
+    <MapView
+      ViewProperties={{ extent: OAHU_EXTENT }}
+      MapProperties={{ basemap: "topo-vector" }}
+      style={{ height: "300px", width: "100%" }}
+    >
+      {/* Point FeatureLayer */}
+      <FeatureLayer
+        objectIdField="OBJECTID"
+        geometryType="point"
+        fields={[
+          { name: "OBJECTID", type: "oid" },
+          { name: "name", type: "string" },
+        ]}
+      >
+        <Graphic
+          key="1"
+          geometry={POINT_GRAPHIC.geometry}
+          symbol={POINT_GRAPHIC.symbol}
+          attributes={{
+            OBJECTID: 1,
+            name: "Simple Marker Point",
+          }}
+        />
+      </FeatureLayer>
+
+      {/* Polyline FeatureLayer */}
+      <FeatureLayer
+        objectIdField="OBJECTID"
+        geometryType="polyline"
+        fields={[
+          { name: "OBJECTID", type: "oid" },
+          { name: "name", type: "string" },
+        ]}
+      >
+        <Graphic
+          key="2"
+          geometry={LINE_GRAPHIC.geometry}
+          symbol={LINE_GRAPHIC.symbol}
+          attributes={{
+            OBJECTID: 2,
+            name: "Simple Line Polyline",
+          }}
+        />
+      </FeatureLayer>
+    </MapView>
+  );
+}
+```
+
+If you need to mix geometry types, see the [GraphicsLayer example](/examples/layers/GraphicsLayer#state-based-graphics).
