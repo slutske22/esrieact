@@ -101,3 +101,24 @@ export const Sketch = React.forwardRef((properties, ref) =>
   createWidgetComponent(createWidget, ref, properties),
 );
 ```
+
+### Usage
+
+Now you can use the `Sketch` component as a child of a `MapView`:
+
+```tsx live
+// Example.tsx
+function Example() {
+  return (
+    <MapView
+      ViewProperties={{ extent: OAHU_EXTENT_2 }}
+      MapProperties={{ basemap: "topo-vector" }}
+      style={{ height: "300px", width: "100%" }}
+    >
+      <Sketch position="top-right" />
+    </MapView>
+  );
+}
+```
+
+(Note that the `Sketch` widget requires you to specify a `GraphicsLayer` to work - see the [GraphicsLayer example](/examples/layers/GraphicsLayer#as-a-canvas-for-sketch).)
