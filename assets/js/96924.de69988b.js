@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[96924],{96924:(e,r,a)=>{a.r(r),a.d(r,{BatchTranslationServiceFactory:()=>s.B,PortalTranslationService:()=>s.P,getTranslateParametersKey:()=>s.g,registerFunctions:()=>s.r});a(25107),a(68476),a(90364),a(82951),a(62991),a(80861),a(62304),a(56174),a(62533),a(82778),a(53571);var s=a(7636)}}]);
