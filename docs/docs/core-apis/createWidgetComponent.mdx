@@ -1,0 +1,103 @@
+# `createWidgetComponent`
+
+## Function signature
+
+```ts
+/**
+ * Factory function to create an esrieact widget component
+ * @param createWidget Function that takes in the widget properties
+ * (which must extend from __esri.WidgetProperties) and returns the widget instance
+ * @param ref The react ref to be passed from the parent
+ * @param properties The widget properties
+ * @returns A context provider whose context is the instance to be passed to children,
+ * or if there are no children, returns null.
+ */
+createWidgetComponent<P extends WidgetComponentProps>(
+  createWidget: CreateWidgetFunction,
+  ref: Ref<EsriWidget>,
+  { children, events, position, view: viewFromProps, ...properties }: P,
+) => JSX.Element | null;
+```
+
+Where
+
+```ts
+/**
+ * Properties that can be applied to any ESRIEACT Widget component.  Extends from
+ * esri's WidgetProperties to include child components and the widget position
+ */
+export type WidgetComponentProps<
+  T extends __esri.WidgetProperties = __esri.WidgetProperties & {
+    view?: __esri.MapView;
+  },
+  E extends Record<string, Function> = {},
+> = React.PropsWithChildren<T> & {
+  events?: E;
+  position?: string | __esri.UIAddPosition;
+};
+
+/**
+ * Function that takes in layer properties and returns an esri Layer instance. Properties must be
+ * any esri properties that extend esri.LayerProperties, and optional children
+ */
+export type CreateWidgetFunction<
+  T extends WidgetComponentProps = WidgetComponentProps,
+> = (properties: T) => __esri.Widget;
+```
+
+## Example Usage
+
+### Typescript
+
+If you need to create a widget component that is not in ESRIEACT, you can use `createWidgetComponent` to create it. For example, here we want to create a `DirectionalPad` component. We first define the event handler function map for the `DirectionalPad` component, and then define the `createWidget` function that takes in the widget properties and returns the `DirectionalPad` instance. Finally, we use `createWidgetComponent` to create the `DirectionalPad` component.
+
+```ts
+/**
+ * Event handler function map for events specific the Sketch widget
+ *
+ * Note that most widgets do not have events
+ */
+type SketchEventHandlerFnMap = Partial<{
+  delete: __esri.SketchDeleteEventHandler;
+  create: __esri.SketchCreateEventHandler;
+  update: __esri.SketchUpdateEventHandler;
+  redo: __esri.SketchRedoEventHandler;
+  undo: __esri.SketchUndoEventHandler;
+}>;
+
+/**
+ * Special properties for this specific widget
+ */
+interface SketchProperties extends __esri.SketchProperties {
+  layer: __esri.GraphicsLayer;
+}
+
+/**
+ * Function that takes in the widget specific properties and returns the widget instance
+ */
+const createWidget = (
+  properties: WidgetComponentProps<SketchProperties, SketchEventHandlerFnMap>,
+): EsriSketch => {
+  return new EsriSketch(properties);
+};
+
+/**
+ * The react Sketch component
+ */
+export const Sketch = React.forwardRef<
+  EsriSketch,
+  WidgetComponentProps<SketchProperties, SketchEventHandlerFnMap>
+>((properties, ref) => createWidgetComponent(createWidget, ref, properties));
+```
+
+### Javascript
+
+Most of the above code is careful typescript typing to ensure correctly typed props and event handlers. The javascript version is much simpler:
+
+```js
+const createWidget = (properties) => new EsriSketch(properties);
+
+export const Sketch = React.forwardRef((properties, ref) =>
+  createWidgetComponent(createWidget, ref, properties),
+);
+```

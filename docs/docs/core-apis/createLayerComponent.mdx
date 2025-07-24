@@ -47,6 +47,8 @@ export type CreateLayerFunction<T extends LayerComponentProps> = (
 
 ### Typescript
 
+If you need to create a layer component that is not in ESRIEACT, you can use `createLayerComponent` to create it. For example, here we want to create a `GeoJSONLayer` component. We first define the event handler function map for the `GeoJSONLayer` component, and then define the `createLayer` function that takes in the layer properties and returns the `GeoJSONLayer` instance. Finally, we use `createLayerComponent` to create the `GeoJSONLayer` component.
+
 ```ts
 // GeoJSONLayer.ts
 
