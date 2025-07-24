@@ -6,7 +6,9 @@ import {
 } from "./createLayerComponent";
 
 /**
- * An event handler function map specific to a GeoJSONLayer
+ * An event handler function map for events specific to a GeoJSONLayer
+ *
+ * From [ArcGIS JS API documentation](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#events-summary)
  */
 export type GeoJSONLayerEventHandlerFnMap = Partial<{
   refresh: __esri.GeoJSONLayerRefreshEventHandler;
@@ -29,7 +31,10 @@ const createLayer = (
 };
 
 /**
- * The GeoJSONLayer React component
+ * A FeatureLayer component
+ *
+ * ArcGIS JS API Source Components:
+ * - [GeoJSONLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html)
  */
 export const GeoJSONLayer = React.forwardRef<
   __esri.GeoJSONLayer,
