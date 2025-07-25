@@ -1,1 +1,48 @@
+---
+sidebar_position: 2
+---
+
 # GeoJSONLayer
+
+## Introduction
+
+The `GeoJSONLayer` is used to display GeoJSON data on a map. It can be declared alone or with child components to customize its behavior:
+
+```ts
+import React from "react";
+import { GeoJSONLayer, MapView } from "./esri";
+
+const GEOJSON_URL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson";
+
+export const ReactMap: React.FC = () => {
+  return (
+    <MapView>
+      <GeoJSONLayer url={GEOJSON_URL} />
+    </MapView>
+  );
+};
+```
+
+## Props
+
+`Props` extends [`GeoJSONLayer properties`](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#properties-summary)
+
+### `children`
+
+Children components can be any of the following esrieact components:
+
+- [`LayerView`](/layer-views) component
+- Any [`Renderer`](/category/renderers) component that is compatible with a GeoJSONLayer
+- [`Graphic`](TODO) or multiple `Graphic`s components
+
+### `events`
+
+`GeoJSONLayerEventHandlerFnMap`: An event handler function map based on the events available on a GeoJSONLayer
+
+```ts
+  "refresh": __esri.GeoJSONLayerRefreshEventHandler;
+  "edits": __esri.GeoJSONLayerEditsEventHandler;
+  "layerview-create": __esri.GeoJSONLayerLayerviewCreateEventHandler;
+  "layerview-create-error": __esri.GeoJSONLayerLayerviewCreateErrorEventHandler;
+  "layerview-destroy": __esri.GeoJSONLayerLayerviewDestroyEventHandler;
+```

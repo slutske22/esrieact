@@ -61,6 +61,10 @@ const MyKmlMap = () => {
 }
 ```
 
+## Write your own Layerview components
+
+Currently, not every type of `Layer` has a correctly typed `LayerView` component in esrieact.  See the docs on [createLayerViewComponent](/core-apis/createLayerViewComponent) to see how to quickly create typesafe `<LayerView />` components for any layer type.
+
 ## FeatureLayerView
 
 Must be a child of a `<FeatureLayer />`.
@@ -68,3 +72,4 @@ Must be a child of a `<FeatureLayer />`.
 Props are equivalent to [FeatureLayerView Props](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerView.html#properties-summary)
 
 `ref` is the instance of the underlying `FeatureLayerView` instance
+
