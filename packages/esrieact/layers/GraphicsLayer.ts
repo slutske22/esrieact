@@ -5,19 +5,8 @@ import {
   createLayerComponent,
 } from "./createLayerComponent";
 
-export type GraphicsLayerEventHandlerFnMap = Partial<{
-  refresh: __esri.FeatureLayerRefreshEventHandler;
-  edits: __esri.FeatureLayerEditsEventHandler;
-  "layerview-create": __esri.FeatureLayerLayerviewCreateEventHandler;
-  "layerview-create-error": __esri.FeatureLayerLayerviewCreateErrorEventHandler;
-  "layerview-destroy": __esri.FeatureLayerLayerviewDestroyEventHandler;
-}>;
-
 const createLayer = (
-  properties: LayerComponentProps<
-    __esri.GraphicsLayerProperties,
-    GraphicsLayerEventHandlerFnMap
-  >,
+  properties: LayerComponentProps<__esri.GraphicsLayerProperties>,
 ): __esri.GraphicsLayer => {
   return new EsriGraphicsLayer(properties);
 };
@@ -30,8 +19,5 @@ const createLayer = (
  */
 export const GraphicsLayer = React.forwardRef<
   __esri.GraphicsLayer,
-  LayerComponentProps<
-    __esri.GraphicsLayerProperties,
-    GraphicsLayerEventHandlerFnMap
-  >
+  LayerComponentProps<__esri.GraphicsLayerProperties>
 >((properties, ref) => createLayerComponent(createLayer, ref, properties));
