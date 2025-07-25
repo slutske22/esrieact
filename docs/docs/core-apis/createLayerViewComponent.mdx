@@ -32,6 +32,14 @@ You may notice that there are no arguments to the `createLayerViewComponent` fun
 const GeoJSONLayerView = createLayerViewComponent();
 ```
 
+As you can see, `createLayerViewComponent` is actually agnostic to the layer it uses as a parent. A generic `LayerView` component can be used to create any type of layer view component.
+
+```js
+const GenericLayerView = createLayerViewComponent();
+```
+
+This will work as a layerView for any kind of layer, but you will not have any type safety or intellisense for the specific layer this layerView belongs to.
+
 ### Usage
 
 ```tsx live noInline
@@ -48,7 +56,12 @@ function Example() {
       style={{ height: "300px", width: "100%" }}
     >
       <GeoJSONLayer url={SAMPLE_GEOJSON_URL}>
-        <GeoJSONLayerView />
+        <GeoJSONLayerView
+          featureEffect={{
+            filter: { where: "type='beach'" },
+            includedEffect: "drop-shadow(3px, 3px, 3px, green)",
+          }}
+        />
       </GeoJSONLayer>
     </MapView>
   );
