@@ -37,6 +37,14 @@ export type CreateRendererFunction<T extends RendererProps> = (
   properties: T,
 ) => __esri.Renderer;
 
+/**
+ * Factory function to create an esrieact renderer component
+ * @param createRenderer - Function that takes in renderer properties and returns an esri Renderer instance. Properties must be
+ * any esri properties that extend esri.RendererProperties, and optional children
+ * @param ref - Ref to the renderer instance
+ * @param properties - Renderer properties
+ * @returns A context provider whose context is the renderer instance to be passed to children, or if there are no children, returns null
+ */
 export const createRendererComponent = (
   createRenderer: CreateRendererFunction<RendererProps>,
   ref: Ref<__esri.Renderer>,
