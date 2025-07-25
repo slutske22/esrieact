@@ -1,1 +1,55 @@
 # GraphicsLayer
+
+## Introduction
+
+The `GraphicsLayer` is used to display arbitrary graphics on a map. It can contain multiple `Graphic` components as children and is commonly used for temporary or dynamic content:
+
+```ts
+import React from "react";
+import { GraphicsLayer, Graphic, MapView } from "esrieact";
+
+export const ReactMap: React.FC = () => {
+  return (
+    <MapView>
+      <GraphicsLayer>
+        <Graphic
+          geometry={{
+            type: "point",
+            x: -17565473,
+            y: 2449593.5,
+            spatialReference: { wkid: 102100 },
+          }}
+          symbol={{
+            type: "simple-marker",
+            color: "red",
+          }}
+        />
+      </GraphicsLayer>
+    </MapView>
+  );
+};
+```
+
+## Props
+
+`Props` extends [`GraphicsLayer properties`](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html#properties-summary)
+
+### `children`
+
+Children components can be any of the following esrieact components:
+
+- [`LayerView`](/layer-views) component
+- [`Graphic`](/TODO!) or multiple `Graphic` components
+- Any [`Renderer`](/category/renderers) component that is compatible with a GraphicsLayer
+
+### `events`
+
+`GraphicsLayerEventHandlerFnMap`: An event handler function map based on the events available on a GraphicsLayer
+
+```ts
+  "refresh": __esri.FeatureLayerRefreshEventHandler;
+  "edits": __esri.FeatureLayerEditsEventHandler;
+  "layerview-create": __esri.FeatureLayerLayerviewCreateEventHandler;
+  "layerview-create-error": __esri.FeatureLayerLayerviewCreateErrorEventHandler;
+  "layerview-destroy": __esri.FeatureLayerLayerviewDestroyEventHandler;
+```
