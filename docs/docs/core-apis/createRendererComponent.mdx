@@ -1,5 +1,7 @@
 # `createRendererComponent`
 
+The `createRendererComponent` function can be used to create any type of component that extends from the [ESRI `Renderer` class](https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-Renderer.html). It takes in a function that creates the renderer instance, a ref, and the renderer properties, and returns a react-ready component that can be used as a child of a `Layer` that can use a renderer. The returned renderer component can also take its own children, i.e. `Symbol` components that apply to the renderer.
+
 ## Function signature
 
 ```ts
@@ -31,5 +33,58 @@ export type RendererProps<
 ### Typescript
 
 ```ts
+/**
+ * Function that takes in properties of a SimpleRenderer and returns an esri SimpleRenderer instance
+ */
+const createSimpleRenderer = (
+  properties: RendererProps<__esri.SimpleRendererProperties>,
+) => new EsriSimpleRenderer(properties);
 
+/**
+ * The react SimpleRenderer component
+ */
+export const SimpleRenderer = React.forwardRef<
+  __esri.UniqueValueRenderer,
+  RendererProps<__esri.SimpleRendererProperties>
+>((properties, ref) =>
+  createRendererComponent(createSimpleRenderer, ref, properties),
+);
+```
+
+### Javascript
+
+Much of the above code is for proper typescript typing. The javascript version is much simpler:
+
+```js
+const createSimpleRenderer = (properties) => new EsriSimpleRenderer(properties);
+
+export const SimpleRenderer = React.forwardRef((properties, ref) =>
+  createRendererComponent(createSimpleRenderer, ref, properties),
+);
+```
+
+### Usage
+
+```tsx live noInline
+function Example() {
+  return (
+    <MapView
+      ViewProperties={{ extent: OAHU_EXTENT_2 }}
+      MapProperties={{ basemap: "topo-vector" }}
+      style={{ height: "300px", width: "100%" }}
+    >
+      <GeoJSONLayer url={SAMPLE_GEOJSON_URL}>
+        <SimpleRenderer>
+          <PictureMarkerSymbol
+            height={24}
+            width={24}
+            url={"/esrieact/img/zebra.png"}
+          />
+        </SimpleRenderer>
+      </GeoJSONLayer>
+    </MapView>
+  );
+}
+
+render(<Example />);
 ```
