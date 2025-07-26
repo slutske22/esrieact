@@ -1,1 +1,41 @@
 # ImageryTileLayer
+
+## Introduction
+
+The `ImageryTileLayer` is used to display tiled imagery data from ArcGIS Image Services on a map. It provides high-performance rendering of imagery data through tiled services and can be declared alone or with child components to customize its behavior:
+
+```ts
+import React from "react";
+import { ImageryTileLayer, MapView } from "esrieact";
+
+const IMAGERY_TILE_URL = "https://elevation.arcgis.com/arcgis/rest/services/WorldElevation/Terrain/ImageServer";
+
+export const ReactMap: React.FC = () => {
+  return (
+    <MapView>
+      <ImageryTileLayer url={IMAGERY_TILE_URL} />
+    </MapView>
+  );
+};
+```
+
+## Props
+
+`Props` extends [`ImageryTileLayer properties`](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#properties-summary)
+
+### `children`
+
+Children components can be any of the following esrieact components:
+
+- [`LayerView`](/layer-views) component
+- Any [`Renderer`](/category/renderers) component that is compatible with an ImageryTileLayer
+
+### `events`
+
+Standard events on an `__esri.Layer`:
+
+```ts
+  "layerview-create": __esri.LayerLayerviewCreateEventHandler;
+  "layerview-create-error": __esri.LayerLayerviewCreateErrorEventHandler;
+  "layerview-destroy": __esri.LayerLayerviewDestroyEventHandler;
+```
