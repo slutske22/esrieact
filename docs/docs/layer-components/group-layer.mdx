@@ -1,1 +1,43 @@
 # GroupLayer
+
+## Introduction
+
+The `GroupLayer` component is used to organize and group other layers together. It can contain multiple layer components as children:
+
+```ts
+import React from "react";
+import { GroupLayer, FeatureLayer, MapImageLayer, MapView } from "./esri";
+
+export const ReactMap: React.FC = () => {
+  return (
+    <MapView>
+      <GroupLayer title="Environmental Data">
+        <FeatureLayer url="https://services.arcgis.com/example/FeatureServer/0" />
+        <MapImageLayer url="https://services.arcgis.com/example/MapServer" />
+      </GroupLayer>
+    </MapView>
+  );
+};
+```
+
+## Props
+
+`Props` extends [`GroupLayer properties`](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GroupLayer.html#properties-summary)
+
+### `children`
+
+Children components can be any of the following esrieact components:
+
+- Any layer component (FeatureLayer, MapImageLayer, GraphicsLayer, etc.)
+- Another `GroupLayer` component
+- [`LayerView`](/layer-views) component
+
+### `events`
+
+`LayerEventHandlerFnMap`: A standard event handler function map for all layer components
+
+```ts
+  "layerview-create": __esri.LayerLayerviewCreateEventHandler;
+  "layerview-create-error": __esri.LayerLayerviewCreateErrorEventHandler;
+  "layerview-destroy": __esri.LayerLayerviewDestroyEventHandler;
+```

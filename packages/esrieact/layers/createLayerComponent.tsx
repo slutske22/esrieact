@@ -21,9 +21,9 @@ export const LayerContext = createContext<__esri.Layer | __esri.GroupLayer>(
  * Event handlers for all Layer components, some layer components may extend from this
  */
 export interface LayerEventHandlerFnMap {
-  "layerview-create": __esri.FeatureLayerLayerviewCreateEventHandler;
-  "layerview-create-error": __esri.FeatureLayerLayerviewCreateErrorEventHandler;
-  "layerview-destroy": __esri.FeatureLayerLayerviewDestroyEventHandler;
+  "layerview-create": __esri.LayerLayerviewCreateEventHandler;
+  "layerview-create-error": __esri.LayerLayerviewCreateErrorEventHandler;
+  "layerview-destroy": __esri.LayerLayerviewDestroyEventHandler;
 }
 
 /**
