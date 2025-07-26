@@ -5,8 +5,18 @@ import {
   createLayerComponent,
 } from "./createLayerComponent";
 
+export type MapImageLayerEventHandlerFnMap = Partial<{
+  refresh: __esri.MapImageLayerRefreshEventHandler;
+  "layerview-create": __esri.MapImageLayerLayerviewCreateEventHandler;
+  "layerview-create-error": __esri.MapImageLayerLayerviewCreateErrorEventHandler;
+  "layerview-destroy": __esri.MapImageLayerLayerviewDestroyEventHandler;
+}>;
+
 const createLayer = (
-  properties: LayerComponentProps<__esri.MapImageLayerProperties>,
+  properties: LayerComponentProps<
+    __esri.MapImageLayerProperties,
+    MapImageLayerEventHandlerFnMap
+  >,
 ): __esri.MapImageLayer => {
   return new EsriMapImageLayer(properties);
 };
@@ -19,5 +29,8 @@ const createLayer = (
  */
 export const MapImageLayer = React.forwardRef<
   __esri.MapImageLayer,
-  LayerComponentProps<__esri.MapImageLayerProperties>
+  LayerComponentProps<
+    __esri.MapImageLayerProperties,
+    MapImageLayerEventHandlerFnMap
+  >
 >((properties, ref) => createLayerComponent(createLayer, ref, properties));

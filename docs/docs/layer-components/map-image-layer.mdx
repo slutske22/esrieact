@@ -1,1 +1,40 @@
 # MapImageLayer
+
+## Introduction
+
+The `MapImageLayer` is used to display map images from ArcGIS Map Services on a map. MapImageLayer renders map images dynamically from a MapServer and can be declared alone or with child components to customize its behavior:
+
+```ts
+import React from "react";
+import { MapImageLayer, MapView } from "esrieact";
+
+const MAP_IMAGE_URL = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer";
+
+export const ReactMap: React.FC = () => {
+  return (
+    <MapView>
+      <MapImageLayer url={MAP_IMAGE_URL} />
+    </MapView>
+  );
+};
+```
+
+## Props
+
+`Props` extends [`MapImageLayer properties`](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#properties-summary)
+
+### `children`
+
+Children components can be any of the following esrieact components:
+
+- [`LayerView`](/layer-views) component
+- Any [`Renderer`](/category/renderers) component that is compatible with a MapImageLayer
+
+### `events`
+
+```ts
+  refresh: __esri.MapImageLayerRefreshEventHandler;
+  "layerview-create": __esri.MapImageLayerLayerviewCreateEventHandler;
+  "layerview-create-error": __esri.MapImageLayerLayerviewCreateErrorEventHandler;
+  "layerview-destroy": __esri.MapImageLayerLayerviewDestroyEventHandler;
+```
