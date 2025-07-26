@@ -27,7 +27,7 @@ Beacuse react-wrapped ESRI component props extend directly from ESRI class optio
 
 ```ts
 import React from "react";
-import { FeatureLayer, MapView } from "./esri";
+import { FeatureLayer, MapView } from "esrieact";
 
 export const ReactMap: React.FC = ({ layerList }) => {
   return (
@@ -50,7 +50,7 @@ However, any propery then updated within the above `new Extent` would not regist
 
 ```ts
 import React from "react";
-import { FeatureLayer, MapView } from "./esri";
+import { FeatureLayer, MapView } from "esrieact";
 import FeatureEffect from '@arcgis/core/layers/FeatureEffect'
 import FeatureFilter from '@arcgis/core/layers/FeatureFilter'
 
@@ -73,7 +73,7 @@ Because the property being updated is deeply nested within class-based ESRI comp
 
 ```ts
 import React from "react";
-import { FeatureLayer, MapView } from "./esri";
+import { FeatureLayer, MapView } from "esrieact";
 
 export const ReactMap: React.FC = ({ layerList }) => {
   const [clause, setClause] = useState("SOME SQL CLAUSE");

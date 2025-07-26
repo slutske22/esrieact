@@ -4,8 +4,8 @@ slug: /
 title: Introduction
 ---
 
-import BrowserOnly from '@docusaurus/BrowserOnly';
-import { useContext } from 'react';
+import BrowserOnly from "@docusaurus/BrowserOnly";
+import { useContext } from "react";
 
 # ESRIEACT
 
@@ -17,7 +17,7 @@ A react component library for the ArcGIS Javascript API.
     const MapView = require('../../packages/esrieact/map').MapView
 
     return (
-      <MapView 
+      <MapView
         style={{height: '200px', width: '100%' }}
         MapProperties={{
           basemap: 'topo'
@@ -29,24 +29,26 @@ A react component library for the ArcGIS Javascript API.
           popup: {
             defaultPopupTemplateEnabled: true,
           }}
-          
+
         }
       />
     )
-  }}
+
+}}
+
 </BrowserOnly>
 
 ## Getting Started
 
 ### Install / Get the Components
 
-This project is very much a work in progress.  A preliminary package is available via npm:
+This project is very much a work in progress. A preliminary package is available via npm:
 
 ```
 npm install esrieact
 ```
 
-This package has not yet been tested in various environments.  In the meantime, simply copy the contents of the [/lib](https://github.com/slutske22/esrieact/tree/main/lib) folder into your codebase, and use the components directly.
+This package has not yet been tested in various environments. In the meantime, simply copy the contents of the [/lib](https://github.com/slutske22/esrieact/tree/main/lib) folder into your codebase, and use the components directly.
 
 ### Create a Map
 
@@ -74,7 +76,7 @@ const MyApp = () => {
 ### Use State
 
 ```js
-import { MapView, FeatureLayer, LayerList } from '../lib';
+import { MapView, FeatureLayer, LayerList } from "../lib";
 
 const MyApp = () => {
   const [maxStorage, setMaxStorage] = useState(10000);
@@ -85,8 +87,8 @@ const MyApp = () => {
         <FeatureLayerView filter={{ where: `C_Storage < ${maxStorage}` }} />
       </FeatureLayer>
     </MapView>
-  )
-}
+  );
+};
 ```
 
 ## Why ESRIEACT?
@@ -157,7 +159,7 @@ Instead, wrapper components are available to make map presentation clear and dec
 
 ```ts
 import React from "react";
-import { FeatureLayer, MapView } from "./esri";
+import { FeatureLayer, MapView } from "esrieact";
 
 export const ReactMap: React.FC = ({ layerList }) => {
   return (
@@ -174,4 +176,4 @@ The wrappers for ESRIEACT components often do not render anything, but rather si
 
 ### What about ESRI's react library?
 
-ESRI recently released [@arcgis/map-components-react](https://www.npmjs.com/package/@arcgis/map-components-react), which offers some support for ArcGIS components in react.  Their [documentation](https://developers.arcgis.com/javascript/latest/get-started-react/) shows a basic example, but in the current early stage of this library, react components for map layers, renderers, graphics, etc, do not exist, and must still be added to a map using the classic imperative programming style.
+ESRI recently released [@arcgis/map-components-react](https://www.npmjs.com/package/@arcgis/map-components-react), which offers some support for ArcGIS components in react. Their [documentation](https://developers.arcgis.com/javascript/latest/get-started-react/) shows a basic example, but in the current early stage of this library, react components for map layers, renderers, graphics, etc, do not exist, and must still be added to a map using the classic imperative programming style.
