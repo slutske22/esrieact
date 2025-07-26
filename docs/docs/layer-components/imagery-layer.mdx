@@ -1,1 +1,41 @@
 # ImageryLayer
+
+## Introduction
+
+The `ImageryLayer` is used to display imagery data from ArcGIS Image Services on a map. It can be declared alone or with child components to customize its behavior:
+
+```ts
+import React from "react";
+import { ImageryLayer, MapView } from "./esri";
+
+const IMAGERY_URL = "https://landsat.arcgis.com/arcgis/rest/services/Landsat/MS/ImageServer";
+
+export const ReactMap: React.FC = () => {
+  return (
+    <MapView>
+      <ImageryLayer url={IMAGERY_URL} />
+    </MapView>
+  );
+};
+```
+
+## Props
+
+`Props` extends [`ImageryLayer properties`](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#properties-summary)
+
+### `children`
+
+Children components can be any of the following esrieact components:
+
+- [`LayerView`](/layer-views) component
+- Any [`Renderer`](/category/renderers) component that is compatible with an ImageryLayer
+
+### `events`
+
+Standard events on an `__esri.Layer`:
+
+```ts
+  "layerview-create": __esri.LayerLayerviewCreateEventHandler;
+  "layerview-create-error": __esri.LayerLayerviewCreateErrorEventHandler;
+  "layerview-destroy": __esri.LayerLayerviewDestroyEventHandler;
+```
