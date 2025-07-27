@@ -5,8 +5,18 @@ import {
   createLayerComponent,
 } from "./createLayerComponent";
 
+export type VectorTileLayerEventHandlerFnMap = Partial<{
+  refresh: __esri.VectorTileLayerRefreshEventHandler;
+  "layerview-create": __esri.VectorTileLayerLayerviewCreateEventHandler;
+  "layerview-create-error": __esri.VectorTileLayerLayerviewCreateErrorEventHandler;
+  "layerview-destroy": __esri.VectorTileLayerLayerviewDestroyEventHandler;
+}>;
+
 const createLayer = (
-  properties: LayerComponentProps<__esri.VectorTileLayerProperties>,
+  properties: LayerComponentProps<
+    __esri.VectorTileLayerProperties,
+    VectorTileLayerEventHandlerFnMap
+  >,
 ): __esri.VectorTileLayer => {
   return new EsriVectorTileLayer(properties);
 };
@@ -19,5 +29,8 @@ const createLayer = (
  */
 export const VectorTileLayer = React.forwardRef<
   __esri.VectorTileLayer,
-  LayerComponentProps<__esri.VectorTileLayerProperties>
+  LayerComponentProps<
+    __esri.VectorTileLayerProperties,
+    VectorTileLayerEventHandlerFnMap
+  >
 >((properties, ref) => createLayerComponent(createLayer, ref, properties));

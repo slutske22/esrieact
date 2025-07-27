@@ -1,1 +1,40 @@
 # VectorTileLayer
+
+## Introduction
+
+The `VectorTileLayer` is used to display vector tile data on a map. Vector tiles contain vector data that can be styled and customized on the client side, providing high-performance rendering and flexible styling options. The VectorTileLayer can be declared alone or with child components to customize its behavior:
+
+```ts
+import React from "react";
+import { VectorTileLayer, MapView } from "esrieact";
+
+const VECTOR_TILE_URL = "https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer";
+
+export const ReactMap: React.FC = () => {
+  return (
+    <MapView>
+      <VectorTileLayer url={VECTOR_TILE_URL} />
+    </MapView>
+  );
+};
+```
+
+## Props
+
+`Props` extends [`VectorTileLayer properties`](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#properties-summary)
+
+### `children`
+
+Children components can be any of the following esrieact components:
+
+- [`LayerView`](/layer-views) component
+- Any [`Renderer`](/category/renderers) component that is compatible with a VectorTileLayer
+
+### `events`
+
+```ts
+  refresh: __esri.VectorTileLayerRefreshEventHandler;
+  "layerview-create": __esri.VectorTileLayerLayerviewCreateEventHandler;
+  "layerview-create-error": __esri.VectorTileLayerLayerviewCreateErrorEventHandler;
+  "layerview-destroy": __esri.VectorTileLayerLayerviewDestroyEventHandler;
+```
