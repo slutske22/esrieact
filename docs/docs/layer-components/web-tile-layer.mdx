@@ -1,1 +1,42 @@
 # WebTileLayer
+
+## Introduction
+
+The `WebTileLayer` is used to display web tile services on a map. WebTileLayer can display tiles from any web tile service that follows standard tiling schemes (like TMS, XYZ, or WMTS). It can be declared alone or with child components to customize its behavior:
+
+```ts
+import React from "react";
+import { WebTileLayer, MapView } from "esrieact";
+
+const WEB_TILE_URL = "https://{subDomain}.tile.openstreetmap.org/{level}/{col}/{row}.png";
+
+export const ReactMap: React.FC = () => {
+  return (
+    <MapView>
+      <WebTileLayer
+        urlTemplate={WEB_TILE_URL}
+        subDomains={["a", "b", "c"]}
+      />
+    </MapView>
+  );
+};
+```
+
+## Props
+
+`Props` extends [`WebTileLayer properties`](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#properties-summary)
+
+### `children`
+
+Children components can be any of the following esrieact components:
+
+- [`LayerView`](/layer-views) component
+
+### `events`
+
+```ts
+  refresh: __esri.WebTileLayerRefreshEventHandler;
+  "layerview-create": __esri.WebTileLayerLayerviewCreateEventHandler;
+  "layerview-create-error": __esri.WebTileLayerLayerviewCreateErrorEventHandler;
+  "layerview-destroy": __esri.WebTileLayerLayerviewDestroyEventHandler;
+```

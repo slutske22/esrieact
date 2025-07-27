@@ -5,8 +5,18 @@ import {
   createLayerComponent,
 } from "./createLayerComponent";
 
+export type WMSLayerEventHandlerFnMap = Partial<{
+  refresh: __esri.WMSLayerRefreshEventHandler;
+  "layerview-create": __esri.WMSLayerLayerviewCreateEventHandler;
+  "layerview-create-error": __esri.WMSLayerLayerviewCreateErrorEventHandler;
+  "layerview-destroy": __esri.WMSLayerLayerviewDestroyEventHandler;
+}>;
+
 const createLayer = (
-  properties: LayerComponentProps<__esri.WMSLayerProperties>,
+  properties: LayerComponentProps<
+    __esri.WMSLayerProperties,
+    WMSLayerEventHandlerFnMap
+  >,
 ): __esri.WMSLayer => {
   return new EsriWMSLayer(properties);
 };
@@ -19,5 +29,5 @@ const createLayer = (
  */
 export const WMSLayer = React.forwardRef<
   __esri.WMSLayer,
-  LayerComponentProps<__esri.WMSLayerProperties>
+  LayerComponentProps<__esri.WMSLayerProperties, WMSLayerEventHandlerFnMap>
 >((properties, ref) => createLayerComponent(createLayer, ref, properties));

@@ -5,8 +5,18 @@ import {
   createLayerComponent,
 } from "./createLayerComponent";
 
+export type WebTileLayerEventHandlerFnMap = Partial<{
+  refresh: __esri.WebTileLayerRefreshEventHandler;
+  "layerview-create": __esri.WebTileLayerLayerviewCreateEventHandler;
+  "layerview-create-error": __esri.WebTileLayerLayerviewCreateErrorEventHandler;
+  "layerview-destroy": __esri.WebTileLayerLayerviewDestroyEventHandler;
+}>;
+
 const createLayer = (
-  properties: LayerComponentProps<__esri.WebTileLayerProperties>,
+  properties: LayerComponentProps<
+    __esri.WebTileLayerProperties,
+    WebTileLayerEventHandlerFnMap
+  >,
 ): __esri.WebTileLayer => {
   return new EsriWebTileLayer(properties);
 };
@@ -19,5 +29,8 @@ const createLayer = (
  */
 export const WebTileLayer = React.forwardRef<
   __esri.WebTileLayer,
-  LayerComponentProps<__esri.WebTileLayerProperties>
+  LayerComponentProps<
+    __esri.WebTileLayerProperties,
+    WebTileLayerEventHandlerFnMap
+  >
 >((properties, ref) => createLayerComponent(createLayer, ref, properties));

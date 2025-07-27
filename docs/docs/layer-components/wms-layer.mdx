@@ -1,1 +1,49 @@
 # WMSLayer
+
+## Introduction
+
+The `WMSLayer` is used to display Web Map Service (WMS) layers on a map. WMS is an OGC standard protocol for serving georeferenced map images over the internet. The WMSLayer can be declared alone or with child components to customize its behavior:
+
+```ts
+import React from "react";
+import { WMSLayer, MapView } from "esrieact";
+
+const WMS_URL = "https://basemap.nationalmap.gov/arcgis/services/USGSImageryOnly/MapServer/WMSServer";
+
+export const ReactMap: React.FC = () => {
+  return (
+    <MapView>
+      <WMSLayer
+        url={WMS_URL}
+        sublayers={[
+          {
+            name: "0",
+            visible: true,
+          }
+        ]}
+      />
+    </MapView>
+  );
+};
+```
+
+## Props
+
+`Props` extends [`WMSLayer properties`](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#properties-summary)
+
+### `children`
+
+Children components can be any of the following esrieact components:
+
+- [`LayerView`](/layer-views) component
+
+### `events`
+
+`WMSLayerEventHandlerFnMap`: An event handler function map based on the events available on a WMSLayer
+
+```ts
+  refresh: __esri.WMSLayerRefreshEventHandler;
+  "layerview-create": __esri.WMSLayerLayerviewCreateEventHandler;
+  "layerview-create-error": __esri.WMSLayerLayerviewCreateErrorEventHandler;
+  "layerview-destroy": __esri.WMSLayerLayerviewDestroyEventHandler;
+```
