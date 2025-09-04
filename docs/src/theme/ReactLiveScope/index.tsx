@@ -2,6 +2,8 @@ import React from "react";
 import EsriGeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
 import * as constants from "./constants";
 import "@arcgis/map-components/components/arcgis-directional-pad";
+// Needs to be in scope for react-live even if not used
+// eslint-disable-next-line
 import * as Esrieact from "../../../../packages/esrieact/dist";
 
 // Add react-live imports you need here

@@ -5,7 +5,7 @@
   "scripts": {
     "start": "turbo dev tsc:watch lint:watch",
     "lint": "eslint . --ext ts,tsx",
-    "lint:watch": "onchange -i \"**/*.{tsx,ts}\" -e \"{playwright/**/*,.next/**/*}\" -- npm run lint"
+    "lint:watch": "onchange -i \"**/*.{tsx,ts}\" -e \"{node_modules/**/*,dist/**/*,.vite/**/*,.next/**/*}\" -- npm run lint"
   },
   "workspaces": [
     "apps/*",
