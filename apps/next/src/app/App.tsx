@@ -7,7 +7,7 @@ import {
   MapView,
   FeatureLayer,
   MapRef,
-  // FeatureLayerView,
+  FeatureLayerView,
   GroupLayer,
   BasemapGallery,
   LayerList,
@@ -25,7 +25,7 @@ const App: React.FC = () => {
   // Some tests to make sure refs are what we think they are
   const mapRef = useRef<MapRef>(null);
   const flRef = useRef<EsriFeatureLayer>(null);
-  // const flViewRef = useRef<__esri.FeatureLayerView>(null);
+  const flViewRef = useRef<__esri.FeatureLayerView>(null);
 
   config.apiKey = process.env.NEXT_PUBLIC_ARCGIS_API_KEY as string;
 
@@ -70,8 +70,8 @@ const App: React.FC = () => {
                 setClickedLocation(e.mapPoint);
 
                 view.openPopup();
-                const fetchFeatures = await view.popup.fetchFeatures(e);
-                const graphics = await fetchFeatures.allGraphicsPromise;
+                const fetchFeatures = await view.popup?.fetchFeatures(e);
+                const graphics = await fetchFeatures?.allGraphicsPromise;
 
                 setClickedGraphics(graphics ?? []);
               },
@@ -95,12 +95,12 @@ const App: React.FC = () => {
               ref={flRef}
               url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0"
             >
-              {/* <FeatureLayerView
+              <FeatureLayerView
                 ref={flViewRef}
                 filter={{
                   where: `C_Storage < ${maxStorage}`,
                 }}
-              /> */}
+              />
 
               {rendererImage && (
                 <SimpleRenderer>

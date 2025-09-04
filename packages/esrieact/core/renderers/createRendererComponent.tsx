@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useImperativeHandle,
   useMemo,
+  useRef,
 } from "react";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import SceneLayer from "@arcgis/core/layers/SceneLayer";
@@ -51,11 +52,18 @@ export const createRendererComponent = (
   { children, ...properties }: RendererProps,
 ) => {
   const parent = useContext(LayerContext) as __esri.Layer;
-  const defaultRenderer = (parent as FeatureLayer).renderer;
+  const defaultRenderer = useRef((parent as FeatureLayer).renderer?.clone());
 
-  const instance = useMemo(() => {
-    const renderer = createRenderer(properties);
+  // Just create the renderer instance (pure calculation)
+  const instance = useMemo(() => createRenderer(properties), []);
 
+  useImperativeHandle(ref, () => instance);
+  useEsriPropertyUpdates(instance, properties);
+
+  /**
+   * Assign the renderer on mount and clean up on unmount
+   */
+  useEffect(() => {
     if (
       parent instanceof FeatureLayer ||
       parent instanceof SceneLayer ||
@@ -66,25 +74,14 @@ export const createRendererComponent = (
       parent instanceof StreamLayer ||
       parent instanceof WFSLayer
     ) {
-      parent.renderer = renderer;
+      parent.renderer = instance;
     } else {
-      // Allow this because it only happens in development and is helpful for devs
-      // eslint-disable-next-line
+      // eslint-disable-next-line no-console
       console.error(
         "You are trying to use a <Renderer /> component as the descendant of a component that does not take an ESRI renderer.",
       );
     }
 
-    return renderer;
-  }, []);
-
-  useImperativeHandle(ref, () => instance);
-  useEsriPropertyUpdates(instance, properties);
-
-  /**
-   * Set the renderer of the parent layer back to its initial default on unmount
-   */
-  useEffect(() => {
     return () => {
       if (
         parent instanceof FeatureLayer ||
@@ -96,10 +93,10 @@ export const createRendererComponent = (
         parent instanceof StreamLayer ||
         parent instanceof WFSLayer
       ) {
-        parent.renderer = defaultRenderer;
+        parent.renderer = defaultRenderer.current;
       }
     };
-  }, []);
+  }, [parent, instance, defaultRenderer]);
 
   // If no children, there is no need to render a context provider
   if (!children) return null;

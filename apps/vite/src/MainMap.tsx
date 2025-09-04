@@ -1,5 +1,4 @@
 import { useRef } from "react";
-import EsriFeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import { FeatureLayer } from "esrieact/layers/FeatureLayer.js";
 import {
   MapRef,
@@ -10,8 +9,6 @@ import {
   Expand,
   LayerList,
   BasemapGallery,
-  SimpleRenderer,
-  PictureMarkerSymbol,
   ImageryLayer,
   Legend,
   MapImageLayer,
@@ -20,8 +17,6 @@ import { useAtom } from "jotai";
 import {
   clickedGraphicsAtom,
   clickedLocationAtom,
-  maxStorageAtom,
-  rendererImageAtom,
   visibleLayersAtom,
 } from "./state";
 import { HAWAII_LAYERS, infrastructureSubLayers, LayerConfig } from "./layers";
@@ -44,12 +39,9 @@ export const MainMap = () => {
   const mapRef = useRef<MapRef>(null);
   const [, setClickedLocation] = useAtom(clickedLocationAtom);
   const [, setClickedGraphics] = useAtom(clickedGraphicsAtom);
-  const [maxStorage] = useAtom(maxStorageAtom);
   const [benthicZoneFilter] = useAtom(benthicZoneValueAtom);
-  const [rendererImage] = useAtom(rendererImageAtom);
   const [visibleLayers] = useAtom(visibleLayersAtom);
 
-  const flRef = useRef<EsriFeatureLayer>(null);
   const flViewRef = useRef<__esri.FeatureLayerView>(null);
 
   const renderLayer = (layer: LayerConfig) => {
@@ -84,8 +76,8 @@ export const MainMap = () => {
             setClickedLocation(e.mapPoint);
 
             view.openPopup();
-            const fetchFeatures = await view.popup.fetchFeatures(e);
-            const graphics = await fetchFeatures.allGraphicsPromise;
+            const fetchFeatures = await view.popup?.fetchFeatures(e);
+            const graphics = await fetchFeatures?.allGraphicsPromise;
 
             setClickedGraphics(graphics ?? []);
           },
@@ -93,34 +85,6 @@ export const MainMap = () => {
       }}
       MapProperties={{ basemap: "topo-vector" }}
     >
-      {/* <VectorTileLayer url={LAYER_URLS.vector_tile_layer_url} />
-
-      <GroupLayer title="Feature Layers are kewl">
-        <FeatureLayer
-          url={LAYER_URLS.featurelayer_covid}
-          popupEnabled={false}
-        />
-
-        <FeatureLayer
-          url={LAYER_URLS.featurelayer_distance_scores}
-          opacity={0.5}
-          popupEnabled={false}
-        />
-
-        <FeatureLayer ref={flRef} url={LAYER_URLS.featurelayer_trees}>
-          <FeatureLayerView
-            ref={flViewRef}
-            filter={{ where: `C_Storage < ${maxStorage}` }}
-          />
-
-          {rendererImage && (
-            <SimpleRenderer>
-              <PictureMarkerSymbol height={24} width={24} url={rendererImage} />
-            </SimpleRenderer>
-          )}
-        </FeatureLayer>
-      </GroupLayer> */}
-
       {/**
        * Layers rendered from a list controlled by state variables
        */}
