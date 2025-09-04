@@ -62,18 +62,7 @@ export const createLayerComponent = (
   /**
    * Create instance only on first mount
    */
-  const instance = useMemo(() => {
-    const layer = createLayer(properties);
-
-    // If the parent is a GroupLayer (or any EsriInstance that has the .add(layer) method), add it to that,
-    // otherwise, add directly to the map
-    if (parent && parent.add) {
-      parent.add(layer, layerOrder);
-    } else {
-      map.add(layer, layerOrder);
-    }
-    return layer;
-  }, []);
+  const instance = useMemo(() => createLayer(properties), []);
 
   useImperativeHandle(ref, () => instance);
   useEsriPropertyUpdates(instance, properties);
@@ -86,6 +75,12 @@ export const createLayerComponent = (
    * https://community.esri.com/t5/arcgis-javascript-maps-sdk-questions/fade-a-layer-on-off-smoothly/m-p/70174
    */
   useEffect(() => {
+    if (parent && parent.add) {
+      parent.add(instance, layerOrder);
+    } else {
+      map.add(instance, layerOrder);
+    }
+
     return () => {
       if (parent && parent.remove) {
         parent.remove(instance);
@@ -93,7 +88,7 @@ export const createLayerComponent = (
         map.remove(instance);
       }
     };
-  }, []);
+  }, [instance, parent, map, layerOrder]);
 
   // If no children, there is no need to render a context provider
   if (!children) return null;
