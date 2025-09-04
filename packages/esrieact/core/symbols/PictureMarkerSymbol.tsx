@@ -1,4 +1,9 @@
-import React, { useContext, useImperativeHandle, useMemo } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+} from "react";
 import EsriPictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol.js";
 import Graphic from "@arcgis/core/Graphic";
 import Renderer from "@arcgis/core/renderers/Renderer";
@@ -22,9 +27,12 @@ export const PictureMarkerSymbol = React.forwardRef<
   /**
    * Create instance only on first mount
    */
-  const instance = useMemo(() => {
-    const symbol = new EsriPictureMarkerSymbol(properties);
+  const instance = useMemo(() => new EsriPictureMarkerSymbol(properties), []);
 
+  useImperativeHandle(ref, () => instance);
+  useEsriPropertyUpdates(instance, properties);
+
+  useEffect(() => {
     if (
       !(parentGraphic instanceof Graphic) &&
       !(parentRenderer instanceof Renderer)
@@ -41,20 +49,13 @@ export const PictureMarkerSymbol = React.forwardRef<
 
     if (parentRenderer) {
       // @ts-expect-error allow this for renderers that do take a symbol
-      parentRenderer.symbol = symbol;
-      return symbol;
+      parentRenderer.symbol = instance;
     }
 
     if (parentGraphic) {
-      parentGraphic.symbol = symbol;
-      return symbol;
+      parentGraphic.symbol = instance;
     }
-
-    return symbol;
-  }, []) as EsriPictureMarkerSymbol;
-
-  useImperativeHandle(ref, () => instance);
-  useEsriPropertyUpdates(instance, properties);
+  }, [instance, parentGraphic, parentRenderer]);
 
   return null;
 });
