@@ -219,7 +219,7 @@ In order for `<MapView />` child components to be properly associated with the u
 
 ```ts
 // App.tsx
-import { MapViewCore, MapContextProvider } from 'lib/map/MapView';
+import { MapViewCore, MapContextProvider } from 'esrieact';
 
 const App = () => {
   // Wrap MapViewCore and other components that need access to the map context
@@ -233,7 +233,7 @@ const App = () => {
 
 // OtherUI.tsx
 import { useContext } from 'react';
-import { MapContext } from 'lib/map/MapView';
+import { MapContext } from 'esrieact';
 
 const OtherUI = () => {
   const { view } = useContext(MapContext);

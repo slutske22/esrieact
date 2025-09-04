@@ -161,7 +161,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  *
  * @example
  * // App.tsx
- * import { MapViewCore, MapContextProvider } from 'lib/map/MapView';
+ * import { MapViewCore, MapContextProvider } from 'esrieact';
  *
  * const App = () => {
  *    return (
@@ -174,7 +174,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  *
  * // OtherUI.tsx
  * import { useContext } from 'react';
- * import { MapContext } from 'lib/map/MapView';
+ * import { MapContext } from 'esrieact';
  *
  * const OtherUI = () => {
  *    const { view } = useContext(MapContext);
