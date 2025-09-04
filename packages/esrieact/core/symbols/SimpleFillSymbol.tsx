@@ -4,6 +4,7 @@ import Graphic from "@arcgis/core/Graphic";
 import Renderer from "@arcgis/core/renderers/Renderer";
 import { GraphicContext } from "../Graphic";
 import { useEsriPropertyUpdates } from "../../utils";
+import { RendererContext } from "../renderers";
 
 /**
  * A SimpleFillSymbol component, must be rendered as a child of a Renderer component or Graphic component
@@ -15,7 +16,8 @@ export const SimpleFillSymbol = React.forwardRef<
   __esri.SimpleFillSymbol,
   __esri.SimpleFillSymbolProperties
 >((properties, ref) => {
-  const parent = useContext(GraphicContext);
+  const parentGraphic = useContext(GraphicContext);
+  const parentRenderer = useContext(RendererContext);
 
   /**
    * Create instance only on first mount
@@ -23,7 +25,10 @@ export const SimpleFillSymbol = React.forwardRef<
   const instance = useMemo(() => {
     const symbol = new EsriSimpleFillSymbol(properties);
 
-    if (!(parent instanceof Graphic) || !(parent instanceof Renderer)) {
+    if (
+      !(parentGraphic instanceof Graphic) &&
+      !(parentRenderer instanceof Renderer)
+    ) {
       // Allow this because it only happens in development and is helpful for devs
       // eslint-disable-next-line
       console.error(
@@ -34,8 +39,15 @@ export const SimpleFillSymbol = React.forwardRef<
       return;
     }
 
-    if (parent) {
-      parent.symbol = symbol;
+    if (parentRenderer) {
+      // @ts-expect-error allow this for renderers that do take a symbol
+      parentRenderer.symbol = symbol;
+      return symbol;
+    }
+
+    if (parentGraphic) {
+      parentGraphic.symbol = symbol;
+      return symbol;
     }
 
     return symbol;
