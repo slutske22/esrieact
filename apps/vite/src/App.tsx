@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import config from "@arcgis/core/config";
 import "./App.css";
 import { useAtom } from "jotai";
@@ -12,17 +12,30 @@ import {
 } from "./state";
 import { MainMap } from "./MainMap";
 import { Menu } from "./Menu";
+import App_OLD from "./App_OLD";
 
 const App: React.FC = () => {
   config.apiKey = import.meta.env.VITE_ARCGIS_API_KEY;
+
+  const [oldApp, setOldApp] = useState(false);
 
   const [maxStorage, setMaxStorage] = useAtom(maxStorageAtom);
   const [, setRendererImage] = useAtom(rendererImageAtom);
   const [clickedLocation] = useAtom(clickedLocationAtom);
   const [clickedGraphics] = useAtom(clickedGraphicsAtom);
 
+  if (oldApp) {
+    return (
+      <>
+        <button onClick={() => setOldApp(false)}>New App</button>
+        <App_OLD />
+      </>
+    );
+  }
+
   return (
     <>
+      <button onClick={() => setOldApp(true)}>Old App</button>
       <div style={{ display: "flex" }}>
         <Menu />
         <MainMap />
