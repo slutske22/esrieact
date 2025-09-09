@@ -6,3 +6,4 @@ export * from "./LayerList";
 export * from "./Legend";
 export * from "./SearchBar";
 export * from "./Sketch";
+export * from "./Histogram";

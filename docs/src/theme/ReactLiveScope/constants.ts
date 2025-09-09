@@ -55,6 +55,9 @@ export const CLIMATE_RATINGS_RASTERLAYER_URL =
 export const OAHU_HPMS_ROADS_FL_URL =
   "https://geodata.hawaii.gov/arcgis/rest/services/Transportation/MapServer/12";
 
+export const HI_CENSUS_2010_FL_URL =
+  "https://geodata.hawaii.gov/arcgis/rest/services/Census/MapServer/16";
+
 export const blendModes = [
   "average",
   "color-burn",

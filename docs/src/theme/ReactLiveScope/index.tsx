@@ -1,5 +1,6 @@
 import React from "react";
 import EsriGeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
+import histogram from "@arcgis/core/smartMapping/statistics/histogram.js";
 import * as constants from "./constants";
 import "@arcgis/map-components/components/arcgis-directional-pad";
 // Needs to be in scope for react-live even if not used
@@ -16,6 +17,9 @@ const ReactLiveScope: unknown = {
 
   // Direct ESRI components
   EsriGeoJSONLayer,
+
+  // Smart Mapping
+  histogram,
 };
 
 // Only import esrieact on the client side

@@ -1,0 +1,54 @@
+# Histogram
+
+## Simple example
+
+An `Expand` can take another widget as a child:
+
+```tsx live
+function Example() {
+  const layer = useRef<FeatureLayer>(null);
+
+  const [ready, setReady] = useState(false);
+  const [histogramResult, setHistogramResult] = useState<HistogramResult>(null);
+
+  console.log(histogramResult);
+
+  useEffect(() => {
+    if (ready) {
+      const createHistogram = async () => {
+        const histogramResult = await histogram({
+          layer: layer.current,
+          field: "pop10",
+          numBins: 10,
+        });
+        setHistogramResult(histogramResult);
+      };
+
+      createHistogram();
+    }
+  }, [ready]);
+
+  return (
+    <MapView
+      ViewProperties={{ extent: OAHU_EXTENT }}
+      MapProperties={{ basemap: "topo-vector" }}
+      style={{ height: "300px", width: "100%" }}
+    >
+      <FeatureLayer
+        ref={layer}
+        url={HI_CENSUS_2010_FL_URL}
+        events={{ "layerview-create": () => setReady(true) }}
+      />
+
+      <div
+        id="histogram-container"
+        style={{ height: "300px", width: "100%", border: "1px solid red" }}
+      >
+        {histogramResult && (
+          <Histogram {...histogramResult} container="histogram-container" />
+        )}
+      </div>
+    </MapView>
+  );
+}
+```

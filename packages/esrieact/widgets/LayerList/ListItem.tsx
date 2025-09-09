@@ -11,6 +11,8 @@ const createWidget = (
 /**
  * An LayerList ListItem component
  *
+ * TODO: Add support for children that attach to parent LayerList
+ *
  * ArcGIS JS API Source Components:
  * - [ListItem](https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html)
  */
