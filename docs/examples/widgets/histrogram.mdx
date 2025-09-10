@@ -11,15 +11,15 @@ function Example() {
   const [ready, setReady] = useState(false);
   const [histogramResult, setHistogramResult] = useState<HistogramResult>(null);
 
-  console.log(histogramResult);
+  console.log(layer);
 
   useEffect(() => {
     if (ready) {
       const createHistogram = async () => {
         const histogramResult = await histogram({
           layer: layer.current,
-          field: "pop10",
-          numBins: 10,
+          field: "pop20",
+          numBins: 100,
         });
         setHistogramResult(histogramResult);
       };
@@ -30,22 +30,34 @@ function Example() {
 
   return (
     <MapView
-      ViewProperties={{ extent: OAHU_EXTENT }}
+      ViewProperties={{ extent: OAHU_EXTENT_2 }}
       MapProperties={{ basemap: "topo-vector" }}
       style={{ height: "300px", width: "100%" }}
     >
       <FeatureLayer
         ref={layer}
-        url={HI_CENSUS_2010_FL_URL}
+        url={HI_CENSUS_2020_FL_URL}
         events={{ "layerview-create": () => setReady(true) }}
+        renderer={HI_CENSUS_2020_FL_RENDERER}
       />
+
+      <Legend position="top-right" />
 
       <div
         id="histogram-container"
         style={{ height: "300px", width: "100%", border: "1px solid red" }}
       >
         {histogramResult && (
-          <Histogram {...histogramResult} container="histogram-container" />
+          <Histogram
+            container="histogram-container"
+            bins={histogramResult.bins}
+            min={histogramResult.minValue}
+            max={histogramResult.maxValue}
+            layout="horizontal"
+            labelFormatFunction={function (value) {
+              return value.toFixed(0);
+            }}
+          />
         )}
       </div>
     </MapView>

@@ -55,8 +55,31 @@ export const CLIMATE_RATINGS_RASTERLAYER_URL =
 export const OAHU_HPMS_ROADS_FL_URL =
   "https://geodata.hawaii.gov/arcgis/rest/services/Transportation/MapServer/12";
 
-export const HI_CENSUS_2010_FL_URL =
-  "https://geodata.hawaii.gov/arcgis/rest/services/Census/MapServer/16";
+export const HI_CENSUS_2020_FL_URL =
+  "https://geodata.hawaii.gov/arcgis/rest/services/Census/MapServer/26";
+
+export const HI_CENSUS_2020_FL_RENDERER = {
+  type: "simple",
+  symbol: {
+    type: "simple-fill",
+    color: "lightgray",
+    outline: {
+      width: 0.5,
+      color: "white",
+    },
+  },
+  visualVariables: [
+    {
+      type: "color",
+      field: "pop20",
+      stops: [
+        { value: 0, color: "#f2f0f7", label: "0" },
+        { value: 1000, color: "#9e9ac8", label: "1,000" },
+        { value: 3000, color: "#54278f", label: "3,000+" },
+      ],
+    },
+  ],
+};
 
 export const blendModes = [
   "average",
