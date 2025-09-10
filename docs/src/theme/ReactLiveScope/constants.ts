@@ -71,7 +71,7 @@ export const HI_CENSUS_2020_FL_RENDERER = {
   visualVariables: [
     {
       type: "color",
-      field: "pop20",
+      field: "POP20",
       stops: [
         { value: 0, color: "#f2f0f7", label: "0" },
         { value: 1000, color: "#9e9ac8", label: "1,000" },

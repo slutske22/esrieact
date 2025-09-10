@@ -10,8 +10,8 @@ function Example() {
 
   const [ready, setReady] = useState(false);
   const [histogramResult, setHistogramResult] = useState<HistogramResult>(null);
-
-  console.log(layer);
+  const [summaryStatisticsResult, setSummaryStatisticsResult] =
+    useState<SummaryStatisticsResult>(null);
 
   useEffect(() => {
     if (ready) {
@@ -19,9 +19,18 @@ function Example() {
         const histogramResult = await histogram({
           layer: layer.current,
           field: "pop20",
-          numBins: 100,
+          numBins: 50,
         });
         setHistogramResult(histogramResult);
+
+        const summaryStatisticsResult = await summaryStatistics({
+          layer: layer.current,
+          field: "pop20",
+        });
+
+        setSummaryStatisticsResult(summaryStatisticsResult);
+
+        console.log(summaryStatisticsResult);
       };
 
       createHistogram();
@@ -43,22 +52,27 @@ function Example() {
 
       <Legend position="top-right" />
 
+      <h4 className="mt-2! mb-0!">Population 2020</h4>
       <div
         id="histogram-container"
         style={{ height: "300px", width: "100%", border: "1px solid red" }}
       >
-        {histogramResult && (
+        {histogramResult && summaryStatisticsResult && (
           <Histogram
             container="histogram-container"
             bins={histogramResult.bins}
             min={histogramResult.minValue}
             max={histogramResult.maxValue}
-            layout="horizontal"
+            average={summaryStatisticsResult.avg}
             labelFormatFunction={function (value) {
-              return value.toFixed(0);
+              return Math.round(value).toLocaleString();
             }}
           />
         )}
+      </div>
+      <div className="flex justify-between">
+        <div>{histogramResult?.minValue}</div>
+        <div>{histogramResult?.maxValue?.toLocaleString()}</div>
       </div>
     </MapView>
   );
