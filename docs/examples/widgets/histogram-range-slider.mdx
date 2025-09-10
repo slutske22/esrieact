@@ -1,12 +1,9 @@
-# Histogram
-
-## Simple example
-
-A `Histogram` can be used to visualize the distribution of a field in a layer. In ESRIEACT, the `Histogram` component is a wrapper around the [ESRI `Histogram` widget](https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Histogram.html). This widget still requires properties derived from the imperative use of smartMapping tools like [`histogram`](https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-statistics-histogram.html), and possibly [`summaryStatistics`](https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-statistics-summaryStatistics.html). As ESRIEACT's focus is on presentational components, the imperative use of smartMapping functions is _not_ abstracted away.
+# HistogramRangeSlider
 
 ```tsx live
 function Example() {
   const layer = useRef<FeatureLayer>(null);
+  const layerView = useRef<FeatureLayerView>(null);
 
   const [layerReady, setLayerReady] = useState(false);
   const [histogramResult, setHistogramResult] = useState<HistogramResult>(null);
@@ -44,28 +41,36 @@ function Example() {
         url={HI_CENSUS_2020_FL_URL}
         events={{ "layerview-create": () => setLayerReady(true) }}
         renderer={HI_CENSUS_2020_FL_RENDERER}
-      />
+      >
+        <FeatureLayerView ref={layerView} />
+      </FeatureLayer>
 
       <Legend position="top-right" />
 
       <h4 className="mt-2! mb-0!">Population 2020</h4>
-      <div id="histogram-container" style={{ height: "300px", width: "100%" }}>
+      <div
+        id="histogram-slider-container"
+        style={{ height: "300px", width: "100%" }}
+      >
         {histogramResult && stats && (
-          <Histogram
-            container="histogram-container"
+          <HistogramRangeSlider
+            container="histogram-slider-container"
             bins={histogramResult.bins}
             min={histogramResult.minValue}
             max={histogramResult.maxValue}
-            average={stats.avg}
-            labelFormatFunction={function (value) {
-              return Math.round(value).toLocaleString();
+            rangeType="between"
+            values={[histogramResult.minValue, histogramResult.maxValue]}
+            events={(histogramRangeSlider) => {
+              return {
+                "thumb-drag": () => {
+                  layerView.current.filter = {
+                    where: histogramRangeSlider.generateWhereClause("pop20"),
+                  };
+                },
+              };
             }}
           />
         )}
-      </div>
-      <div className="flex justify-between">
-        <div>{histogramResult?.minValue}</div>
-        <div>{histogramResult?.maxValue?.toLocaleString()}</div>
       </div>
     </MapView>
   );

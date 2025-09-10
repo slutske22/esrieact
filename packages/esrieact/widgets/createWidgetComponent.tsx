@@ -21,8 +21,9 @@ export type WidgetComponentProps<
     view?: __esri.MapView;
   },
   E extends Record<string, Function> = {},
+  I extends __esri.Widget = __esri.Widget,
 > = React.PropsWithChildren<T> & {
-  events?: E;
+  events?: E | ((widgetInstance: I) => E);
   position?: string | __esri.UIAddPosition;
 };
 
@@ -74,7 +75,7 @@ export function createWidgetComponent<P extends WidgetComponentProps>(
 
   useImperativeHandle(ref, () => instance);
   useEsriPropertyUpdates(instance, properties);
-  useEvents(instance, events);
+  useEvents(instance, typeof events === "function" ? events(instance) : events);
 
   /**
    * Check if children is a singular HTML element and assign its ref to instance.content,
