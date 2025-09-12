@@ -4,6 +4,7 @@ import histogram from "@arcgis/core/smartMapping/statistics/histogram.js";
 import summaryStatistics from "@arcgis/core/smartMapping/statistics/summaryStatistics.js";
 import { createContinuousRenderer } from "@arcgis/core/smartMapping/renderers/color.js";
 import * as constants from "./constants";
+import * as utils from "./utils";
 import "@arcgis/map-components/components/arcgis-directional-pad";
 // Needs to be in scope for react-live even if not used
 // eslint-disable-next-line
@@ -16,6 +17,9 @@ const ReactLiveScope: unknown = {
 
   // constants
   ...constants,
+
+  // Utils
+  ...utils,
 
   // Direct ESRI components
   EsriGeoJSONLayer,

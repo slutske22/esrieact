@@ -30,7 +30,7 @@ function Example() {
     <MapView
       ViewProperties={{ extent: OAHU_EXTENT_2 }}
       MapProperties={{ basemap: "topo-vector" }}
-      style={{ height: "300px", width: "100%" }}
+      style={{ height: "400px", width: "100%" }}
     >
       <FeatureLayer
         url={HI_CENSUS_2020_FL_URL}
@@ -48,7 +48,7 @@ function Example() {
         {rendererResponse && (
           <ColorSlider
             container="color-slider-container"
-            stops={rendererResponse.visualVariable.stops}
+            stops={docusaurusCompatibleStops(rendererResponse)}
             min={rendererResponse.statistics.min as number}
             max={rendererResponse.statistics.max as number}
           />
