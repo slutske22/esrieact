@@ -14,3 +14,8 @@ export const visibleLayersAtom = atom<string[]>([
   //   .filter(Boolean) as string[]),
   "infrastructure",
 ]);
+
+export const censusLayerAtom = atom<__esri.FeatureLayer | null>(null);
+export const rendererResultAtom = atom<__esri.ContinuousRendererResult | null>(
+  null,
+);

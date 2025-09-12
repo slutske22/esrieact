@@ -54,15 +54,9 @@ function Example() {
         {rendererResponse && (
           <ColorSlider
             container="color-slider-container"
-            histogramConfig={{ bins: 30 }}
-            renderer={rendererResponse.renderer}
-            events={(colorSlider) => {
-              return {
-                "thumb-drag": () => {
-                  layer.current.renderer = rendererResponse?.renderer;
-                },
-              };
-            }}
+            stops={rendererResponse.visualVariable.stops}
+            min={rendererResponse.statistics.min as number}
+            max={rendererResponse.statistics.max as number}
           />
         )}
       </div>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import config from "@arcgis/core/config";
 import "./App.css";
 import { useAtom } from "jotai";
+import { ColorSlider, MapContextProvider } from "esrieact";
 import BikeLogo from "./assets/bike.svg";
 import ZebraLogo from "./assets/zebra.png";
 import {
@@ -9,6 +10,7 @@ import {
   clickedLocationAtom,
   maxStorageAtom,
   rendererImageAtom,
+  rendererResultAtom,
 } from "./state";
 import { MainMap } from "./MainMap";
 import { Menu } from "./Menu";
@@ -23,6 +25,7 @@ const App: React.FC = () => {
   const [, setRendererImage] = useAtom(rendererImageAtom);
   const [clickedLocation] = useAtom(clickedLocationAtom);
   const [clickedGraphics] = useAtom(clickedGraphicsAtom);
+  const [rendererResult] = useAtom(rendererResultAtom);
 
   if (oldApp) {
     return (
@@ -34,7 +37,7 @@ const App: React.FC = () => {
   }
 
   return (
-    <>
+    <MapContextProvider>
       <button onClick={() => setOldApp(true)}>Old App</button>
       <div style={{ display: "flex" }}>
         <Menu />
@@ -81,7 +84,22 @@ const App: React.FC = () => {
           />
         ))}
       </div>
-    </>
+
+      <div
+        id="color-slider-container"
+        style={{ height: "300px", width: "100%" }}
+      >
+        <h5>Color Slider</h5>
+        {rendererResult && (
+          <ColorSlider
+            container="color-slider-container"
+            stops={rendererResult.visualVariable.stops}
+            min={rendererResult.statistics.min as number}
+            max={rendererResult.statistics.max as number}
+          />
+        )}
+      </div>
+    </MapContextProvider>
   );
 };
 

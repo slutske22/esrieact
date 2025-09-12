@@ -1,8 +1,9 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { createContinuousRenderer } from "@arcgis/core/smartMapping/renderers/color.js";
 import { FeatureLayer } from "esrieact/layers/FeatureLayer.js";
 import {
   MapRef,
-  MapView,
+  MapViewCore as MapView,
   VectorTileLayer,
   GroupLayer,
   FeatureLayerView,
@@ -15,8 +16,10 @@ import {
 } from "esrieact";
 import { useAtom } from "jotai";
 import {
+  censusLayerAtom,
   clickedGraphicsAtom,
   clickedLocationAtom,
+  rendererResultAtom,
   visibleLayersAtom,
 } from "./state";
 import { HAWAII_LAYERS, infrastructureSubLayers, LayerConfig } from "./layers";
@@ -59,6 +62,24 @@ export const MainMap = () => {
         return <MapImageLayer url={layer.url} />;
     }
   };
+
+  const [censusLayer, setCensusLayer] = useAtom(censusLayerAtom);
+  const [rendererResult, setRendererResult] = useAtom(rendererResultAtom);
+
+  useEffect(() => {
+    if (censusLayer) {
+      const createRenderer = async () => {
+        const result = await createContinuousRenderer({
+          layer: censusLayer,
+          field: "pop20",
+          theme: "high-to-low",
+        });
+        setRendererResult(result);
+      };
+      createRenderer();
+      createRenderer();
+    }
+  }, [censusLayer]);
 
   // @ts-expect-error
   window.map = mapRef;
@@ -137,6 +158,19 @@ export const MainMap = () => {
       <Expand position="top-right">
         <Legend />
       </Expand>
+
+      {
+        <FeatureLayer
+          url={
+            "https://geodata.hawaii.gov/arcgis/rest/services/Census/MapServer/26"
+          }
+          events={{
+            "layerview-create": (e) =>
+              setCensusLayer(e.layerView.layer as __esri.FeatureLayer),
+          }}
+          renderer={rendererResult?.renderer}
+        />
+      }
     </MapView>
   );
 };

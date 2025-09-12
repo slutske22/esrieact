@@ -60,18 +60,31 @@ export function createWidgetComponent<P extends WidgetComponentProps>(
   const childrenRef = useRef<HTMLElement>(null);
 
   const instance = useMemo(() => {
-    const instance = createWidget({ ...properties, view });
-    if (parentWidgetContext instanceof Expand) {
-      parentWidgetContext.content = instance;
-      return instance;
+    return createWidget({ ...properties, view, position });
+  }, []);
+
+  useEffect(() => {
+    if (instance && view) {
+      if (parentWidgetContext instanceof Expand) {
+        parentWidgetContext.content = instance;
+      } else {
+        if (!properties.container) {
+          view.ui.add(instance, position);
+        }
+      }
     }
 
-    if (!properties.container) {
-      view.ui.add(instance, position);
-    }
+    /**
+     * Remove widget on unmount
+     */
+    return () => {
+      if (parentWidgetContext instanceof Expand) {
+        parentWidgetContext.content = "";
+      }
 
-    return instance;
-  }, [view]);
+      view.ui.remove(instance);
+    };
+  }, [instance, view, parentWidgetContext]);
 
   useImperativeHandle(ref, () => instance);
   useEsriPropertyUpdates(instance, properties);
@@ -90,15 +103,6 @@ export function createWidgetComponent<P extends WidgetComponentProps>(
       }
     }
   }, [children, instance]);
-
-  /**
-   * Remove widget on unmount
-   */
-  useEffect(() => {
-    return () => {
-      view.ui.remove(instance);
-    };
-  }, []);
 
   if (!children) return null;
 
