@@ -8,28 +8,23 @@ The following example shows how you can capture `events` on a `HistogramRangeSli
 
 ```tsx live
 function Example() {
-  const layer = useRef<FeatureLayer>(null);
-
-  const [layerReady, setLayerReady] = useState(false);
+  const [layerRef, setLayerRef] = useState<__esri.FeatureLayer>(null);
   const [rendererResponse, setRendererResponse] =
-    useState<RendererResult>(null);
+    useState<__esri.RendererResult>(null);
 
   useEffect(() => {
-    if (layerReady) {
-      const createRendererAndHistogram = async () => {
-        const [rendererResult, histogramResult] = await Promise.all([
-          createContinuousRenderer({
-            layer: layer.current,
-            field: "pop20",
-            theme: "high-to-low",
-          }),
-        ]);
-        setRendererResponse(rendererResult);
+    if (layerRef) {
+      const createRenderer = async () => {
+        const response = await createContinuousRenderer({
+          layer: layerRef,
+          field: "pop20",
+          theme: "high-to-low",
+        });
+        setRendererResponse(response);
       };
-
-      createRendererAndHistogram();
+      createRenderer();
     }
-  }, [layerReady]);
+  }, [layerRef]);
 
   return (
     <MapView
@@ -38,9 +33,8 @@ function Example() {
       style={{ height: "300px", width: "100%" }}
     >
       <FeatureLayer
-        ref={layer}
         url={HI_CENSUS_2020_FL_URL}
-        events={{ "layerview-create": () => setLayerReady(true) }}
+        events={{ "layerview-create": (e) => setLayerRef(e.layerView.layer) }}
         renderer={rendererResponse?.renderer}
       />
 

@@ -77,7 +77,6 @@ export const MainMap = () => {
         setRendererResult(result);
       };
       createRenderer();
-      createRenderer();
     }
   }, [censusLayer]);
 
