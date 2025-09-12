@@ -1,0 +1,72 @@
+# ColorSlider
+
+The `HistogramRangeSlider` widget is a slider that allows the user to select a range of values from a histogram.
+
+## Simple example
+
+The following example shows how you can capture `events` on a `HistogramRangeSlider` widget, and use the captures values to manipulate the `FeatureLayerView` of a `FeatureLayer`.
+
+```tsx live
+function Example() {
+  const layer = useRef<FeatureLayer>(null);
+
+  const [layerReady, setLayerReady] = useState(false);
+  const [rendererResponse, setRendererResponse] =
+    useState<RendererResult>(null);
+
+  useEffect(() => {
+    if (layerReady) {
+      const createRendererAndHistogram = async () => {
+        const [rendererResult, histogramResult] = await Promise.all([
+          createContinuousRenderer({
+            layer: layer.current,
+            field: "pop20",
+            theme: "high-to-low",
+          }),
+        ]);
+        setRendererResponse(rendererResult);
+      };
+
+      createRendererAndHistogram();
+    }
+  }, [layerReady]);
+
+  return (
+    <MapView
+      ViewProperties={{ extent: OAHU_EXTENT_2 }}
+      MapProperties={{ basemap: "topo-vector" }}
+      style={{ height: "300px", width: "100%" }}
+    >
+      <FeatureLayer
+        ref={layer}
+        url={HI_CENSUS_2020_FL_URL}
+        events={{ "layerview-create": () => setLayerReady(true) }}
+        renderer={rendererResponse?.renderer}
+      />
+
+      <Legend position="top-right" />
+
+      <h4 className="mt-2! mb-0!">Population 2020</h4>
+      <div
+        id="color-slider-container"
+        style={{ height: "300px", width: "100%" }}
+      >
+        {rendererResponse && (
+          <ColorSlider
+            container="color-slider-container"
+            histogramConfig={{ bins: 30 }}
+            renderer={rendererResponse.renderer}
+            events={(colorSlider) => {
+              return {
+                "thumb-drag": () => {
+                  layer.current.renderer = rendererResponse?.renderer;
+                },
+              };
+            }}
+          />
+        )}
+      </div>
+    </MapView>
+  );
+}
+```
