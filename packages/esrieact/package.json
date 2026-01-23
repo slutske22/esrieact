@@ -1,7 +1,7 @@
 {
   "name": "esrieact",
   "private": false,
-  "version": "0.4.3",
+  "version": "0.4.4",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -11,7 +11,8 @@
   "scripts": {
     "build": "rm -rf dist && tsc && cp ../../README.md .",
     "tsc": "tsc --noEmit",
-    "tsc:watch": "tsc --noEmit --watch --preserveWatchOutput"
+    "tsc:watch": "tsc --noEmit --watch --preserveWatchOutput",
+    "prepublish": "npm run build"
   },
   "exports": {
     ".": "./dist/index.js",
