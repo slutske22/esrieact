@@ -1,5 +1,6 @@
 export * from "./createWidgetComponent";
 
+export * from "./Attribution";
 export * from "./BasemapGallery";
 export * from "./ColorSlider";
 export * from "./Expand";
