@@ -1,7 +1,7 @@
 {
   "name": "esrieact",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "scripts": {
     "start": "turbo dev tsc:watch lint:watch",
     "lint": "eslint . --ext ts,tsx",
