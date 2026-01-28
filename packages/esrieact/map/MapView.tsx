@@ -47,7 +47,7 @@ export type ViewEventHandlerFnMap = Partial<{
 /**
  * Properties that the MapContext provides to all consumers
  */
-interface MapReference {
+export interface MapReference {
   /**
    * The esri [Map](https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html) instance
    */
