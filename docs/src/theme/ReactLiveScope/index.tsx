@@ -23,6 +23,7 @@ const ReactLiveScope: unknown = {
 
   // Direct ESRI components
   EsriGeoJSONLayer,
+  Esrieact,
 
   // Smart Mapping
   histogram,

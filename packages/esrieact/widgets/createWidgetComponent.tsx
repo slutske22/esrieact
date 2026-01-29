@@ -58,6 +58,7 @@ export function createWidgetComponent<P extends WidgetComponentProps>(
 
   const parentWidgetContext = useContext(WidgetContext);
   const childrenRef = useRef<HTMLElement>(null);
+  const addedToViewUiRef = useRef(false);
 
   const instance = useMemo(() => {
     return createWidget({ ...properties, view, position });
@@ -70,6 +71,7 @@ export function createWidgetComponent<P extends WidgetComponentProps>(
       } else {
         if (!properties.container) {
           view.ui.add(instance, position);
+          addedToViewUiRef.current = true;
         }
       }
     }
@@ -82,7 +84,10 @@ export function createWidgetComponent<P extends WidgetComponentProps>(
         parentWidgetContext.content = "";
       }
 
-      view.ui.remove(instance);
+      if (addedToViewUiRef.current && view) {
+        view.ui.remove(instance);
+        addedToViewUiRef.current = false;
+      }
     };
   }, [instance, view, parentWidgetContext]);
 
