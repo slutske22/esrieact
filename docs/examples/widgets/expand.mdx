@@ -85,3 +85,43 @@ function Example() {
 
 render(<Example />);
 ```
+
+## Outside of Map
+
+Like any standard esri widget, `Expand` can take a `container` property that will render it to some other place in the DOM:
+
+```tsx live
+function Example() {
+  const [divReady, setDivReady] = useState(false)
+
+  return (
+    <div className="flex">
+      <MapView
+        ViewProperties={{ extent: OAHU_EXTENT }}
+        MapProperties={{ basemap: "topo-vector" }}
+        style={{ height: "300px", width: "100%" }}
+      >
+        <MapImageLayer url={LANDCOVER_IMAGELAYER_URL} />
+
+       {/* Ensure container exists before rendering the widget */}
+       {divReady && (
+          <Expand container="custom-expand-location" placement="left-start">
+            <LayerList />
+          </Expand>
+        )}
+      </MapView>
+
+      <div className="w-[260px] p-2 border-blue-700 border-2 relative">
+        <h4 className="text-right">The Outside Container</h4>
+        <div 
+          id="custom-expand-location" 
+          className="relative w-[32px] float-right"
+          ref={() => setDivReady(true)} 
+        />
+      </div>
+    </div>
+  );
+}
+```
+
+Note the need for the [`placement`](https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Expand.html#placement) property.  Once outside the standard ArcGIS map DOM, using `placement` becomes necessary to get the correct popover behavior.
