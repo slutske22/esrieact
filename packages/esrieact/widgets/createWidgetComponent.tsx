@@ -42,6 +42,15 @@ export type CreateWidgetFunction<
 export const WidgetContext = createContext<EsriWidget>({} as EsriWidget);
 
 /**
+ * Track widget instances by container ID to prevent duplicates in React Strict Mode
+ * Also track reference count to know when it's safe to destroy
+ */
+const containerInstances = new Map<
+  string | HTMLElement,
+  { instance: EsriWidget; refCount: number }
+>();
+
+/**
  * Factory function to create an esrieact widget component
  * @param createWidget Function that takes in the widget properties (which must extend from __esri.WidgetProperties)
  *  and returns the widget instance
@@ -59,9 +68,25 @@ export function createWidgetComponent<P extends WidgetComponentProps>(
   const parentWidgetContext = useContext(WidgetContext);
   const childrenRef = useRef<HTMLElement>(null);
   const addedToViewUiRef = useRef(false);
+  const hasContainerRef = useRef(!!properties.container);
+  const containerKey = properties.container;
 
+  // For container widgets, reuse existing instance if one exists for this container
+  // This prevents duplicates in React Strict Mode
   const instance = useMemo(() => {
-    return createWidget({ ...properties, view, position });
+    if (containerKey && containerInstances.has(containerKey)) {
+      const entry = containerInstances.get(containerKey)!;
+      entry.refCount++;
+      return entry.instance;
+    }
+    const newInstance = createWidget({ ...properties, view, position });
+    if (containerKey) {
+      containerInstances.set(containerKey, {
+        instance: newInstance,
+        refCount: 1,
+      });
+    }
+    return newInstance;
   }, []);
 
   useEffect(() => {
@@ -69,10 +94,12 @@ export function createWidgetComponent<P extends WidgetComponentProps>(
       if (parentWidgetContext instanceof Expand) {
         parentWidgetContext.content = instance;
       } else {
-        if (!properties.container) {
+        if (!hasContainerRef.current) {
           view.ui.add(instance, position);
           addedToViewUiRef.current = true;
         }
+        // If widget has container, ArcGIS automatically handles rendering
+        // when container is passed to the constructor
       }
     }
 
@@ -88,8 +115,20 @@ export function createWidgetComponent<P extends WidgetComponentProps>(
         view.ui.remove(instance);
         addedToViewUiRef.current = false;
       }
+
+      // For container widgets, decrement ref count and destroy only when count reaches 0
+      if (hasContainerRef.current && containerKey) {
+        const entry = containerInstances.get(containerKey);
+        if (entry && entry.instance === instance) {
+          entry.refCount--;
+          if (entry.refCount <= 0) {
+            containerInstances.delete(containerKey);
+            instance.destroy();
+          }
+        }
+      }
     };
-  }, [instance, view, parentWidgetContext]);
+  }, [instance, view, parentWidgetContext, containerKey]);
 
   useImperativeHandle(ref, () => instance);
   useEsriPropertyUpdates(instance, properties);

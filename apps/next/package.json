@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "npx next dev --port 3005",
+    "dev": "npx next dev --port 3015",
     "tsc": "tsc --noEmit",
     "tsc:watch": "tsc --noEmit --watch --preserveWatchOutput",
     "preview": "vite preview"

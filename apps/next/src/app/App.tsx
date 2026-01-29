@@ -30,6 +30,7 @@ const App: React.FC = () => {
   config.apiKey = process.env.NEXT_PUBLIC_ARCGIS_API_KEY as string;
 
   const [READY, SETREADY] = useState(false);
+  const [expandContainerReady, setExpandContainerReady] = useState(false);
   const [maxStorage, setMaxStorage] = useState(10000);
   const [rendererImage, setRendererImage] = useState<string>();
   const [clickedLocation, setClickedLocation] = useState<object>({});
@@ -118,6 +119,12 @@ const App: React.FC = () => {
             <LayerList />
           </Expand>
 
+          {expandContainerReady && (
+            <Expand placement="left-start" container="externalized-expand">
+              <LayerList />
+            </Expand>
+          )}
+
           <BasemapGallery container="outsider" />
         </MapView>
 
@@ -138,6 +145,11 @@ const App: React.FC = () => {
             overflow: "auto",
           }}
         >
+          <div
+            id="externalized-expand"
+            ref={() => setExpandContainerReady(true)}
+          />
+
           <h5>Clicked Point:</h5>
           <pre>{JSON.stringify(clickedLocation, null, 2)}</pre>
 
