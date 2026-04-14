@@ -2,13 +2,13 @@ import React from "react";
 import EsriSearch from "@arcgis/core/widgets/Search";
 import { WidgetComponentProps, createWidgetComponent } from ".";
 
-type ExtendedSearchProperties = __esri.SearchProperties &
+type SearchCtorProps = ConstructorParameters<typeof EsriSearch>[0];
+type ExtendedSearchProperties = NonNullable<SearchCtorProps> &
   __esri.WidgetProperties;
 
 const createSearchWidget = (
   properties: WidgetComponentProps<ExtendedSearchProperties>,
 ): EsriSearch => {
-  // @ts-expect-error internal mismatch of arcgis types?
   return new EsriSearch(properties);
 };
 
@@ -22,5 +22,6 @@ export const SearchBar = React.forwardRef<
   EsriSearch,
   WidgetComponentProps<ExtendedSearchProperties>
 >((properties, ref) =>
+  // @ts-expect-error TS too restrictive here
   createWidgetComponent(createSearchWidget, ref, properties),
 );
