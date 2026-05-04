@@ -1,16 +1,19 @@
 # ColorSlider
 
-The `HistogramRangeSlider` widget is a slider that allows the user to select a range of values from a histogram.
+The `ColorSlider` widget edits color ramp stops. Wire its events so each interaction updates the layer’s renderer.
 
 ## Simple example
 
-The following example shows how you can capture `events` on a `HistogramRangeSlider` widget, and use the captures values to manipulate the `FeatureLayerView` of a `FeatureLayer`.
+The following example listens for slider `events`, clones the layer renderer, and writes the slider’s `stops` onto the color visual variable (same idea as the [ArcGIS color visualization sample](https://developers.arcgis.com/javascript/latest/sample-code/visualization-sm-color/)).
 
 ```tsx live
 function Example() {
   const [layerRef, setLayerRef] = useState<__esri.FeatureLayer>(null);
   const [rendererResponse, setRendererResponse] =
     useState<__esri.RendererResult>(null);
+  const [layerRenderer, setLayerRenderer] = useState<__esri.Renderer | null>(
+    null,
+  );
 
   useEffect(() => {
     if (layerRef) {
@@ -21,10 +24,24 @@ function Example() {
           theme: "high-to-low",
         });
         setRendererResponse(response);
+        setLayerRenderer(response.renderer.clone());
       };
       createRenderer();
     }
   }, [layerRef]);
+
+  const applySliderToRenderer = (slider: __esri.ColorSlider) => {
+    setLayerRenderer((current) => {
+      const renderer = (current ?? rendererResponse?.renderer)?.clone();
+      if (!renderer?.visualVariables?.[0]) return current;
+
+      const color = renderer.visualVariables[0].clone();
+      color.stops = slider.stops;
+      renderer.visualVariables = [color];
+
+      return renderer;
+    });
+  };
 
   return (
     <MapView
@@ -35,7 +52,7 @@ function Example() {
       <FeatureLayer
         url={HI_CENSUS_2020_FL_URL}
         events={{ "layerview-create": (e) => setLayerRef(e.layerView.layer) }}
-        renderer={rendererResponse?.renderer}
+        renderer={layerRenderer}
       />
 
       <Legend position="top-right" />
@@ -51,6 +68,13 @@ function Example() {
             stops={docusaurusCompatibleStops(rendererResponse)}
             min={rendererResponse.statistics.min as number}
             max={rendererResponse.statistics.max as number}
+            events={(slider) => ({
+              "thumb-change": () => applySliderToRenderer(slider),
+              "thumb-drag": () => applySliderToRenderer(slider),
+              "segment-drag": () => applySliderToRenderer(slider),
+              "min-change": () => applySliderToRenderer(slider),
+              "max-change": () => applySliderToRenderer(slider),
+            })}
           />
         )}
       </div>

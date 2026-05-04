@@ -2,6 +2,33 @@ import isEqual from "lodash.isequal";
 export * from "./useEsriPropertyUpdates";
 export * from "./useEvents";
 
+/**
+ * Values are "the same" for prop-diff purposes. Lodash isEqual is wrong for ArcGIS
+ * `Accessor` instances (e.g. two Renderer clones with different stops often compare
+ * equal), so non–plain-object values only match by reference.
+ */
+export function propertyValuesEqual(a: unknown, b: unknown): boolean {
+  if (Object.is(a, b)) return true;
+
+  if (a == null || b == null) return a == null && b == null;
+
+  if (typeof a !== "object" || typeof b !== "object") return false;
+
+  if (Array.isArray(a) && Array.isArray(b)) return isEqual(a, b);
+
+  const aPlain =
+    Object.getPrototypeOf(a) === Object.prototype ||
+    Object.getPrototypeOf(a) === null;
+
+  const bPlain =
+    Object.getPrototypeOf(b) === Object.prototype ||
+    Object.getPrototypeOf(b) === null;
+
+  if (aPlain && bPlain) return isEqual(a, b);
+
+  return false;
+}
+
 /*
  * Compare two objects by reducing an array of keys in obj1, having the
  * keys in obj2 as the intial value of the result. Key points:
@@ -23,7 +50,7 @@ export function getObjectDiff(
   const diff = Object.keys(obj1).reduce((result, key) => {
     if (!obj2.hasOwnProperty(key)) {
       result.push(key);
-    } else if (isEqual(obj1[key], obj2[key])) {
+    } else if (propertyValuesEqual(obj1[key], obj2[key])) {
       const resultKeyIndex = result.indexOf(key);
       result.splice(resultKeyIndex, 1);
     }

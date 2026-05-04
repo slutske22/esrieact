@@ -32,5 +32,8 @@ export const useEsriPropertyUpdates = <T extends EsriClassable, P>(
         });
       }
     }
-  }, [JSON.stringify(properties)]);
+    // Do not use JSON.stringify(properties): Esri accessors do not round-trip in JSON.
+    // getObjectDiff uses propertyValuesEqual (not lodash isEqual for class instances):
+    // two Renderer clones often looked "equal" to isEqual, so renderer never applied.
+  }, [instance, properties]);
 };
