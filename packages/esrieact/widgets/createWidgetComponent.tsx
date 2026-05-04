@@ -101,7 +101,15 @@ export function createWidgetComponent<P extends WidgetComponentProps>(
   useEffect(() => {
     if (!instance || !view) return;
 
-    if (parentWidgetContext instanceof Expand) {
+    /**
+     * Widgets created with `container` attach to that DOM node in the constructor.
+     * They must not become `Expand.content` — that would replace the entire Expand body
+     * (e.g. a whole React panel) with this widget instance alone.
+     */
+    const mountAsExpandContent =
+      parentWidgetContext instanceof Expand && !containerKey;
+
+    if (mountAsExpandContent) {
       parentWidgetContext.content = instance;
     } else {
       if (!containerKey) {
@@ -114,7 +122,7 @@ export function createWidgetComponent<P extends WidgetComponentProps>(
      * Remove widget on unmount
      */
     return () => {
-      if (parentWidgetContext instanceof Expand) {
+      if (mountAsExpandContent) {
         parentWidgetContext.content = "";
       }
 
