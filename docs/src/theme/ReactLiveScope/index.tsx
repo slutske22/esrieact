@@ -5,10 +5,19 @@ import summaryStatistics from "@arcgis/core/smartMapping/statistics/summaryStati
 import { createContinuousRenderer } from "@arcgis/core/smartMapping/renderers/color.js";
 import * as constants from "./constants";
 import * as utils from "./utils";
-import "@arcgis/map-components/components/arcgis-directional-pad";
-// Needs to be in scope for react-live even if not used
-// eslint-disable-next-line
-import * as Esrieact from "../../../../packages/esrieact/dist";
+
+let Esrieact: Record<string, unknown> = {};
+
+// Keep esrieact available synchronously in browser for react-live,
+// while avoiding SSR evaluation of browser-only code during builds.
+if (typeof window !== "undefined") {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const esrieactModule = require("../../../../packages/esrieact/dist");
+  Esrieact = (esrieactModule?.default ?? esrieactModule) as Record<
+    string,
+    unknown
+  >;
+}
 
 // Add react-live imports you need here
 const ReactLiveScope: unknown = {
@@ -24,6 +33,7 @@ const ReactLiveScope: unknown = {
   // Direct ESRI components
   EsriGeoJSONLayer,
   Esrieact,
+  ...Esrieact,
 
   // Smart Mapping
   histogram,
@@ -31,11 +41,9 @@ const ReactLiveScope: unknown = {
   createContinuousRenderer,
 };
 
-// Only import esrieact on the client side
+// Only import browser-dependent web components on the client side.
 if (typeof window !== "undefined") {
-  import("../../../../packages/esrieact/dist").then((Esrireact) => {
-    Object.assign(ReactLiveScope as any, Esrireact);
-  });
+  import("@arcgis/map-components/components/arcgis-directional-pad");
 }
 
 export default ReactLiveScope;
