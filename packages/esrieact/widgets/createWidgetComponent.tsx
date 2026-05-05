@@ -4,6 +4,7 @@ import React, {
   useContext,
   useEffect,
   useImperativeHandle,
+  useLayoutEffect,
   useMemo,
   useRef,
 } from "react";
@@ -71,6 +72,17 @@ export function createWidgetComponent<P extends WidgetComponentProps>(
   const containerKey = properties.container;
 
   /**
+   * String container IDs passed into ArcGIS widgets are resolved with `document.getElementById`
+   * during construction. In React, that runs while rendering the *child* of the host node, so the
+   * element often does not exist yet — resolution fails, `container` stays null, and the widget
+   * never attaches. Defer binding until `useLayoutEffect` after the host has been committed.
+   */
+  const deferredContainerId =
+    typeof containerKey === "string" && containerKey !== ""
+      ? containerKey
+      : null;
+
+  /**
    * Create instance only on first mount
    * For container widgets, reuse existing instance if one exists to prevent duplicates
    * in React Strict Mode (where component mounts twice)
@@ -85,7 +97,20 @@ export function createWidgetComponent<P extends WidgetComponentProps>(
       }
     }
 
-    const newInstance = createWidget({ ...properties, view, position });
+    const initialContainer = properties.container;
+    const omitContainerForCtor =
+      typeof initialContainer === "string" && initialContainer !== "";
+
+    const ctorProps = omitContainerForCtor
+      ? (() => {
+          const { container: _omit, ...rest } = properties as P & {
+            container?: string | HTMLElement;
+          };
+          return { ...rest, view, position };
+        })()
+      : { ...properties, view, position };
+
+    const newInstance = createWidget(ctorProps as P);
 
     // Track this instance for container widgets with initial ref count of 1
     if (containerKey) {
@@ -97,6 +122,27 @@ export function createWidgetComponent<P extends WidgetComponentProps>(
 
     return newInstance;
   }, []);
+
+  /**
+   * Bind string container *after* the host element exists in `document`.
+   */
+  useLayoutEffect(() => {
+    if (!instance || instance.destroyed || !deferredContainerId) return;
+
+    const attach = () => {
+      if (instance.destroyed) return;
+      const el = document.getElementById(deferredContainerId);
+      if (el) {
+        instance.container = el;
+      }
+    };
+
+    attach();
+    if (!instance.destroyed && !instance.container) {
+      const id = requestAnimationFrame(attach);
+      return () => cancelAnimationFrame(id);
+    }
+  }, [instance, deferredContainerId]);
 
   useEffect(() => {
     if (!instance || !view) return;
@@ -147,7 +193,22 @@ export function createWidgetComponent<P extends WidgetComponentProps>(
   }, [instance, view, parentWidgetContext, containerKey, position]);
 
   useImperativeHandle(ref, () => instance);
-  useEsriPropertyUpdates(instance, properties);
+
+  /**
+   * Avoid pushing the string `container` prop through property updates after we have bound a real
+   * element in layout — re-assigning the id string can break the widget's DOM attachment.
+   */
+  const propertiesForUpdates =
+    deferredContainerId != null
+      ? (() => {
+          const { container: _omit, ...rest } = properties as P & {
+            container?: string | HTMLElement;
+          };
+          return rest;
+        })()
+      : properties;
+
+  useEsriPropertyUpdates(instance, propertiesForUpdates);
   useEvents(instance, typeof events === "function" ? events(instance) : events);
 
   /**
