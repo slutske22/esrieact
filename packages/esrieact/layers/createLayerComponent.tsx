@@ -7,7 +7,11 @@ import React, {
   useMemo,
 } from "react";
 import { useMap } from "../map/MapView";
-import { useEsriPropertyUpdates, useEvents } from "../utils";
+import {
+  PropsChangedCallback,
+  useEsriPropertyUpdates,
+  useEvents,
+} from "../utils";
 
 /**
  * The react context object that any layer component creates when rendered
@@ -49,12 +53,16 @@ export type CreateLayerFunction<T extends LayerComponentProps> = (
  *  and returns the layer instance
  * @param ref The react ref to be passed from the parent
  * @param properties The layer properties
+ * @param onPropsChanged Optional callback fired after props are diffed and written to the
+ *   layer instance. Layer-specific wrappers (e.g. FeatureLayer) use this to trigger
+ *   imperative follow-ups like `.refresh()` when stateful props (`url`, `layerId`) change.
  * @returns A context provider whose context is the instance to be passed to children, or if there are no children, returns null
  */
 export const createLayerComponent = (
   createLayer: CreateLayerFunction<LayerComponentProps>,
   ref: Ref<__esri.Layer>,
   { children, events, layerOrder, ...properties }: LayerComponentProps,
+  onPropsChanged?: PropsChangedCallback<__esri.Layer>,
 ) => {
   const parent = useContext(LayerContext) as __esri.GroupLayer;
   const { map } = useMap();
@@ -65,7 +73,7 @@ export const createLayerComponent = (
   const instance = useMemo(() => createLayer(properties), []);
 
   useImperativeHandle(ref, () => instance);
-  useEsriPropertyUpdates(instance, properties);
+  useEsriPropertyUpdates(instance, properties, onPropsChanged);
   useEvents(instance, events);
 
   /**
