@@ -1,0 +1,52 @@
+---
+sidebar_position: 6
+title: PopupTemplate
+---
+
+# PopupTemplate
+
+## Introduction
+
+A `PopupTemplate` is a react wrapper around the ArcGIS JS API [`PopupTemplate`](https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html) class. It is intended to be used as a child of a layer component, most commonly a `FeatureLayer`, to define how that layer's popup should look and behave.
+
+Without a `PopupTemplate`, popup configuration is usually passed inline as a nested object on the layer itself. That works well for static configuration, but it can become awkward when popup title, content, field info, or other template options need to react to component state. A `<PopupTemplate />` keeps popup configuration in the React component tree, and updates the underlying ArcGIS popup template instance when props change.
+
+## Usage
+
+Use a `PopupTemplate` as a child of a layer component:
+
+```ts
+import React from "react";
+import { FeatureLayer, MapView, PopupTemplate } from "esrieact";
+
+const ReactMap: React.FC = () => {
+  const [titleField, setTitleField] = useState("NAME");
+  const [showPopulation, setShowPopulation] = useState(true);
+
+  return (
+    <MapView>
+      <FeatureLayer url="some service url">
+        <PopupTemplate
+          title={`{${titleField}}`}
+          outFields={["*"]}
+          content={
+            showPopulation
+              ? "Population: {POPULATION}"
+              : "Area: {AREA}"
+          }
+        />
+      </FeatureLayer>
+    </MapView>
+  );
+};
+```
+
+## Props
+
+`Props` extends [`PopupTemplate properties`](https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html#properties-summary)
+
+## Notes
+
+- `PopupTemplate` is not a widget, and is not added directly to the `MapView` UI.
+- `PopupTemplate` is not a layer itself. Instead, it attaches to its parent layer's `popupTemplate` property.
+- It is most commonly used with a `FeatureLayer`, but it can be used anywhere a parent layer accepts a `popupTemplate`.
