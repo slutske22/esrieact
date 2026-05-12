@@ -1,0 +1,43 @@
+---
+sidebar_position: 4
+---
+
+# PopupTemplate
+
+## Static popup template
+
+A `PopupTemplate` can be declared as a child of a layer to define popup content. Click a feature to open the popup.
+
+```tsx live
+function Example() {
+  return (
+    <MapView
+      ViewProperties={{ extent: OAHU_EXTENT }}
+      MapProperties={{ basemap: "topo-vector" }}
+      style={{ height: "460px", width: "100%" }}
+    >
+      <FeatureLayer url={BENTHIC_FEATURELAYER_URL}>
+        <PopupTemplate
+          title="{m_struct}"
+          outFields={["*"]}
+          content={[
+            {
+              type: "fields",
+              fieldInfos: [
+                { fieldName: "zone", label: "Zone" },
+                { fieldName: "m_struct", label: "Structure" },
+                { fieldName: "cover", label: "Cover" },
+                {
+                  fieldName: "acres",
+                  label: "Acres",
+                  format: { digitSeparator: true, places: 2 },
+                },
+              ],
+            },
+          ]}
+        />
+      </FeatureLayer>
+    </MapView>
+  );
+}
+```
