@@ -11,33 +11,112 @@ A `PopupTemplate` can be declared as a child of a layer to define popup content.
 ```tsx live
 function Example() {
   return (
-    <MapView
-      ViewProperties={{ extent: OAHU_EXTENT }}
-      MapProperties={{ basemap: "topo-vector" }}
-      style={{ height: "460px", width: "100%" }}
-    >
-      <FeatureLayer url={BENTHIC_FEATURELAYER_URL}>
-        <PopupTemplate
-          title="{m_struct}"
-          outFields={["*"]}
-          content={[
-            {
-              type: "fields",
-              fieldInfos: [
-                { fieldName: "zone", label: "Zone" },
-                { fieldName: "m_struct", label: "Structure" },
-                { fieldName: "cover", label: "Cover" },
-                {
-                  fieldName: "acres",
-                  label: "Acres",
-                  format: { digitSeparator: true, places: 2 },
-                },
-              ],
-            },
-          ]}
-        />
-      </FeatureLayer>
-    </MapView>
+    <div>
+      <p>Click a feature to show a popup.</p>
+      <MapView
+        ViewProperties={{ extent: OAHU_EXTENT }}
+        MapProperties={{ basemap: "topo-vector" }}
+        style={{ height: "460px", width: "100%" }}
+      >
+        <FeatureLayer url={BENTHIC_FEATURELAYER_URL}>
+          <PopupTemplate
+            title="{m_struct}"
+            outFields={["*"]}
+            content={[
+              {
+                type: "fields",
+                fieldInfos: [
+                  { fieldName: "zone", label: "Zone" },
+                  { fieldName: "m_struct", label: "Structure" },
+                  { fieldName: "cover", label: "Cover" },
+                  {
+                    fieldName: "acres",
+                    label: "Acres",
+                    format: { digitSeparator: true, places: 2 },
+                  },
+                ],
+              },
+            ]}
+          />
+        </FeatureLayer>
+      </MapView>
+    </div>
+  );
+}
+```
+
+## State managed popup content
+
+Popup template content can also be managed through react state. Use the radio buttons to switch between two different sets of popup fields:
+
+```tsx live
+function Example() {
+  const [attributeSet, setAttributeSet] = useState("set1");
+
+  const fieldInfos =
+    attributeSet === "set1"
+      ? [
+          { fieldName: "zone", label: "Zone" },
+          { fieldName: "m_struct", label: "Structure" },
+          { fieldName: "cover", label: "Cover" },
+        ]
+      : [
+          { fieldName: "objectid", label: "Object ID" },
+          { fieldName: "polygonid", label: "Polygon ID" },
+          {
+            fieldName: "acres",
+            label: "Acres",
+            format: { digitSeparator: true, places: 2 },
+          },
+        ];
+
+  return (
+    <div>
+      <p>
+        Click a Feature to open a popup, and then change the attribute set
+        selection.
+      </p>
+      <div className="flex gap-4 mb-2">
+        <label className="flex gap-2 items-center">
+          <input
+            type="radio"
+            name="attribute-set"
+            checked={attributeSet === "set1"}
+            onChange={() => setAttributeSet("set1")}
+          />
+          Attribute Set 1
+        </label>
+
+        <label className="flex gap-2 items-center">
+          <input
+            type="radio"
+            name="attribute-set"
+            checked={attributeSet === "set2"}
+            onChange={() => setAttributeSet("set2")}
+          />
+          Attribute Set 2
+        </label>
+      </div>
+
+      <MapView
+        ViewProperties={{ extent: OAHU_EXTENT }}
+        MapProperties={{ basemap: "topo-vector" }}
+        style={{ height: "460px", width: "100%" }}
+      >
+        <FeatureLayer url={BENTHIC_FEATURELAYER_URL}>
+          <PopupTemplate
+            title="{m_struct}"
+            outFields={["*"]}
+            content={[
+              {
+                type: "fields",
+                fieldInfos,
+              },
+            ]}
+          />
+        </FeatureLayer>
+      </MapView>
+    </div>
   );
 }
 ```
